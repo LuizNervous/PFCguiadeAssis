@@ -287,16 +287,17 @@ footer h3 {
 }
 
 .escondido button img {
-width: 20px;
-    border-radius: 50%;
+width: 35px;
+margin-right: 100px;
+border-radius: 50%;
 }
 
 .menuHeader {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: space-around;
+
     margin-bottom: 20px;
-    width: 100%;
+ 
 }
 
 .menuMain {
@@ -308,7 +309,7 @@ width: 20px;
 .menuMain #botaoEscuro.Claro {
     margin: 10px;
     color: rgb(0, 0, 0);
-    background: #00c3ff;
+    background:#fff09b;
     border-radius: 8px;
     padding: 17px;
 }

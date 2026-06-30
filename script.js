@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const temaSalvo = localStorage.getItem("tema");
     if (temaSalvo === "Escuro") {
         document.body.classList.add("Escuro");
-    }
+    } 
 
 
     const botaoMenu = document.getElementById("botaoMenu");
@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
              botaoEscuro.textContent="☀️ Claro"
             if (document.body.classList.contains("Escuro")) {
                 localStorage.setItem("tema","Escuro");
+                 botaoEscuro.textContent = "☀️ Claro";
                 botaoEscuro.classList.add("Claro")
             }
             else {

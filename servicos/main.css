@@ -152,17 +152,19 @@ header{
 }
 
 .escondido button img {
-    width: 30px;
-    border-radius: 50%;
+width: 35px;
+margin-right: 100px;
+border-radius: 50%;
 }
 
 .menuHeader {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: space-around;
+
     margin-bottom: 20px;
-    width: 100%;
+ 
 }
+
 
 .menuMain {
     display: flex;
