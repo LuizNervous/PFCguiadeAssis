@@ -18,22 +18,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    const botaoEscuro = document.getElementById("botaoEscuro");
+    const botaoEscuro = document.getElementById("conteiner");
 
     if (botaoEscuro) {
         botaoEscuro.addEventListener("click", () => {
             document.body.classList.toggle("Escuro");
-             botaoEscuro.textContent="☀️ Claro"
+           
             if (document.body.classList.contains("Escuro")) {
                 localStorage.setItem("tema","Escuro");
-                 botaoEscuro.textContent = "☀️ Claro";
+                 
                 botaoEscuro.classList.add("Claro")
             }
             else {
                 localStorage.setItem("tema","Claro");
-                botaoEscuro.textContent="🌙 Escuro";
-                botaoEscuro.classList.remove("Claro")
-                
+               
             }
         });
     } 
