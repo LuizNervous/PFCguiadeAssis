@@ -41,7 +41,7 @@ header #botaoMenu {
 
 header #closeMenu {
   cursor: pointer;
-border-radius: 50%;
+  border-radius: 50%;
   width: 30px;
 }
 
@@ -258,6 +258,7 @@ footer h3 {
 }
 
 .escondido.aberto {
+   right: 0;
    display: flex;
     flex-direction: column;
     align-items: center;
