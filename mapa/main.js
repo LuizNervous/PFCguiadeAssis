@@ -32,7 +32,10 @@ async function carregarPontos() {
         dadosDosPontos = await resposta.json();
 
         dadosDosPontos.forEach(ponto => {
-            const pino = L.marker([ponto.latitude, ponto.longitude]).bindPopup(`<b>${ponto.nome}</b>`);
+            const pino = L.marker([ponto.latitude, ponto.longitude]).bindPopup(`
+                <b>${ponto.nome}</b>
+                 <br>
+                <a href="#ponto-${ponto.id}">Ver mais</a>`);
             const grupoCategoria = ponto.categoria_nome.toLowerCase();
 
             if (todasCategorias[grupoCategoria]) {
@@ -57,7 +60,7 @@ function rederizarCards(categoria) {
         const wazeGPS = `https://waze.com/ul?ll=${ponto.latitude},${ponto.longitude}&navigate=yes`;
 
         divs.innerHTML += `
-             <div class="ponto-card">
+             <div class="ponto-card" id="ponto-${ponto.id}">
                 <div class="introducao">
                     <img src="../imagens/pontos/${ponto.imagem}">
                     <div class="descricao">

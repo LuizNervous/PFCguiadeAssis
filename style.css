@@ -141,6 +141,7 @@ main {
 }
 
 .botao button{
+  cursor: pointer;
     padding:16px 35px;
     border:none;
     border-radius:50px;
@@ -257,7 +258,10 @@ footer h3 {
 }
 
 .escondido.aberto {
-  right: 0;
+   display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #303030;
 }
 
 .menuHeader {
@@ -365,6 +369,7 @@ body:not(.Escuro) #conteiner::after {
 
 .escondido button img {
   width: 28px;
+  border-radius: 50%;
 }
 
 .menuHeader {
