@@ -62,6 +62,7 @@ function rederizarCards(categoria) {
         divs.innerHTML += `
              <div class="ponto-card" id="ponto-${ponto.id}">
                 <div class="introducao">
+                <h3>${ponto.imagem}</h3>
                     <img src="../imagens/pontos/${ponto.imagem}">
                     <div class="descricao">
                     <h3>${ponto.nome}</h3>
