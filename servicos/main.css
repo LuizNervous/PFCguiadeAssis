@@ -1,52 +1,98 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
 body {
-    background: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+    overflow-x: hidden;
+  min-height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f3f3f3;
 }
-
-/* HEADER */
 
 header {
-    height: 70px;
-    padding: 0 5%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: white;
-    border-bottom: 1px solid #ddd;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 18px 40px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  z-index: 1000;
+  transition: all 0.3s ease;
 }
 
+header #botaoMenu {
+  cursor: pointer;
+  width: 30px;
+}
+
+header #closeMenu {
+  cursor: pointer;
+  border-radius: 50%;
+  width: 30px;
+}
+
+header a {
+  text-decoration: none;
+  color: black;
+  transition: color 0.3s;
+}
+
+.return{
+     text-decoration: none;
+     color: #222 ;
+}
+.return h3,
+.return p {
+    color: inherit;
+}
 header #botaoMenu {
     width: 30px;
     cursor: pointer;
 }
 
-.logo p {
-    color: #666;
-    font-size: 12px;
-}
+
 
 .topicos {
-    display: flex;
-    gap: 30px;
-    list-style: none;
+  display: flex;
+  gap: 25px;
+  list-style: none;
+  font-size: 105%;
 }
 
 .topicos a {
-    color: #333;
-    text-decoration: none;
-    transition: color 0.3s;
+  position: relative;
+  text-decoration: none;
+  color: #222;
+  font-weight: 500;
 }
 
-.topicos a:hover {
-    color: #0a7d0a;
+.topicos a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 0;
+  height: 2px;
+  background: #1acc38;
+  transition: 0.3s;
+}
+
+.topicos a:hover::after {
+  width: 100%;
 }
 
 /* BANNER */
@@ -139,7 +185,7 @@ header #botaoMenu {
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 1px solid #303030;
+
 }
 
 .escondido button {
@@ -247,8 +293,9 @@ body.Escuro {
 
 body.Escuro .card {
     color: #f5f5f5;
-    background: #222222;
+    background: #181818;
 }
+
 
 body.Escuro .modal-content,
 .info-box {
@@ -436,4 +483,53 @@ body.Escuro #conteiner::after {
     background: linear-gradient(90deg, #2f6dfd, #2ecc71);
     font-size: 18px;
     cursor: pointer;
+}
+
+footer {
+  padding: 30px;
+  color: white;
+  background-color: #1a2a3a;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  justify-content: space-around;
+  margin-top: 30px;
+}
+
+footer .name-time {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+footer .name-time a {
+  text-decoration: none;
+  color: white;
+  transition: color 0.3s;
+}
+
+footer .name-time a:hover {
+  text-decoration: none;
+  color: rgb(69, 127, 235);
+}
+
+footer h3 {
+  text-transform: uppercase;
+  color: #00d4ff;
+}
+
+.linksFast {
+  gap: 5px;
+  display: flex;
+  color: rgb(255, 255, 255);
+  flex-direction: column;
+  list-style: none;
+  outline-style: none;
+}
+
+.linksFast a {
+  color: #ffffff;
+  text-decoration: none;
+  transition: color 0.3s;
 }
