@@ -19,7 +19,9 @@ body {
 
 header {
   top: 0;
+    gap: 10px;
   left: 0;
+    flex-wrap: wrap;
   width: 100%;
   background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(12px);
