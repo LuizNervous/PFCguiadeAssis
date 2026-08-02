@@ -1,15 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guia de Serviços</title>
-
     <link rel="stylesheet" href="main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
-
 <body>
     <header>
         <a href="/index.html" class="return">
@@ -24,16 +21,13 @@
             <li><a href="index.html">Guia de Serviços</a></li>
             <li><a href="/historia/index.html">História</a></li>
         </ul>
-
         <div class="menu">
             <img src="/imagens/menu.png" id="botaoMenu" alt="Menu">
-
             <div class="escondido">
                 <section class="menuHeader">
                     <h2>Configurações</h2>
-                    <button id="closeMenu"><img src="/imagens/imgFechar.png" alt="Fechar"></button>
+                    <button id="closeMenu"><i class="fa-solid fa-xmark" style="font-size: 24px;"></i></button>
                 </section>
-
                 <section class="menuMain">
                     <div>
                         <h3>Tema</h3>
@@ -41,232 +35,58 @@
                             <div id="bolinha"></div>
                         </div>
                     </div>
-                    <div>
+                    <div style="margin-top: 20px;">
                         <h3>Acessibilidade</h3>
-
                     </div>
                 </section>
-                <section class="menuFooter">
-
-                </section>
-
             </div>
         </div>
     </header>
+
     <section class="info">
-        <a href="/index.html">voltar</a>
+        <a href="/index.html"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
         <h1>Serviços</h1>
         <p>Tudo o que você precisa saber sobre os serviços da cidade</p>
     </section>
+
     <main>
-
         <section class="titulo">
-
             <h2>Guia Completo de Serviços</h2>
-
             <p>Encontre tudo o que você precisa na cidade</p>
-
             <input type="text" placeholder="Buscar serviços..." class="pesquisa">
-
         </section>
 
         <!-- FILTROS -->
+        <div class="filtros">
+    <button class="ativo" data-categoria="todos">Todos</button>
+    <button data-categoria="Mobilidade">Mobilidade</button>
+    <button data-categoria="Turismo">Turismo</button>
+    <button data-categoria="Gastronomia">Gastronomia</button>
+    <button data-categoria="Farmacia">Farmácias</button>
+    <button data-categoria="Posto de Saúde">Postos de Saúde</button>
+    <button data-categoria="Hospital">Hospitais</button>
+    <button data-categoria="Posto">Postos de Combustível</button>
+</div>
 
-        <section class="filtros">
-
-            <button class="ativo">Todos</button>
-            <button>Indústria</button>
-            <button>Comércio</button>
-            <button>Alimentação</button>
-            <button>Educação</button>
-            <button>Saúde</button>
-            <button>Hospedagem</button>
-            <button>Emprego</button>
-            <button>Moradia</button>
-
+        <!-- CARDS (Serão injetados pelo JS) -->
+        <section class="cards" id="containerCards">
+            <!-- Os cards entrarão aqui -->
         </section>
-
-        <!-- CARDS -->
-
-        <section class="cards">
-
-            <div class="card">
-
-                <div class="card-top azul">
-                    <i class="fa-solid fa-industry"></i>
-                </div>
-
-                <div class="card-body">
-                    <h3>Frimesa - Frigorífico</h3>
-
-                    <p>
-                        Maior frigorífico da cidade.
-                    </p>
-
-                    <button onclick="abrirModal()">
-                        Ver Detalhes
-                    </button>
-                </div>
-
-            </div>
-
-            <div class="card">
-
-                <div class="card-top rosa">
-                    <i class="fa-solid fa-hotel"></i>
-                </div>
-
-                <div class="card-body">
-                    <h3>Sleep Hotel Assis</h3>
-
-                    <p>
-                        Hospedagem confortável e moderna.
-                    </p>
-
-                    <button onclick="abrirModal()">
-                        Ver Detalhes
-                    </button>
-                </div>
-
-            </div>
-
-            <div class="card">
-
-                <div class="card-top laranja">
-                    <i class="fa-solid fa-utensils"></i>
-                </div>
-
-                <div class="card-body">
-                    <h3>Restaurante Cheiro Verde</h3>
-
-                    <p>
-                        A comida mais barata do Brasil!!!
-                    </p>
-
-                    <button onclick="abrirModal()">
-                        Ver Detalhes
-                    </button>
-                </div>
-
-            </div>
-
-            <div class="card">
-
-                <div class="card-top vermelho">
-                    <i class="fa-solid fa-hospital"></i>
-                </div>
-
-                <div class="card-body">
-                    <h3>Hospital São Lucas</h3>
-
-                    <p>
-                        Atendimento médico da cidade.
-                    </p>
-
-                    <button onclick="abrirModal()">
-                        Ver Detalhes
-                    </button>
-                </div>
-
-            </div>
-
-            <div class="card">
-
-                <div class="card-top roxo">
-                    <i class="fa-solid fa-school"></i>
-                </div>
-
-                <div class="card-body">
-                    <h3>Colégio Estadual</h3>
-
-                    <p>
-                        Educação pública de qualidade.
-                    </p>
-
-                    <button onclick="abrirModal()">
-                        Ver Detalhes
-                    </button>
-                </div>
-
-            </div>
-
-            <div class="card">
-
-                <div class="card-top verde">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                </div>
-
-                <div class="card-body">
-                    <h3>Supermercado Cavale</h3>
-
-                    <p>
-                        Tudo para o seu dia a dia.
-                    </p>
-
-                    <button onclick="abrirModal()">
-                        Ver Detalhes
-                    </button>
-                </div>
-
-            </div>
-
-        </section>
-
     </main>
 
     <!-- MODAL -->
-
     <div class="modal" id="modal">
-
-        <div class="modal-content">
-
-            <div class="modal-top">
-                <i class="fa-solid fa-utensils"></i>
-            </div>
-
-            <div class="modal-body">
-
-                <span class="fechar" onclick="fecharModal()">
-                    ×
-                </span>
-
-                <h2>Restaurante Cheiro Verde</h2>
-
-                <p>
-                    A comida mais barata do Brasil!!!
-                </p>
-
-                <div class="info-box">
-
-                    <p><strong>📍 Endereço:</strong> Av. Getúlio Vargas, 780</p>
-
-                    <p><strong>📞 Telefone:</strong> (44) 3528-3100</p>
-
-                    <p><strong>🕒 Horário:</strong> Terça a Domingo - 18:00 às 23:30</p>
-
-                </div>
-
-                <button class="btn-mapa">
-                    Ver no Mapa
-                </button>
-
-            </div>
-
-        </div>
-
+        <div class="modal-content" id="modalContent">
+            <!-- Conteúdo do modal será injetado pelo JS -->
+                    </div>
     </div>
+
     <footer>
         <div class="name-time">
             <h3>Desenvolvido por</h3>
-            <a href="https://curriculoescolar.vercel.app/" target="_blank" rel="noopener noreferrer">
-                <p>Luiz Gustavo</p>
-            </a>
-            <a href="" target="_blank" rel="noopener noreferrer">
-                <p>Bruno Eduardo</p>
-            </a>
-            <a href="" target="_blank" rel="noopener noreferrer">
-                <p>Gabriel Bombarda</p>
-            </a>
+            <a href="https://curriculoescolar.vercel.app/" target="_blank" rel="noopener noreferrer"><p>Luiz Gustavo</p></a>
+            <a href="#" target="_blank" rel="noopener noreferrer"><p>Bruno Eduardo</p></a>
+            <a href="#" target="_blank" rel="noopener noreferrer"><p>Gabriel Bombarda</p></a>
         </div>
         <ul class="linksFast">
             <h3>Links rápidos</h3>
@@ -277,9 +97,6 @@
         </ul>
     </footer>
 
-    <script src="/servicos/main.js">
-    </script>
-
+    <script src="main.js"></script>
 </body>
-
-</html>
+</html> 

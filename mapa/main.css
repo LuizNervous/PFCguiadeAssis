@@ -515,3 +515,38 @@ footer h3 {
   transition: color 0.3s;
 }
 
+.popup-ponto {
+    text-align: center;
+    width: 220px;
+}
+
+.popup-ponto img {
+    width: 100%;
+    height: 130px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.popup-ponto h3 {
+    margin: 8px 0;
+    font-size: 17px;
+    color: #222;
+}
+
+.btn-popup {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 8px 18px;
+    background: linear-gradient(135deg, #1670e6 0%, #03c02c 100%);
+    color: white !important;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: .3s;
+}
+
+.btn-popup:hover {
+    transform: scale(1.05);
+    background: linear-gradient(135deg, #125dc0 0%, #029b24 100%);
+}

@@ -33,9 +33,14 @@ async function carregarPontos() {
 
         dadosDosPontos.forEach(ponto => {
             const pino = L.marker([ponto.latitude, ponto.longitude]).bindPopup(`
-                <b>${ponto.nome}</b>
-                 <br>
-                <a href="#ponto-${ponto.id}">Ver mais</a>`);
+    <div class="popup-ponto">
+        <img src="../imagens/pontos/${ponto.imagem}" alt="${ponto.nome}">
+        <h3>${ponto.nome}</h3>
+        <a href="#ponto-${ponto.id}" class="btn-popup">
+            Ver mais
+        </a>
+    </div>
+`);
             const grupoCategoria = ponto.categoria_nome.toLowerCase();
 
             if (todasCategorias[grupoCategoria]) {
