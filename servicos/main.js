@@ -1,13 +1,9 @@
-// =============================
-// CONFIGURAÇÃO
-// =============================
+
 const API = "https://guia-assis.onrender.com/api/pontos";
 let pontos = [];
 let pontosFiltrados = [];
 
-// =============================
-// ÍCONES E CORES
-// =============================
+
 const icones = {
     "turismo": "fa-camera",
     "gastronomia": "fa-utensils",
@@ -40,9 +36,7 @@ const cores = {
     "mobilidade": "azul"
 };
 
-// =============================
-// CARREGAR E RENDERIZAR
-// =============================
+
 async function carregarServicos() {
     try {
         const resposta = await fetch(API);
@@ -111,9 +105,6 @@ function renderizarCards(lista) {
     });
 }
 
-// ======================================
-// PESQUISA E FILTROS
-// ======================================
 const campoPesquisa = document.querySelector(".pesquisa");
 if (campoPesquisa) {
     campoPesquisa.addEventListener("input", () => {
