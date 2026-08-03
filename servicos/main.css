@@ -215,21 +215,6 @@ body.Escuro .info-box { background: #303030; }
 
 .card:hover .card-imagem { transform: scale(1.05); }
 
-.card-icone {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    color: white;
-    font-size: 18px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    z-index: 2;
-}
 
 .card-body {
     padding: 20px;
@@ -283,14 +268,6 @@ body.Escuro .info-box { background: #303030; }
     transition: all 0.3s ease;
 }
 .btn-detalhes:hover { background: linear-gradient(135deg, #1f5add, #27ae60); }
-
-
-.azul { background: #4f8ef7; }
-.rosa { background: #ff4f8b; }
-.laranja { background: #ff7b30; }
-.vermelho { background: #ff5252; }
-.roxo { background: #8b5cf6; }
-.verde { background: #22c55e; }
 
 
 .modal {

@@ -188,10 +188,6 @@ function abrirModal(id) {
             <p><strong>📍 Endereço:</strong> ${ponto.endereco}</p>
         </div>
         
-        <div class="botoesModal">
-            <button class="btn-mapa" onclick="window.open('${googleMaps}','_blank')">
-                <i class="fa-solid fa-map-location-dot"></i> Google Maps
-            </button>
             <button class="btn-mapa" onclick="window.location='${mapa}'">
                 <i class="fa-solid fa-map"></i> Ver no mapa
             </button>
