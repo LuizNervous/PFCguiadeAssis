@@ -1,0 +1,319 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+/* ==========================================
+   RESET E ESTILOS BASE
+   ========================================== */
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background-color: #f3f3f3;
+  color: #1f2937;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+main {
+  flex: 1;
+}
+
+/* ==========================================
+   HEADER E NAVEGAÇÃO
+   ========================================== */
+header {
+
+  width: 100%;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 18px 40px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  z-index: 1000;
+  flex-wrap: wrap;
+  gap: 10px;
+  transition: all 0.3s ease;
+}
+
+header a {
+  text-decoration: none;
+  color: #222;
+  transition: color 0.3s;
+}
+
+.return {
+  text-decoration: none;
+  color: #222;
+}
+
+.return h3,
+.return p {
+  color: inherit;
+}
+
+header #botaoMenu {
+  cursor: pointer;
+  width: 30px;
+}
+
+header #closeMenu {
+  cursor: pointer;
+  border-radius: 50%;
+  border: none;
+  background: none;
+  margin-left: 10px;
+}
+
+header #closeMenu img {
+  border-radius: 50%;
+  width: 30px;
+}
+
+.topicos {
+  display: flex;
+  gap: 25px;
+  list-style: none;
+  font-size: 105%;
+}
+
+.topicos a {
+  position: relative;
+  text-decoration: none;
+  color: #222;
+  font-weight: 500;
+}
+
+.topicos a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 0;
+  height: 2px;
+  background: #00d9ff;
+  transition: 0.3s;
+}
+
+.topicos a:hover::after {
+  width: 100%;
+}
+
+/* ==========================================
+   MENU MOBILE (ESCONDIDO)
+   ========================================== */
+.escondido {
+  position: fixed;
+  top: 0;
+  right: -340px;
+  width: 320px;
+  height: 100vh;
+  background: #ffffff;
+  box-shadow: -8px 0 25px rgba(0, 0, 0, 0.15);
+  transition: right 0.35s ease;
+  z-index: 9999;
+  padding: 20px;
+  overflow-y: auto;
+  /* Ajustado para manter o display flex para a transição funcionar perfeitamente */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.escondido.aberto {
+  right: 0;
+}
+
+.menuHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.menuMain {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  width: 100%;
+}
+
+.menuMain h3 {
+  margin-bottom: 10px;
+}
+
+/* ==========================================
+   BOTÃO SWITCH (DARK MODE)
+   ========================================== */
+#conteiner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 70px;
+  height: 36px;
+  padding: 4px;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #6ec6ff, #2196f3);
+  cursor: pointer;
+  transition: all 0.4s ease;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+  border: none;
+}
+
+#bolinha {
+  position: absolute;
+  left: 4px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: white;
+  transition: all 0.4s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+#conteiner:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+#conteiner:active {
+  transform: scale(0.95);
+}
+
+#topBtn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background-color: #0066cc;
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: none;
+  font-size: 20px;
+  z-index: 999;
+  transition: all 0.4s;
+  
+  /* Mudanças para ficar redondo: */
+  width: 37px;           /* Largura fixa */
+  height: 40px;          /* Altura idêntica à largura */
+  border-radius: 50%;    /* Faz o círculo perfeito */
+  display: inline-flex;  /* Alinha o conteúdo no centro (substitua o 'none' por isso quando o botão aparecer) */
+  align-items: center;   /* Centraliza verticalmente */
+  justify-content: center;/* Centraliza horizontalmente */
+}
+
+
+#topBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgb(15, 75, 110);
+  opacity: 0.9;
+}
+
+
+/* ==========================================
+   RODAPÉ (FOOTER)
+   ========================================== */
+footer {
+  padding: 30px;
+  color: white;
+  background-color: #1a2a3a;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+  margin-top: 30px;
+}
+
+footer .name-time {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+footer .name-time a {
+  text-decoration: none;
+  color: white;
+  transition: color 0.3s;
+}
+
+footer .name-time a:hover {
+  color: rgb(69, 127, 235);
+}
+
+footer h3 {
+  text-transform: uppercase;
+  color: #00d4ff;
+}
+
+.linksFast {
+  gap: 5px;
+  display: flex;
+  color: rgb(255, 255, 255);
+  flex-direction: column;
+  list-style: none;
+}
+
+.linksFast a {
+  color: #ffffff;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.linksFast a:hover {
+  color: rgb(69, 127, 235);
+}
+
+/* ==========================================
+   REGRAS DE TEMA ESCURO GLOBAIS
+   ========================================== */
+body.Escuro {
+  background-color: #222222;
+  color: #f5f5f5;
+}
+
+body.Escuro header,
+body.Escuro footer,
+body.Escuro .escondido {
+  background-color: #1b1b1b;
+  color: #f5f5f5;
+  border-color: #333;
+}
+
+body.Escuro header a,
+body.Escuro .topicos a,
+body.Escuro .return {
+  color: #f5f5f5;
+}
+
+body.Escuro #conteiner {
+  background: linear-gradient(135deg, #1f2937, #111827);
+}
+
+body.Escuro #bolinha {
+  left: 38px;
+  background: #ffffff;
+}
+
+@media (max-width: 600px) {
+  header {
+    flex-wrap: wrap;
+    padding: 15px;
+    gap: 8px;
+  }
+
+  .topicos {
+    position: relative;
+  }
+}

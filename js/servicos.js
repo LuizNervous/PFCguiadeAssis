@@ -1,8 +1,6 @@
-
 const API = "https://guia-assis.onrender.com/api/pontos";
 let pontos = [];
 let pontosFiltrados = [];
-
 
 const icones = {
     "turismo": "fa-camera",
@@ -36,23 +34,27 @@ const cores = {
     "mobilidade": "azul"
 };
 
-
+// 1. CARREGAR DADOS DA API
 async function carregarServicos() {
     try {
         const resposta = await fetch(API);
         pontos = await resposta.json();
-        const categoriasDaAPI = [...new Set(pontos.map(p => p.categoria_nome))];
-        console.log("Categorias exatas do banco de dados:", categoriasDaAPI);
         pontosFiltrados = [...pontos];
         renderizarCards(pontosFiltrados);
     } catch (erro) {
         console.error("Erro ao carregar a API:", erro);
-        document.getElementById("containerCards").innerHTML = "<h2 style='text-align:center; width:100%'>Erro ao carregar os serviços.</h2>";
+        const container = document.getElementById("containerCards");
+        if (container) {
+            container.innerHTML = "<h2 style='text-align:center; width:100%'>Erro ao carregar os serviços.</h2>";
+        }
     }
 }
 
+// 2. RENDERIZAR CARDS NA TELA
 function renderizarCards(lista) {
     const container = document.getElementById("containerCards");
+    if (!container) return;
+
     container.innerHTML = "";
 
     if (lista.length === 0) {
@@ -68,8 +70,6 @@ function renderizarCards(lista) {
         const categoria = ponto.categoria_nome.toLowerCase();
         const icone = icones[categoria] || "fa-location-dot";
         const cor = cores[categoria] || "azul";
-
-        // Caminho da imagem, caso não exista, coloca uma genérica
         const imagemSrc = ponto.imagem ? `/imagens/pontos/${ponto.imagem}` : '/imagens/placeholder.png';
 
         container.innerHTML += `
@@ -105,29 +105,14 @@ function renderizarCards(lista) {
     });
 }
 
-const campoPesquisa = document.querySelector(".pesquisa");
-if (campoPesquisa) {
-    campoPesquisa.addEventListener("input", () => {
-        aplicarFiltros();
-    });
-}
-
-const botoesFiltro = document.querySelectorAll(".filtros button");
-botoesFiltro.forEach(botao => {
-    botao.addEventListener("click", () => {
-        botoesFiltro.forEach(btn => btn.classList.remove("ativo"));
-        botao.classList.add("ativo");
-        aplicarFiltros();
-    });
-});
-
-// Função poderosa para remover acentos
+// 3. REMOVER ACENTOS E APLICAR FILTROS
 function removerAcentos(texto) {
     if (!texto) return "";
     return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
 function aplicarFiltros() {
+    const campoPesquisa = document.querySelector(".pesquisa");
     const textoOriginal = campoPesquisa ? campoPesquisa.value.toLowerCase().trim() : "";
     const texto = removerAcentos(textoOriginal);
 
@@ -138,15 +123,12 @@ function aplicarFiltros() {
         const nomeStr = removerAcentos(ponto.nome.toLowerCase());
         const descStr = removerAcentos(ponto.descricao.toLowerCase());
         const endStr = removerAcentos(ponto.endereco.toLowerCase());
-
-
         const catStr = removerAcentos(ponto.categoria_nome.toLowerCase().trim());
 
         const combinaTexto = nomeStr.includes(texto) ||
             descStr.includes(texto) ||
             endStr.includes(texto) ||
             catStr.includes(texto);
-
 
         const combinaCategoria = (categoria === "todos") || catStr.includes(categoria) || categoria.includes(catStr);
 
@@ -156,8 +138,7 @@ function aplicarFiltros() {
     renderizarCards(pontosFiltrados);
 }
 
-// MODAL
-
+// 4. LÓGICA DO MODAL
 function abrirModal(id) {
     const ponto = pontos.find(item => item.id == id);
     if (!ponto) return;
@@ -166,12 +147,11 @@ function abrirModal(id) {
     const icone = icones[categoria] || "fa-location-dot";
     const cor = cores[categoria] || "azul";
     const imagemSrc = ponto.imagem ? `/imagens/pontos/${ponto.imagem}` : '/imagens/placeholder.png';
-    const googleMaps = `https://www.google.com/maps/dir/?api=1&destination=${ponto.latitude},${ponto.longitude}`;
-    const mapa = `/mapa/index.html#ponto-${ponto.id}`;
 
     const modal = document.getElementById("modal");
     const conteudo = document.getElementById("modalContent");
 
+    if (!modal || !conteudo) return;
 
     conteudo.innerHTML = `
     <span class="fechar" onclick="fecharModal()">&times;</span>
@@ -188,10 +168,9 @@ function abrirModal(id) {
             <p><strong>📍 Endereço:</strong> ${ponto.endereco}</p>
         </div>
         
-           <a href="mapa.html?categoria=${ponto.categoria_nome.toLowerCase()}&nome=${ponto.nome}">
-                <button class="btn-ver-mapa">Ver no mapa</button>
-             </a>
-        </div>
+        <button class="btn-mapa" onclick="window.location='../mapa/index.html?categoria=${ponto.categoria_nome.toLowerCase()}&nome=${encodeURIComponent(ponto.nome)}'">
+            <i class="fa-solid fa-map"></i> Ver no mapa
+        </button>
     </div>
     `;
 
@@ -199,7 +178,8 @@ function abrirModal(id) {
 }
 
 function fecharModal() {
-    document.getElementById("modal").style.display = "none";
+    const modal = document.getElementById("modal");
+    if (modal) modal.style.display = "none";
 }
 
 window.addEventListener("click", (e) => {
@@ -209,42 +189,21 @@ window.addEventListener("click", (e) => {
     }
 });
 
-
-// INICIALIZAÇÃO E EVENTOS GERAIS
-
+// 5. EVENTOS INICIAIS
 document.addEventListener("DOMContentLoaded", () => {
     carregarServicos();
 
-
-    const tema = localStorage.getItem("tema");
-    if (tema === "Escuro") {
-        document.body.classList.add("Escuro");
+    const campoPesquisa = document.querySelector(".pesquisa");
+    if (campoPesquisa) {
+        campoPesquisa.addEventListener("input", aplicarFiltros);
     }
 
-    const btnTema = document.getElementById("conteiner");
-    if (btnTema) {
-        btnTema.addEventListener("click", () => {
-            document.body.classList.toggle("Escuro");
-            if (document.body.classList.contains("Escuro")) {
-                localStorage.setItem("tema", "Escuro");
-            } else {
-                localStorage.setItem("tema", "Claro");
-            }
+    const botoesFiltro = document.querySelectorAll(".filtros button");
+    botoesFiltro.forEach(botao => {
+        botao.addEventListener("click", () => {
+            botoesFiltro.forEach(btn => btn.classList.remove("ativo"));
+            botao.classList.add("ativo");
+            aplicarFiltros();
         });
-    }
-
-    // Lógica do Menu Lateral
-    const menu = document.getElementById("botaoMenu");
-    const fechar = document.getElementById("closeMenu");
-    const painel = document.querySelector(".escondido");
-
-    if (menu && fechar && painel) {
-        menu.addEventListener("click", () => {
-            painel.classList.add("aberto");
-        });
-
-        fechar.addEventListener("click", () => {
-            painel.classList.remove("aberto");
-        });
-    }
+    });
 });

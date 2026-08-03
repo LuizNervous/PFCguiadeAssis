@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guia de Serviços</title>
-    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/servicos.css">
 </head>
+
 <body>
     <header>
         <a href="/index.html" class="return">
@@ -25,7 +28,7 @@
             <div class="escondido">
                 <section class="menuHeader">
                     <h2>Configurações</h2>
-                      <button id="closeMenu"><img src="/imagens/imgFechar.png" alt="Fechar"></button>
+                    <button id="closeMenu"><img src="/imagens/imgFechar.png" alt="Fechar"></button>
                 </section>
                 <section class="menuMain">
                     <div>
@@ -54,47 +57,55 @@
             <input type="text" placeholder="Buscar serviços..." class="pesquisa">
         </section>
 
-       
-        <div class="filtros">
-    <button class="ativo" data-categoria="todos">Todos</button>
-    <button data-categoria="Mobilidade">Mobilidade</button>
-    <button data-categoria="Turismo">Turismo</button>
-    <button data-categoria="Gastronomia">Gastronomia</button>
-    <button data-categoria="Farmacia">Farmácias</button>
-    <button data-categoria="Posto de Saúde">Postos de Saúde</button>
-    <button data-categoria="Hospital">Hospitais</button>
-    <button data-categoria="Posto">Postos de Combustível</button>
-</div>
 
-        
+        <div class="filtros">
+            <button class="ativo" data-categoria="todos">Todos</button>
+            <button data-categoria="Mobilidade">Mobilidade</button>
+            <button data-categoria="Turismo">Turismo</button>
+            <button data-categoria="Gastronomia">Gastronomia</button>
+            <button data-categoria="Farmacia">Farmácias</button>
+            <button data-categoria="Posto de Saúde">Postos de Saúde</button>
+            <button data-categoria="Hospital">Hospitais</button>
+            <button data-categoria="Posto">Postos de Combustível</button>
+        </div>
+
+
         <section class="cards" id="containerCards">
-           
+
         </section>
     </main>
 
-  
+
     <div class="modal" id="modal">
         <div class="modal-content" id="modalContent">
-           
-                    </div>
+
+        </div>
     </div>
 
     <footer>
         <div class="name-time">
             <h3>Desenvolvido por</h3>
-            <a href="https://curriculoescolar.vercel.app/" target="_blank" rel="noopener noreferrer"><p>Luiz Gustavo</p></a>
-            <a href="#" target="_blank" rel="noopener noreferrer"><p>Bruno Eduardo</p></a>
-            <a href="#" target="_blank" rel="noopener noreferrer"><p>Gabriel Bombarda</p></a>
+            <a href="https://curriculoescolar.vercel.app/" target="_blank" rel="noopener noreferrer">
+                <p>Luiz Gustavo</p>
+            </a>
+            <a href="#" target="_blank" rel="noopener noreferrer">
+                <p>Bruno Eduardo</p>
+            </a>
+            <a href="#" target="_blank" rel="noopener noreferrer">
+                <p>Gabriel Bombarda</p>
+            </a>
         </div>
         <ul class="linksFast">
             <h3>Links rápidos</h3>
             <li><a href="/index.html">Início</a></li>
-            <li><a href="mapa/index.html">Mapa</a></li>
+            <li><a href="/mapa/index.html">Mapa</a></li>
             <li><a href="/servicos/index.html">Guia de serviços</a></li>
             <li><a href="/historia/index.html">História</a></li>
         </ul>
     </footer>
-
-    <script src="main.js"></script>
+  <button id="topBtn" title="Voltar ao topo">⬆</button>
+    <script src="../js/global.js" defer></script>
+    <script src="../js/servicos.js" defer></script>
 </body>
-</html> 
+
+</html>

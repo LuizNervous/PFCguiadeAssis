@@ -1,0 +1,37 @@
+.info {
+  margin-top: 80px;
+  padding: 60px 10%;
+  color: white;
+  background: linear-gradient(135deg, #a86601 0%, #eea301 100%);
+  box-shadow: 0 10px 30px rgba(255, 147, 24, 0.2);
+}
+
+.info a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.info h1 {
+  margin-top: 15px;
+  font-size: 48px;
+}
+
+/* Cor do sublinhado do Menu para a página de História */
+.topicos a::after {
+  background: #e99f15;
+}
+
+/* Blocos de texto de História */
+.bloco {
+  background-color: #ffffff;
+  color: #1F2937;
+  padding: 20px;
+  border-radius: 12px;
+  margin: 20px 0;
+}
+
+body.Escuro .bloco {
+  background-color: #222222;
+  color: #f5f5f5;
+}
