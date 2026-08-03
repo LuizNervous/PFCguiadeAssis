@@ -36,7 +36,7 @@ async function carregarPontos() {
     <div class="popup-ponto">
         <img src="../imagens/pontos/${ponto.imagem}" alt="${ponto.nome}">
         <h3>${ponto.nome}</h3>
-        <a href="#ponto-${ponto.id}" class="btn-popup">
+        <a href="#ponto-${ponto.id-1}" class="btn-popup">
             Ver mais
         </a>
     </div>

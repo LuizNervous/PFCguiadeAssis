@@ -42,7 +42,7 @@ async function carregarServicos() {
         const resposta = await fetch(API);
         pontos = await resposta.json();
         const categoriasDaAPI = [...new Set(pontos.map(p => p.categoria_nome))];
-console.log("Categorias exatas do banco de dados:", categoriasDaAPI);
+        console.log("Categorias exatas do banco de dados:", categoriasDaAPI);
         pontosFiltrados = [...pontos];
         renderizarCards(pontosFiltrados);
     } catch (erro) {
@@ -68,7 +68,7 @@ function renderizarCards(lista) {
         const categoria = ponto.categoria_nome.toLowerCase();
         const icone = icones[categoria] || "fa-location-dot";
         const cor = cores[categoria] || "azul";
-        
+
         // Caminho da imagem, caso não exista, coloca uma genérica
         const imagemSrc = ponto.imagem ? `/imagens/pontos/${ponto.imagem}` : '/imagens/placeholder.png';
 
@@ -129,7 +129,7 @@ function removerAcentos(texto) {
 
 function aplicarFiltros() {
     const textoOriginal = campoPesquisa ? campoPesquisa.value.toLowerCase().trim() : "";
-    const texto = removerAcentos(textoOriginal); 
+    const texto = removerAcentos(textoOriginal);
 
     const categoriaAtiva = document.querySelector(".filtros .ativo");
     const categoria = categoriaAtiva ? removerAcentos(categoriaAtiva.dataset.categoria.toLowerCase().trim()) : "todos";
@@ -138,18 +138,18 @@ function aplicarFiltros() {
         const nomeStr = removerAcentos(ponto.nome.toLowerCase());
         const descStr = removerAcentos(ponto.descricao.toLowerCase());
         const endStr = removerAcentos(ponto.endereco.toLowerCase());
-        
-       
+
+
         const catStr = removerAcentos(ponto.categoria_nome.toLowerCase().trim());
 
         const combinaTexto = nomeStr.includes(texto) ||
-                             descStr.includes(texto) ||
-                             endStr.includes(texto) ||
-                             catStr.includes(texto);
-                             
-      
+            descStr.includes(texto) ||
+            endStr.includes(texto) ||
+            catStr.includes(texto);
+
+
         const combinaCategoria = (categoria === "todos") || catStr.includes(categoria) || categoria.includes(catStr);
-        
+
         return combinaTexto && combinaCategoria;
     });
 
@@ -172,7 +172,7 @@ function abrirModal(id) {
     const modal = document.getElementById("modal");
     const conteudo = document.getElementById("modalContent");
 
-  
+
     conteudo.innerHTML = `
     <span class="fechar" onclick="fecharModal()">&times;</span>
     <img src="${imagemSrc}" alt="${ponto.nome}" class="modal-imagem">
@@ -188,9 +188,9 @@ function abrirModal(id) {
             <p><strong>📍 Endereço:</strong> ${ponto.endereco}</p>
         </div>
         
-            <button class="btn-mapa" onclick="window.location='${mapa}'">
-                <i class="fa-solid fa-map"></i> Ver no mapa
-            </button>
+           <a href="mapa.html?categoria=${ponto.categoria_nome.toLowerCase()}&nome=${ponto.nome}">
+                <button class="btn-ver-mapa">Ver no mapa</button>
+             </a>
         </div>
     </div>
     `;
