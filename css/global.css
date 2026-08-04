@@ -161,9 +161,15 @@ header #closeMenu img {
   margin-bottom: 10px;
 }
 
-/* ==========================================
-   BOTÃO SWITCH (DARK MODE)
-   ========================================== */
+.PaiAcessibilidade{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.PaiAcessibilidade button{
+  background-color: #f1f6f7;
+  border-radius: 5px;
+}
 #conteiner {
   position: relative;
   display: flex;
