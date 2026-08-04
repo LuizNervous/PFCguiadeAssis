@@ -1,52 +1,48 @@
-document.addEventListener("DOMContentLoaded", () => {
-  // 1. CARREGAR TEMA ESCURO SALVO
+// CARREGAR TEMA SALVO ASSIM QUE O SCRIPT RODA
+(function aplicarTemaSalvo() {
   const temaSalvo = localStorage.getItem("tema");
-  const botaoEscuro = document.getElementById("conteiner");
-
   if (temaSalvo === "Escuro") {
     document.body.classList.add("Escuro");
   }
+})();
 
-  // 2. TOGGLE DO TEMA ESCURO
-  if (botaoEscuro) {
-    botaoEscuro.addEventListener("click", () => {
-      document.body.classList.toggle("Escuro");
-
-      if (document.body.classList.contains("Escuro")) {
-        localStorage.setItem("tema", "Escuro");
-      } else {
-        localStorage.setItem("tema", "Claro");
-      }
-    });
-  }
-
-  // 3. MENU LATERAL MOBILE
-  const botaoMenu = document.getElementById("botaoMenu");
-  const fechar = document.getElementById("closeMenu");
+document.addEventListener("click", (e) => {
   const menuEscondido = document.querySelector(".escondido");
 
-  if (botaoMenu && menuEscondido) {
-    botaoMenu.addEventListener("click", () => {
-      menuEscondido.classList.add("aberto");
-    });
+  if (e.target.closest("#botaoMenu")) {
+    if (menuEscondido) menuEscondido.classList.add("aberto");
   }
 
-  if (fechar && menuEscondido) {
-    fechar.addEventListener("click", () => {
-      menuEscondido.classList.remove("aberto");
-    });
+  if (e.target.closest("#closeMenu")) {
+    if (menuEscondido) menuEscondido.classList.remove("aberto");
+  }
+
+  const botaoTema = e.target.closest("#conteiner");
+  if (botaoTema) {
+
+    document.documentElement.classList.toggle("Escuro");
+    document.body.classList.toggle("Escuro");
+
+    if (document.documentElement.classList.contains("Escuro")) {
+      localStorage.setItem("tema", "Escuro");
+    } else {
+      localStorage.setItem("tema", "Claro");
+    }
+  }
+
+  if (e.target.closest("#topBtn")) {
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 });
-const btnTop = document.getElementById("topBtn");
-if (btnTop) {
-  window.addEventListener("scroll", ()=>{
-    if (window.scrollY>230) {
-      btnTop.style.display="inline-flex"
-    }else{
-      btnTop.style.display="none"
+
+
+window.addEventListener("scroll", () => {
+  const topBtn = document.getElementById("topBtn");
+  if (topBtn) {
+    if (window.scrollY > 300) {
+      topBtn.style.display = "flex";
+    } else {
+      topBtn.style.display = "none";
     }
-  })
-}
-btnTop.addEventListener("click", ()=>{
-  window.scrollTo({top:0, behavior:"smooth"})
-})
+  }
+});

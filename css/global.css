@@ -16,10 +16,13 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  overflow-x: hidden;
   background-color: #f3f3f3;
   color: #1f2937;
   transition: background-color 0.3s, color 0.3s;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden !important;
+  position: relative;
 }
 
 main {
@@ -117,22 +120,26 @@ header #closeMenu img {
   position: fixed;
   top: 0;
   right: -340px;
-  width: 320px;
+  width: 350px;
+  max-width: 85vw;
   height: 100vh;
   background: #ffffff;
   box-shadow: -8px 0 25px rgba(0, 0, 0, 0.15);
-  transition: right 0.35s ease;
+  transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.35s;
   z-index: 9999;
   padding: 20px;
   overflow-y: auto;
-  /* Ajustado para manter o display flex para a transição funcionar perfeitamente */
+  visibility: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
+  pointer-events: none;
 }
 
 .escondido.aberto {
   right: 0;
+  pointer-events: auto;
+  visibility: visible;
 }
 
 .menuHeader {
@@ -204,14 +211,15 @@ header #closeMenu img {
   font-size: 20px;
   z-index: 999;
   transition: all 0.4s;
-  
-  /* Mudanças para ficar redondo: */
-  width: 37px;           /* Largura fixa */
-  height: 40px;          /* Altura idêntica à largura */
-  border-radius: 50%;    /* Faz o círculo perfeito */
-  display: inline-flex;  /* Alinha o conteúdo no centro (substitua o 'none' por isso quando o botão aparecer) */
-  align-items: center;   /* Centraliza verticalmente */
-  justify-content: center;/* Centraliza horizontalmente */
+  width: 37px;
+  height: 40px;
+  /* Altura idêntica à largura */
+  border-radius: 50%;
+  /* Faz o círculo perfeito */
+  align-items: center;
+  /* Centraliza verticalmente */
+  justify-content: center;
+  /* Centraliza horizontalmente */
 }
 
 

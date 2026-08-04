@@ -14,7 +14,6 @@
 
 /* Cor do banner da página do Mapa */
 .info {
-    margin-top: 20px;
     padding: 60px 10%;
     color: white;
     background: linear-gradient(135deg, #1E3A8A 0%, #2563EB 100%);

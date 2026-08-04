@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mapa com Filtros</title>
-
+    <script> if (localStorage.getItem("tema") === "Escuro") { document.documentElement.classList.add("Escuro"); } 
+    </script>
     <link rel="stylesheet" href="../css/global.css">
 
     <link rel="stylesheet" href="../css/mapa.css">
@@ -58,10 +59,8 @@
         </div>
 
     </header>
-    <br /> <br /> <br />
+
     <div class="info">
-
-
         <h1>Explore o Mapa</h1> <br>
         <p>Descubra todos os pontos de interesse da cidade</p>
 
@@ -111,7 +110,7 @@
             <li><a href="/historia/index.html">História</a></li>
         </ul>
     </footer>
-        <button id="topBtn" title="Voltar ao topo">⬆</button>
+    <button id="topBtn" title="Voltar ao topo">⬆</button>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="../js/global.js" defer></script>
