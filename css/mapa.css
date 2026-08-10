@@ -12,12 +12,13 @@
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Cor do banner da página do Mapa */
+/* FAIXA TOPO DA PÁGINA DO MAPA */
 .info {
     padding: 60px 10%;
     color: white;
     background: linear-gradient(135deg, #1E3A8A 0%, #2563EB 100%);
     box-shadow: 0 10px 30px rgba(37, 99, 235, 0.2);
+    transition: var(--transition);
 }
 
 .info a {
@@ -55,6 +56,7 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
+    transition: var(--transition);
 }
 
 .painel-filtros h3 {
@@ -210,7 +212,11 @@
     opacity: 0.8;
 }
 
-/* ESTILOS DE MODO ESCURO DO MAPA */
+/* ==========================================
+   TEMAS DE ACESSIBILIDADE - MAPA
+   ========================================== */
+
+/* 1. MODO ESCURO */
 body.Escuro .ponto-card,
 body.Escuro .painel-filtros {
     background-color: #1b1b1b;
@@ -219,12 +225,111 @@ body.Escuro .painel-filtros {
 
 body.Escuro .introducao,
 body.Escuro .descricao,
-body.Escuro .painel-filtros button {
+body.Escuro .painel-filtros button,
+body.Escuro .popup-ponto h3 {
     color: #ebebeb;
 }
 
 body.Escuro .painel-filtros button:hover {
     background-color: #263344;
+}
+
+/* 2. ALTO CONTRASTE */
+body.tema-contraste .info {
+    background: #000000 !important;
+    border-bottom: 2px solid #ffff00 !important;
+}
+
+body.tema-contraste .ponto-card,
+body.tema-contraste .painel-filtros,
+body.tema-contraste .popup-ponto {
+    background-color: #000000 !important;
+    color: #ffff00 !important;
+    border: 2px solid #ffff00 !important;
+}
+
+body.tema-contraste .descricao,
+body.tema-contraste .painel-filtros h3,
+body.tema-contraste .popup-ponto h3 {
+    color: #ffff00 !important;
+}
+
+body.tema-contraste .btn-filtro {
+    color: #ffff00 !important;
+    border: 1px solid #ffff00 !important;
+}
+
+body.tema-contraste .btn-filtro.ativo,
+body.tema-contraste .btn-filtro:hover {
+    background: #ffff00 !important;
+    color: #000000 !important;
+}
+
+body.tema-contraste .links button,
+body.tema-contraste .btn-popup {
+    background: #000000 !important;
+    color: #ffff00 !important;
+    border: 2px solid #ffff00 !important;
+}
+
+body.tema-contraste .links button:hover,
+body.tema-contraste .btn-popup:hover {
+    background: #ffff00 !important;
+    color: #000000 !important;
+}
+
+/* 3. DICROMACIA */
+body.tema-dicromacia .info {
+    background: #00152b !important;
+    border-bottom: 1px solid #ffd700 !important;
+}
+
+body.tema-dicromacia .ponto-card,
+body.tema-dicromacia .painel-filtros {
+    background-color: #00152b !important;
+    color: #ffd700 !important;
+    border: 1px solid #ffd700 !important;
+}
+
+body.tema-dicromacia .descricao,
+body.tema-dicromacia .painel-filtros h3,
+body.tema-dicromacia .popup-ponto h3 {
+    color: #ffd700 !important;
+}
+
+body.tema-dicromacia .btn-filtro {
+    color: #ffd700 !important;
+    border: 1px solid #003366 !important;
+}
+
+body.tema-dicromacia .btn-filtro.ativo,
+body.tema-dicromacia .btn-filtro:hover {
+    background: #ffd700 !important;
+    color: #00152b !important;
+}
+
+body.tema-dicromacia .links button,
+body.tema-dicromacia .btn-popup {
+    background: #003366 !important;
+    color: #ffd700 !important;
+    border: 1px solid #ffd700 !important;
+}
+
+body.tema-dicromacia .links button:hover,
+body.tema-dicromacia .btn-popup:hover {
+    background: #ffd700 !important;
+    color: #00152b !important;
+}
+
+/* 4. TRICROMACIA & 5. MONOCROMACIA */
+body.tema-tricromacia {
+    filter: saturate(200%) contrast(115%);
+}
+
+body.tema-monocromacia {
+    filter: grayscale(100%) contrast(150%);
+    background-color: #ffffff !important;
+    color: #000000 !important;
 }
 
 /* RESPONSIVIDADE DO MAPA */
