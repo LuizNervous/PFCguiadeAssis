@@ -103,7 +103,7 @@
 .card-imagem-container {
     position: relative;
     width: 100%;
-    height: 200px;
+    height: 180px;
     overflow: hidden;
 }
 
@@ -111,9 +111,25 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.5s ease;
+    display: block;
+     transition: transform 0.5s ease;
 }
 
+
+.card-imagem::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 80px;
+
+    background: linear-gradient(
+        to bottom,
+        transparent,
+        #111
+    );
+}
 .card:hover .card-imagem {
     transform: scale(1.05);
 }
