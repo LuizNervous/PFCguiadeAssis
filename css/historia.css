@@ -63,12 +63,14 @@ body.Escuro .bloco {
   margin-top: 50px;
 }
 
+
 .card {
   width: 400px;
   height: 240px;
-  background-color: #000000;
   border-radius: 12px;
   overflow: hidden;
+  text-align: center;
+  background-color: #161111;
 }
 
 .card img {
@@ -79,17 +81,31 @@ body.Escuro .bloco {
 .historia{
    display: flex;
   justify-content: center;
-  flex-wrap: wrap;
   margin-top: 50px;
-  text-align: center;
   box-sizing: border-box;
-  padding: 0 130px; 
+ 
 }
 
-.historia h1{
-
+.historia h2{
+margin-bottom: 10px;
 }
 
-.texto-historia{
-  margin-top: 20px;
+.card2{
+  width: 45%;
+  max-height: 1000px;
+  border-radius: 12px;
+  overflow: hidden;
+  text-align: center;
+  background-color: #e7e6e6;
+  box-shadow: 0px 0 25px rgba(0, 0, 0, 0.15);
 }
+
+.card2 p {
+  max-width: 65ch; /* Aproximadamente 65 caracteres por linha */
+  margin: 0 auto;
+}
+
+.card2 h2{
+  margin-top: 10px;
+}
+
