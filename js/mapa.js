@@ -84,17 +84,41 @@ async function carregarPontos() {
         dadosDosPontos = await resposta.json();
 
         dadosDosPontos.forEach(ponto => {
-            const pino = L.marker([ponto.latitude, ponto.longitude]).bindPopup(`
-                <div class="popup-ponto">
-                    <img src="../imagens/pontos/${ponto.imagem}" alt="${ponto.nome}">
-                    <h3>${ponto.nome}</h3>
-                    <a href="javascript:void(0)" 
-                       onclick="document.getElementById('ponto-${ponto.id}')?.scrollIntoView({ behavior: 'smooth', block: 'center' })" 
-                       class="btn-popup">
-                       Ver mais
-                    </a>
-                </div>
-            `);
+           const pino = L.marker([ponto.latitude, ponto.longitude]).bindPopup(`
+    <div class="popup-ponto">
+
+        <div class="popup-imagem-container">
+            <img 
+                src="../imagens/pontos/${ponto.imagem}" 
+                alt="${ponto.nome}"
+                class="popup-imagem"
+            >
+        </div>
+
+        <div class="popup-conteudo">
+
+            <div class="popup-categoria">
+                ${ponto.categoria || 'Local'}
+            </div>
+
+            <h3>${ponto.nome}</h3>
+
+            <p class="popup-descricao">
+                ${ponto.descricao || 'Conheça este lugar e confira mais informações.'}
+            </p>
+
+            <a 
+                href="javascript:void(0)"
+                onclick="document.getElementById('ponto-${ponto.id}')?.scrollIntoView({ behavior: 'smooth', block: 'center' })"
+                class="btn-popup"
+            >
+                 Ver mais
+            </a>
+
+        </div>
+
+    </div>
+`);
 
             const grupoCategoria = ponto.categoria_nome.toLowerCase().trim();
 

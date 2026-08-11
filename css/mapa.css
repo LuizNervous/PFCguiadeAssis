@@ -99,17 +99,39 @@
 }
 
 /* CARDS DOS PONTOS TURÍSTICOS */
+#informacoes {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 25px;
+
+    box-sizing: border-box;
+}
+
 .ponto-card {
+    width: 100%;
+    max-width: none;
+    box-sizing: border-box;
+
     background: var(--bg-surface);
     border-radius: var(--radius-md);
-    max-width: 1160px;
-    margin: 0 auto 30px;
-    padding: 20px;
+
+    padding: 15px;
+
     display: flex;
-    gap: 25px;
-    align-items: center;
+    flex-direction: column;
+    gap: 12px;
+
+    align-items: stretch;
+
     transition: var(--transition);
+
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.418);
+
     scroll-margin-top: 100px;
 }
 
@@ -119,39 +141,50 @@
 }
 
 .ponto-card img {
-    height: 160px;
-    width: 160px;
+    width: 100%;
+    height: 180px;
+
     border-radius: var(--radius-sm);
+
     object-fit: cover;
+    display: block;
 }
 
 .introducao {
     flex-grow: 1;
+
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
 }
 
 .descricao {
     color: var(--text-muted);
     font-size: 15px;
-    line-height: 1.6;
+    line-height: 1.5;
 }
 
 .links {
     display: flex;
-    gap: 12px;
-    margin-top: 15px;
+    gap: 10px;
+    margin-top: auto;
 }
 
 .links button {
-    padding: 12px 24px;
+    flex: 1;
+
+    padding: 10px 12px;
+
     border: none;
     border-radius: var(--radius-pill);
+
     cursor: pointer;
+
     font-weight: 600;
-    font-size: 14px;
+    font-size: 13px;
+
     color: white;
+
     transition: var(--transition);
 }
 
@@ -174,40 +207,141 @@
 }
 
 /* POPUPS DO MAPA */
+.leaflet-popup-content-wrapper {
+    padding: 0 !important;
+    background: #111 !important;
+    border-radius: 12px !important;
+    overflow: hidden;
+}
+
+.leaflet-popup-content {
+    margin: 0 !important;
+    width: 320px !important;
+}
+
 .popup-ponto {
-    text-align: center;
-    width: 220px;
+    width: 320px;
+    background: #111;
+    color: white;
+    overflow: hidden;
 }
 
-.popup-ponto img {
+/* IMAGEM */
+
+.popup-imagem-container {
+    position: relative;
     width: 100%;
-    height: 130px;
-    object-fit: cover;
-    border-radius: 10px;
-    margin-bottom: 10px;
+    height: 180px;
+    overflow: hidden;
 }
 
-.popup-ponto h3 {
-    margin: 8px 0;
-    font-size: 17px;
-    color: #222;
+.popup-imagem {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
+
+/* DEGRADÊ SOBRE A IMAGEM */
+
+.popup-imagem-container::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 80px;
+
+    background: linear-gradient(
+        to bottom,
+        transparent,
+        #111
+    );
+}
+
+/* CONTEÚDO */
+
+.popup-conteudo {
+    position: relative;
+    margin-top: -30px;
+    padding: 0 18px 18px;
+    z-index: 2;
+}
+
+.popup-categoria {
+    font-size: 11px;
+    font-weight: 600;
+    color: #bdbdbd;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.popup-conteudo h3 {
+    margin: 0 0 8px;
+    color: white;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+/* DESCRIÇÃO */
+
+.popup-descricao {
+    margin: 0 0 15px;
+    color: #d0d0d0;
+    font-size: 13px;
+    line-height: 1.4;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* BOTÃO */
 
 .btn-popup {
-    display: inline-block;
-    margin-top: 8px;
-    padding: 8px 18px;
-    background: linear-gradient(135deg, #17a317 0%, #03c02c 100%);
-    color: white !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 9px 12px;
+
+    background: rgb(2, 58, 180);
+    color: #ffffff !important;
+
     text-decoration: none;
-    border-radius: 8px;
-    font-weight: 600;
-    transition: .3s;
+    border-radius: 5px;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    transition: 0.2s;
 }
 
 .btn-popup:hover {
-    transform: scale(1.05);
-    opacity: 0.8;
+    color: white !important;
+    background: #282bf3;
+    transform: scale(1.02);
+}
+
+/* BOTÃO DE FECHAR */
+
+.leaflet-popup-close-button {
+    color: white !important;
+    background: rgba(0, 0, 0, 0.45) !important;
+
+    width: 28px !important;
+    height: 28px !important;
+
+    border-radius: 50%;
+    margin: 6px;
+
+    font-size: 20px !important;
+    z-index: 10;
 }
 
 /* ESTILOS DE MODO ESCURO DO MAPA */
