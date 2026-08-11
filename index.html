@@ -13,17 +13,18 @@
 
 <body>
     <header>
-        <div>
-
-            <h3>Assis Chateaubriand</h3>
-            <p>Paraná, Brasil</p>
-        </div>
+         <a href="/index.html" class="return">
+            <div class="logo">
+                <h3>Assis Chateaubriand</h3>
+                <p>Paraná, Brasil</p>
+            </div>
+        </a>
 
         <ul class="topicos">
             <li><a href="index.html">Início</a></li>
-            <li><a href="mapa/index.html">Mapa</a></li>
-            <li><a href="/servicos/index.html">Guia de Serviços</a></li>
-            <li><a href="historia/index.html">História</a></li>
+            <li><a href="../mapa/index.html">Mapa</a></li>
+            <li><a href="../servicos/index.html">Guia de Serviços</a></li>
+            <li><a href="../historia/index.html">História</a></li>
         </ul>
         <div class="menu">
             <img src="imagens/menu.png" id="botaoMenu" alt="Menu">
@@ -41,9 +42,40 @@
                             <div id="bolinha"></div>
                         </div>
                     </div>
-                    <div>
+                    <div class="acessibilidade">
                         <h3>Acessibilidade</h3>
 
+                        <div class="PaiAcessibilidade">
+
+                            <h4>Tamanho do texto: <span id="textoFonte">100%</span></h4>
+
+                            <div id="controleTexto">
+                                <span>-A</span>
+                                <input type="range" id="alterarTexto" min="80" max="150" value="100" step="10">
+                                <span>A+</span>
+                            </div>
+
+                            <hr>
+                            <details class="menu-sanfona">
+                                <summary>Alterar a cor <span>▼</span></summary>
+
+                                <div id="botoesCores">
+                                    <button onclick="mudarCor('padrao')">Padrão</button>
+                                    <button onclick="mudarCor('escuro')">Modo Escuro</button>
+                                    <button onclick="mudarCor('contraste')">Alto Contraste</button>
+
+                                    <hr>
+                                    <p>Acessibilidade Visual (Daltonismo):</p>
+                                    <button onclick="mudarCor('tricromacia')">Tricromacia Anômala</button>
+                                    <button onclick="mudarCor('dicromacia')">Dicromacia (Azul/Amarelo)</button>
+                                    <button onclick="mudarCor('monocromacia')">Acromatopsia / Monocromacia</button>
+                                </div>
+                            </details>
+                        </div>
+                    </div>
+                    <div class="tradutor-container">
+                        <h3>Idioma / Language</h3>
+                        <div id="google_translate_element"></div>
                     </div>
                 </section>
                 <section class="menuFooter">
@@ -104,9 +136,9 @@
         <ul class="linksFast">
             <h3>Links rápidos</h3>
             <li><a href="index.html">Início</a></li>
-            <li><a href="mapa/index.html">Mapa</a></li>
-            <li><a href="/servicos/index.html">Guia de serviços</a></li>
-            <li><a href="/historia/index.html">História</a></li>
+            <li><a href="../mapa/index.html">Mapa</a></li>
+            <li><a href="../servicos/index.html">Guia de serviços</a></li>
+            <li><a href="../historia/index.html">História</a></li>
         </ul>
     </footer>
     <button id="topBtn" title="Voltar ao topo">⬆</button>
@@ -114,6 +146,18 @@
     <script src="https://files.bpcontent.cloud/2026/05/26/01/20260526014518-SB2V4VCJ.js" defer></script>
 
     <script src="../js/global.js"></script>
+
+       <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+  </script>
+  
 </body>
 
 </html>

@@ -49,7 +49,6 @@ async function carregarServicos() {
         }
     }
 }
-
 // 2. RENDERIZAR CARDS NA TELA
 function renderizarCards(lista) {
     const container = document.getElementById("containerCards");
@@ -65,17 +64,22 @@ function renderizarCards(lista) {
         `;
         return;
     }
+    let htmlGerado = "";
 
     lista.forEach(ponto => {
-        const categoria = ponto.categoria_nome.toLowerCase();
+        const categoria = ponto.categoria_nome ? ponto.categoria_nome.toLowerCase() : "";
         const icone = icones[categoria] || "fa-location-dot";
         const cor = cores[categoria] || "azul";
         const imagemSrc = ponto.imagem ? `/imagens/pontos/${ponto.imagem}` : '/imagens/placeholder.png';
 
-        container.innerHTML += `
+        // Correção do bug da descrição nula ou curta
+        const descricaoTexto = ponto.descricao ? ponto.descricao : "";
+        const descricaoCurta = descricaoTexto.length > 100 ? `${descricaoTexto.substring(0, 100)}...` : descricaoTexto;
+
+        htmlGerado += `
         <div class="card">
             <div class="card-imagem-container">
-                <img class="card-imagem" src="${imagemSrc}" alt="${ponto.nome}">
+                <img class="card-imagem" src="${imagemSrc}" alt="${ponto.nome || 'Serviço'}">
                 <div class="card-icone ${cor}">
                     <i class="fa-solid ${icone}"></i>
                 </div>
@@ -83,17 +87,17 @@ function renderizarCards(lista) {
 
             <div class="card-body">
                 <span class="categoria-card ${cor}">
-                    ${ponto.categoria_nome}
+                    ${ponto.categoria_nome || 'Geral'}
                 </span>
 
-                <h3>${ponto.nome}</h3>
+                <h3>${ponto.nome || 'Sem nome'}</h3>
                 
                 <p class="endereco-card">
-                    <i class="fa-solid fa-location-dot"></i> ${ponto.endereco}
+                    <i class="fa-solid fa-location-dot"></i> ${ponto.endereco || 'Endereço não informado'}
                 </p>
 
                 <p class="descricao-card">
-                    ${ponto.descricao.substring(0, 100)}...
+                    ${descricaoCurta}
                 </p>
 
                 <button class="btn-detalhes" onclick="abrirModal(${ponto.id})">
@@ -103,6 +107,7 @@ function renderizarCards(lista) {
         </div>
         `;
     });
+    container.innerHTML = htmlGerado;
 }
 
 // 3. REMOVER ACENTOS E APLICAR FILTROS
@@ -130,7 +135,7 @@ function aplicarFiltros() {
             endStr.includes(texto) ||
             catStr.includes(texto);
 
-        const combinaCategoria = (categoria === "todos") || catStr.includes(categoria) || categoria.includes(catStr);
+        const combinaCategoria = (categoria === "todos") || catStr === (categoria) ;
 
         return combinaTexto && combinaCategoria;
     });

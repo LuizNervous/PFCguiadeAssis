@@ -1,0 +1,180 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+
+    background:url("/imagens/Assis.png") center center;
+    background-size:cover;
+    height:100vh;
+
+}
+
+.overlay{
+
+    width:100%;
+    height:100vh;
+
+    background:rgba(0,0,0,.55);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+}
+
+
+.login{
+
+    width:800px;
+
+    padding:45px;
+
+    background:rgba(255,255,255,.10);
+
+    backdrop-filter:blur(20px);
+
+    border:1px solid rgba(255,255,255,.2);
+
+    color:white;
+
+}
+
+.login h1{
+
+    text-align:center;
+    font-size:36px;
+
+}
+
+.login p{
+
+    text-align:center;
+
+    margin:10px 0 35px;
+
+    color:#ddd;
+
+}
+
+.input{
+
+    position:relative;
+
+    margin-bottom:20px;
+
+}
+
+.input input{
+
+    width:100%;
+
+    padding:14px 45px;
+
+    border:none;
+
+    border-radius:10px;
+
+    outline:none;
+
+    background:rgba(255,255,255,.15);
+
+    color:white;
+
+}
+
+.input input::placeholder{
+
+    color:#ddd;
+
+}
+
+.input .fa-user,
+.input .fa-lock{
+
+    position:absolute;
+
+    left:15px;
+    top:15px;
+
+}
+
+#olho{
+
+    position:absolute;
+
+    right:15px;
+    top:15px;
+
+    cursor:pointer;
+
+}
+
+.extras{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    font-size:14px;
+
+    margin-bottom:25px;
+
+}
+
+.extras a{
+
+    color:#00d4ff;
+
+    text-decoration:none;
+
+}
+
+button{
+
+    width:100%;
+
+    padding:15px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:linear-gradient(90deg,#00AEEF,#00E58A);
+
+    color:white;
+
+    font-size:17px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+button:hover{
+
+    transform:scale(1.03);
+
+}
+
+span{
+
+    display:block;
+
+    text-align:center;
+
+    margin-top:25px;
+
+}
+
+span a{
+
+    color:#00d4ff;
+
+    text-decoration:none;
+
+}

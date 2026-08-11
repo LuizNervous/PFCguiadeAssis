@@ -1,8 +1,13 @@
-// CARREGAR TEMA SALVO ASSIM QUE O SCRIPT RODA
 (function aplicarTemaSalvo() {
   const temaSalvo = localStorage.getItem("tema");
   if (temaSalvo === "Escuro") {
+    document.documentElement.classList.add("Escuro");
     document.body.classList.add("Escuro");
+  }
+
+  const acessibilidadeTema = localStorage.getItem("acessibilidade_tema");
+  if (acessibilidadeTema && acessibilidadeTema !== "padrao" && acessibilidadeTema !== "escuro") {
+    document.body.classList.add("tema-" + acessibilidadeTema);
   }
 })();
 
@@ -19,7 +24,6 @@ document.addEventListener("click", (e) => {
 
   const botaoTema = e.target.closest("#conteiner");
   if (botaoTema) {
-
     document.documentElement.classList.toggle("Escuro");
     document.body.classList.toggle("Escuro");
 
@@ -35,7 +39,6 @@ document.addEventListener("click", (e) => {
   }
 });
 
-
 window.addEventListener("scroll", () => {
   const topBtn = document.getElementById("topBtn");
   if (topBtn) {
@@ -46,3 +49,63 @@ window.addEventListener("scroll", () => {
     }
   }
 });
+
+const barraTexto = document.getElementById('alterarTexto');
+const visorTexto = document.getElementById('textoFonte');
+
+window.onload = function () {
+  let tamanhoSalvo = localStorage.getItem("acessibilidade_tamanho");
+  if (tamanhoSalvo) {
+    if (barraTexto) barraTexto.value = tamanhoSalvo.replace('%', '');
+    if (visorTexto) visorTexto.innerHTML = tamanhoSalvo;
+    document.body.style.fontSize = tamanhoSalvo;
+  }
+}
+
+if (barraTexto) {
+  barraTexto.oninput = function () {
+    let tamanho = barraTexto.value + '%';
+    visorTexto.innerHTML = tamanho;
+    document.body.style.fontSize = tamanho;
+    localStorage.setItem('acessibilidade_tamanho', tamanho);
+  };
+}
+
+function mudarCor(tema) {
+  document.body.classList.remove(
+    'tema-contraste',
+    'tema-tricromacia',
+    'tema-dicromacia',
+    'tema-monocromacia'
+  );
+
+  if (tema === 'escuro') {
+    document.documentElement.classList.add("Escuro");
+    document.body.classList.add("Escuro");
+    localStorage.setItem("tema", "Escuro");
+  } else if (tema === 'padrao') {
+    document.documentElement.classList.remove("Escuro");
+    document.body.classList.remove("Escuro");
+    localStorage.setItem("tema", "Claro");
+  } else {
+    document.body.classList.add('tema-' + tema);
+  }
+
+  localStorage.setItem('acessibilidade_tema', tema);
+}
+
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'pt',
+    autoDisplay: false
+  }, 'google_translate_element');
+}
+
+
+(function () {
+  var gtScript = document.createElement('script');
+  gtScript.type = 'text/javascript';
+  gtScript.async = true;
+  gtScript.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+  document.head.appendChild(gtScript);
+})();
