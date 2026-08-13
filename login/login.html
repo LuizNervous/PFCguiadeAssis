@@ -4,14 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mapa com Filtros</title>
+    <title>Login - Assis Chateaubriand</title>
     <script> if (localStorage.getItem("tema") === "Escuro") { document.documentElement.classList.add("Escuro"); } 
     </script>
-    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/login.css">
 
-    <link rel="stylesheet" href="../css/mapa.css">
-
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
 
 <body>
@@ -31,11 +30,10 @@
             <li><a href="../historia/index.html">História</a></li>
         </ul>
         <div class="menu">
-          <div class="centralizar">
+            <div class="centralizar">
             <img src="../imagens/menu.png" id="botaoMenu" alt="Menu">
-       <a href="/login/login.html"><img src="../imagens/IUsuario.png" id="FotoUsuario" alt="Usuário"></a>
+            <a href="/login/login.html"><img src="../imagens/IUsuario.png" id="FotoUsuario" alt="Usuário"></a>
             </div>
-
             <div class="escondido">
                 <section class="menuHeader">
                     <h2>Configurações</h2>
@@ -94,35 +92,72 @@
 
     </header>
 
-    <div class="info">
-        <h1>Explore o Mapa</h1> <br>
-        <p>Descubra todos os pontos de interesse da cidade</p>
+    <div class="overlay">
+
+        <section class="login">
+
+            <h1>Bem-vindo</h1>
+
+            <p>Entre para continuar.</p>
+
+            <form>
+
+                <div class="input">
+
+                    <i class="fa-solid fa-user"></i>
+
+                    <input type="email" placeholder="E-mail" required>
+
+                </div>
+
+                <div class="input">
+
+                    <i class="fa-solid fa-lock"></i>
+
+                    <input type="password" id="senha" placeholder="Senha" required>
+
+                    <i class="fa-solid fa-eye" id="olho"></i>
+
+                </div>
+
+                <div class="extras">
+
+                    <label>
+
+                        <input type="checkbox">
+
+                        Lembrar de mim
+
+                    </label>
+
+                    <a href="#">Esqueci minha senha</a>
+
+                </div>
+
+                <button type="submit">
+
+                    Entrar
+
+                </button>
+
+            </form>
+
+            <span>
+
+                Ainda não possui conta?
+
+                <a href="cadastro.html">
+
+                    Criar conta
+
+                </a>
+
+            </span>
+
+        </section>
 
     </div>
 
-    <br><br>
-    <main>
-        <div class="container-mapa">
-
-            <div class="painel-filtros">
-                <h3>Veja as categorias abaixo</h3>
-                <hr>
-                <button class="btn-filtro ativo" data-categoria="mobilidade">🚌 Mobilidade</button>
-                <button class="btn-filtro" data-categoria="turismo">📸 Turismo</button>
-                <button class="btn-filtro" data-categoria="gastronomia">🍴 Gastronomia</button>
-                <button class="btn-filtro" data-categoria="posto">⛽ Postos</button>
-                <button class="btn-filtro" data-categoria="farmacia">🔵 Farmacias</button>
-                <button class="btn-filtro" data-categoria="posto de saúde">🔵 Postos de Saúde</button>
-                <button class="btn-filtro" data-categoria="hospital">➕ Hospitais</button>
-            </div>
-
-            <div id="mapa"></div>
-
-        </div>
-        <section id="informacoes">
-
-        </section>
-    </main>
     <footer>
         <div class="name-time">
             <h3>Desenvolvido por</h3>
@@ -138,29 +173,27 @@
         </div>
         <ul class="linksFast">
             <h3>Links rápidos</h3>
-            <li><a href="/index.html">Início</a></li>
-            <li><a href="mapa/index.html">Mapa</a></li>
-            <li><a href="/servicos/index.html">Guia de serviços</a></li>
-            <li><a href="/historia/index.html">História</a></li>
+            <li><a href="index.html">Início</a></li>
+            <li><a href="../mapa/index.html">Mapa</a></li>
+            <li><a href="../servicos/index.html">Guia de serviços</a></li>
+            <li><a href="../historia/index.html">História</a></li>
         </ul>
     </footer>
-    <button id="topBtn" title="Voltar ao topo">⬆</button>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="../js/global.js" defer></script>
-    <script src="../js/mapa.js" defer></script>
+    <script src="/js/login.js"></script>
+    <script src="../js/global.js"></script>
 
-        <div vw class="enabled">
-    <div vw-access-button class="active"></div>
-    <div vw-plugin-wrapper>
-      <div class="vw-plugin-top-wrapper"></div>
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
     </div>
-  </div>
-  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
-  <script>
-    new window.VLibras.Widget('https://vlibras.gov.br/app');
-  </script>
-  
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
+
 </body>
 
 </html>
