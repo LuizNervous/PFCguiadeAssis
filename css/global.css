@@ -110,6 +110,16 @@ header #closeMenu img {
 .topicos a:hover::after {
   width: 100%;
 }
+.centralizar{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+#FotoUsuario{
+   cursor: pointer;
+  width: 40px;
+}
 
 .escondido {
   position: fixed;

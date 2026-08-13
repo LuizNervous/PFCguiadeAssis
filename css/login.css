@@ -1,180 +1,190 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial, Helvetica, sans-serif;
-}
-
-body{
-
-    background:url("/imagens/Assis.png") center center;
-    background-size:cover;
-    height:100vh;
+body {
+    display: flex;
+    flex-direction: column;
+    background: url("/imagens/Assis.png") center center;
+    background-size: cover;
+    height: 100vh;
 
 }
 
-.overlay{
+.overlay {
+flex: 1;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, .55);
 
-    width:100%;
-    height:100vh;
-
-    background:rgba(0,0,0,.55);
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
 }
 
 
-.login{
+.login {
 
-    width:800px;
+    width: 700px;
+    max-width: 50vw;
+    padding: 45px;
+    margin: 20px;
+    background: rgba(255, 255, 255, .10);
 
-    padding:45px;
+    backdrop-filter: blur(20px);
 
-    background:rgba(255,255,255,.10);
+    border: 1px solid rgba(255, 255, 255, .2);
+    border-radius: 10px;
+    color: white;
+}
+@media (max-width:760px) {
+    .login{
+        width: 80vw;
+        max-width: 90vw;
+        padding: 15px;
+    }
+}
+.login h1 {
 
-    backdrop-filter:blur(20px);
-
-    border:1px solid rgba(255,255,255,.2);
-
-    color:white;
+    text-align: center;
+    font-size: 36px;
 
 }
 
-.login h1{
+.login p {
 
-    text-align:center;
-    font-size:36px;
+    text-align: center;
 
-}
+    margin: 10px 0 35px;
 
-.login p{
-
-    text-align:center;
-
-    margin:10px 0 35px;
-
-    color:#ddd;
+    color: #ddd;
 
 }
 
-.input{
+.input {
 
-    position:relative;
+    position: relative;
 
-    margin-bottom:20px;
-
-}
-
-.input input{
-
-    width:100%;
-
-    padding:14px 45px;
-
-    border:none;
-
-    border-radius:10px;
-
-    outline:none;
-
-    background:rgba(255,255,255,.15);
-
-    color:white;
+    margin-bottom: 20px;
 
 }
 
-.input input::placeholder{
+.input input {
 
-    color:#ddd;
+    width: 100%;
+
+    padding: 14px 45px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    outline: none;
+
+    background: rgba(255, 255, 255, .15);
+
+    color: white;
+
+}
+
+.input input::placeholder {
+
+    color: #ddd;
 
 }
 
 .input .fa-user,
-.input .fa-lock{
+.input .fa-lock, 
+.input .fa-envelope,
+.input .fa-calendar-days{
 
-    position:absolute;
+    position: absolute;
 
-    left:15px;
-    top:15px;
-
-}
-
-#olho{
-
-    position:absolute;
-
-    right:15px;
-    top:15px;
-
-    cursor:pointer;
+    left: 15px;
+    top: 15px;
 
 }
 
-.extras{
+#olho {
 
-    display:flex;
+    position: absolute;
 
-    justify-content:space-between;
+    right: 15px;
+    top: 15px;
 
-    font-size:14px;
-
-    margin-bottom:25px;
-
-}
-
-.extras a{
-
-    color:#00d4ff;
-
-    text-decoration:none;
+    cursor: pointer;
 
 }
 
-button{
+.extras {
 
-    width:100%;
+    display: flex;
 
-    padding:15px;
+    justify-content: space-between;
 
-    border:none;
+    font-size: 14px;
 
-    border-radius:10px;
-
-    background:linear-gradient(90deg,#00AEEF,#00E58A);
-
-    color:white;
-
-    font-size:17px;
-
-    cursor:pointer;
-
-    transition:.3s;
+    margin-bottom: 25px;
 
 }
 
-button:hover{
+.extras a {
 
-    transform:scale(1.03);
+    color: #00d4ff;
 
-}
-
-span{
-
-    display:block;
-
-    text-align:center;
-
-    margin-top:25px;
+    text-decoration: none;
 
 }
 
-span a{
+button {
 
-    color:#00d4ff;
+    width: 100%;
 
-    text-decoration:none;
+    padding: 15px;
 
+    border: none;
+
+    border-radius: 10px;
+
+    background: linear-gradient(90deg, #00AEEF, #00E58A);
+
+    color: white;
+
+    font-size: 17px;
+
+    cursor: pointer;
+
+    transition: .3s;
+
+}
+
+button:hover {
+
+    transform: scale(1.03);
+
+}
+
+span {
+
+    display: block;
+
+    text-align: center;
+
+    margin-top: 25px;
+
+}
+
+span a {
+
+    color: #00d4ff;
+
+    text-decoration: none;
+
+}
+/* CADASTRO CSS */
+#NomeIdade{
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+footer{
+      margin-top: 0;
 }
