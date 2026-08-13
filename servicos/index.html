@@ -151,9 +151,12 @@
     </div>
   </div>
   <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
-  <script>
+<script>
+  // O script aguarda o carregamento completo para executar sem erros
+  window.addEventListener('DOMContentLoaded', () => {
     new window.VLibras.Widget('https://vlibras.gov.br/app');
-  </script>
+  });
+</script>
   
 </body>
 
