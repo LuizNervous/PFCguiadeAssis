@@ -35,3 +35,84 @@ body.Escuro .bloco {
   background-color: #222222;
   color: #f5f5f5;
 }
+
+.texto{
+  text-align: center;
+  margin-top: 25px;
+}
+
+.texto h1 {
+  font-size: clamp(20px, 4vw, 40px);
+  font-weight: 700;
+  margin: auto;
+}
+
+.texto p {
+  font-size: 20px;
+  line-height: 1.7;
+  margin: auto;
+  max-width: 700px;
+  color: #525151;
+}
+
+.cards{
+  display: flex;
+  justify-content: center;
+  gap: 80px;
+  flex-wrap: wrap;
+  margin-top: 50px;
+}
+
+
+.card {
+  width: 400px;
+  height: 240px;
+  border-radius: 12px;
+  overflow: hidden;
+  text-align: center;
+  background-color: #161111;
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+}
+
+.historia{
+   display: flex;
+  justify-content: center;
+  margin-top: 50px;
+  box-sizing: border-box;
+ 
+}
+
+.historia h2{
+margin-bottom: 10px;
+}
+
+.card2{
+  width: 45%;
+  max-height: 1000px;
+  border-radius: 12px;
+  overflow: hidden;
+  text-align: center;
+  background-color: #e7e6e6;
+  box-shadow: 0px 0 25px rgba(0, 0, 0, 0.15);
+}
+
+.card2 p {
+  max-width: 65ch; /* Aproximadamente 65 caracteres por linha */
+  margin: 0 auto;
+}
+
+.card2 h2{
+  margin-top: 10px;
+}
+/* modo escuro */
+
+
+body.Escuro .card2{
+  background: rgba(27, 27, 27, 0.95);
+  border-bottom: 1px solid #333333;
+
+}
