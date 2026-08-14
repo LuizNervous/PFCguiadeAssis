@@ -91,6 +91,7 @@ function renderizarCards(lista) {
                 </span>
 
                 <h3>${ponto.nome || 'Sem nome'}</h3>
+                <h4>avaliação</h4>
                 
                 <p class="endereco-card">
                     <i class="fa-solid fa-location-dot"></i> ${ponto.endereco || 'Endereço não informado'}
@@ -167,6 +168,13 @@ function abrirModal(id) {
             <i class="fa-solid ${icone}"></i> ${ponto.categoria_nome}
         </span>
         <h2>${ponto.nome}</h2>
+        <div class="rating-input">
+          <input type="radio" name="rating" value="5" id="star5" ><label for="star5">★</label>
+          <input type="radio" name="rating" value="4" id="star4" ><label for="star4">★</label>
+          <input type="radio" name="rating" value="3" id="star3" ><label for="star3">★</label>
+          <input type="radio" name="rating" value="2" id="star2" ><label for="star2">★</label>
+          <input type="radio" name="rating" value="1" id="star1" ><label for="star1">★</label>
+        </div>
         <p style="margin-bottom: 20px; line-height: 1.5;">${ponto.descricao}</p>
         
         <div class="info-box">
