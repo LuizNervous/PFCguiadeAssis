@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - Assis Chateaubriand</title>
+  <title>Cadastro - Guia Assis</title>
   <script> if (localStorage.getItem("tema") === "Escuro") { document.documentElement.classList.add("Escuro"); } 
   </script>
   <link rel="stylesheet" href="/css/global.css">
@@ -101,17 +101,17 @@
         <section class="NomeIdade">
           <div class="input">
             <i class="fa-solid fa-user"></i>
-            <input type="text" placeholder="Nome Completo" required>
+            <input id="nome" type="text" placeholder="Nome Completo" required>
           </div>
           <div class="input">
             <i class="fa-solid fa-calendar-days"></i>
-            <input type="date" required>
+            <input id="data" type="date" required>
           </div>
         </section>
 
         <div class="input">
           <i class="fa-solid fa-envelope"></i>
-          <input type="email" placeholder="E-mail" required>
+          <input id="email" type="email" placeholder="E-mail" required>
         </div>
         <div class="input">
           <i class="fa-solid fa-lock"></i>
@@ -152,7 +152,7 @@
     </ul>
   </footer>
 
-  <script src="/js/cadastro.js"></script>
+  <script src="../js/cadastro.js"></script>
   <script src="../js/global.js"></script>
 
   <div vw class="enabled">

@@ -4,6 +4,7 @@ const cors = require('cors');
 const mysql = require('mysql2');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const dns = require('dns');
 
 const app = express();
 app.use(cors());
@@ -27,6 +28,21 @@ db.connect((err) => {
     console.log('Conectado ao banco de dados com sucesso!');
 });
 
+
+function validarDominioEmail(email) {
+    return new Promise((resolve) => {
+        const dominio = email.split('@')[1];
+        if (!dominio) return resolve(false);
+
+        dns.resolveMx(dominio, (err, addresses) => {
+            if (err || !addresses || addresses.length === 0) {
+                return resolve(false);
+            }
+            resolve(true);
+        });
+    });
+}
+
 app.get('/api/pontos', (req, res) => {
     const query = `
     SELECT p.*, 
@@ -45,7 +61,7 @@ app.get('/api/pontos', (req, res) => {
         res.json(results);
     });
 });
-app.post(/api/avaliar , (req,res) =>{
+app.post('/api/avaliar' , (req,res) =>{
     const {id_usuario,id_ponto, nota}=req.body;
     if (!id_usuario||!id_ponto||!nota) {
         return res.status(400).json({mensagem:'Dados incompletos para a avaliação'})
@@ -63,11 +79,15 @@ app.post(/api/avaliar , (req,res) =>{
         return res.json({mensagem:'Avaliação salva com sucesso!'})
     })
 })
-app.post('/api/cadastro', (req, res) => {
+app.post('/api/cadastro', async (req, res) => {
     const { nome, data_nascimento, email, senha } = req.body;
 
     if (!nome || !data_nascimento || !email || !senha) {
         return res.status(400).json({ mensagem: 'Preencha todos os campos obrigatórios!' });
+    }
+    const emailValido = await validarDominioEmail(email);
+    if (!emailValido) {
+        return res.status(400).json({ mensagem: 'O domínio do e-mail digitado não existe ou não pode receber mensagens!' });
     }
 
     const checkQuery = 'SELECT * FROM usuarios WHERE email = ?';
