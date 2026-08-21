@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 
-<head>
+<head> <script>if (!localStorage.getItem('usuario')) {
+      alert("Acesso negado! Faça o login para entrar");
+      window.location.href = "../login/login.html";
+    }
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Avaliações</title>
   <link rel="stylesheet" href="../css/global.css">
   <link rel="stylesheet" href="../css/avalia.css">
+ 
+
 </head>
 
 <body>
@@ -88,14 +94,15 @@
   <main>
     <div id="pontoClick"></div>
     <div class="rating-input">
-          <input type="radio" name="rating" value="5" id="star5" ><label for="star5">★</label>
-          <input type="radio" name="rating" value="4" id="star4" ><label for="star4">★</label>
-          <input type="radio" name="rating" value="3" id="star3" ><label for="star3">★</label>
-          <input type="radio" name="rating" value="2" id="star2" ><label for="star2">★</label>
-          <input type="radio" name="rating" value="1" id="star1" ><label for="star1">★</label>
-        </div>
+      <input type="radio" name="rating" value="5" id="star5"><label for="star5">★</label>
+      <input type="radio" name="rating" value="4" id="star4"><label for="star4">★</label>
+      <input type="radio" name="rating" value="3" id="star3"><label for="star3">★</label>
+      <input type="radio" name="rating" value="2" id="star2"><label for="star2">★</label>
+      <input type="radio" name="rating" value="1" id="star1"><label for="star1">★</label>
+    </div>
   </main>
-<script src="..js/global.js"></script>
+  <script src="../js/global.js"></script>
+  <script src="../js/avalia.js"></script>
 </body>
 
 </html>

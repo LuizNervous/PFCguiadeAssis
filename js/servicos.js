@@ -143,6 +143,17 @@ function aplicarFiltros() {
 
     renderizarCards(pontosFiltrados);
 }
+function verAvaliacoes (){
+      const usuario= localStorage.getItem('usuario');
+      if (!usuario) {
+        alert("Você precisa estar logado para ver as avaliações!");
+        window.location.href="../login/login.html";
+      }
+      else{
+        console.log("Acesso liberado às avaliações");
+         window.location.href="../servicos/avalia.html";
+      }
+}
 
 // 4. LÓGICA DO MODAL
 function abrirModal(id) {
@@ -179,7 +190,7 @@ function abrirModal(id) {
             <button class="btn-mapa" onclick="window.location='../mapa/index.html?categoria=${ponto.categoria_nome.toLowerCase()}&nome=${encodeURIComponent(ponto.nome)}'">
                  Ver no mapa
             </button>
-            <button class="btn-mapa2" onclick="window.location='../servicos/avalia.html'">
+            <button class="btn-mapa2" onclick=verAvaliacoes()>
                  Avalie e veja as avaliações
             </button>
         </div>
