@@ -299,6 +299,19 @@
     font-weight: 600;
     transition: all 0.3s ease;
 }
+.btn-mapa2 {
+    width: 100%;
+    text-decoration: none;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    box-shadow: 0 6px 16px rgba(37, 139, 235, 0.25);
+    background: linear-gradient(135deg, #1647a3, #226ec5);
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
 
 .btn-mapa:hover {
     opacity: 0.9;

@@ -84,6 +84,9 @@ app.post('/api/cadastro', async (req, res) => {
     if (!nome || !data_nascimento || !email || !senha) {
         return res.status(400).json({ mensagem: 'Preencha todos os campos obrigatórios!' });
     }
+     if (senha.length < 6) {
+        return res.status(400).json({ mensagem: 'A senha precisa ter 6 ou mais caracteres!' });
+    }
     const emailValido = await validarDominioEmail(email);
     if (!emailValido) {
         return res.status(400).json({ mensagem: 'O domínio do e-mail digitado não existe ou não pode receber mensagens!' });

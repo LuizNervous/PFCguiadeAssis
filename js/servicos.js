@@ -136,7 +136,7 @@ function aplicarFiltros() {
             endStr.includes(texto) ||
             catStr.includes(texto);
 
-        const combinaCategoria = (categoria === "todos") || catStr === (categoria) ;
+        const combinaCategoria = (categoria === "todos") || catStr === (categoria);
 
         return combinaTexto && combinaCategoria;
     });
@@ -168,22 +168,22 @@ function abrirModal(id) {
             <i class="fa-solid ${icone}"></i> ${ponto.categoria_nome}
         </span>
         <h2>${ponto.nome}</h2>
-        <div class="rating-input">
-          <input type="radio" name="rating" value="5" id="star5" ><label for="star5">★</label>
-          <input type="radio" name="rating" value="4" id="star4" ><label for="star4">★</label>
-          <input type="radio" name="rating" value="3" id="star3" ><label for="star3">★</label>
-          <input type="radio" name="rating" value="2" id="star2" ><label for="star2">★</label>
-          <input type="radio" name="rating" value="1" id="star1" ><label for="star1">★</label>
-        </div>
+        
         <p style="margin-bottom: 20px; line-height: 1.5;">${ponto.descricao}</p>
         
         <div class="info-box">
             <p><strong>📍 Endereço:</strong> ${ponto.endereco}</p>
         </div>
         
-        <button class="btn-mapa" onclick="window.location='../mapa/index.html?categoria=${ponto.categoria_nome.toLowerCase()}&nome=${encodeURIComponent(ponto.nome)}'">
-            <i class="fa-solid fa-map"></i> Ver no mapa
-        </button>
+        <div style="display:flex; gap:9px;">
+            <button class="btn-mapa" onclick="window.location='../mapa/index.html?categoria=${ponto.categoria_nome.toLowerCase()}&nome=${encodeURIComponent(ponto.nome)}'">
+                 Ver no mapa
+            </button>
+            <button class="btn-mapa2" onclick="window.location='../servicos/avalia.html'">
+                 Avalie e veja as avaliações
+            </button>
+        </div>
+        
     </div>
     `;
 
