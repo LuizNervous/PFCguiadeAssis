@@ -23,10 +23,6 @@ function verLogado (){
       if (!usuario) {
         console.log("Faça login.")
       }
-      else{
-         alert(`Você ja está logado! ${usuario.nome}`);
-         window.location.href="../index.html";
-      }
 }
 verLogado()
 const API_URL = 'https://guia-assis.onrender.com/api';
@@ -44,9 +40,7 @@ document.getElementById("FormLogin").addEventListener("submit", async (e) => {
         const dados = await resposta.json();
         if (resposta.ok) {
             localStorage.setItem('usuario', JSON.stringify(dados.usuario));
-            
-            alert(`Bem vindo(a), ${dados.usuario.nome}!`);
-            window.location.href="../servicos/avalia.html";
+            window.location.href="../servicos/index.html";
         }
         else{
             alert(dados.mensagem || 'E-mail ou senha incorretos.');

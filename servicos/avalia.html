@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 
-<head> <script>if (!localStorage.getItem('usuario')) {
+<head>
+  <script>if (!localStorage.getItem('usuario')) {
       alert("Acesso negado! Faça o login para entrar");
       window.location.href = "../login/login.html";
     }
@@ -11,7 +12,7 @@
   <title>Avaliações</title>
   <link rel="stylesheet" href="../css/global.css">
   <link rel="stylesheet" href="../css/avalia.css">
- 
+
 
 </head>
 
@@ -92,6 +93,21 @@
     </div>
   </header>
   <main>
+    <section>
+      <h1>Avalie</h1>
+      <div id="pontoSelecionado">
+        <img id="imagemPonto" src="../imagens/pontos/boca_lanches.jpg" alt="boca lanches">
+        <h1 id="tituloPonto"> Bar Boca Lanches</h1>
+        <p id="descricaoPonto">Ponto tradicional para lanches caprichados, porções e bebidas geladas, ideal para encontrar os amigos em um ambiente descontraído.</p>
+        <h3 id="enderecoPonto">5829, Av. Tupãssi, 5733, Assis Chateaubriand - PR, 85935-000</h3>
+      </div>
+      <h1>Veja as avaliações</h1>
+      <div>
+        <div>
+          
+        </div>
+      </div>
+    </section>
     <div id="pontoClick"></div>
     <div class="rating-input">
       <input type="radio" name="rating" value="5" id="star5"><label for="star5">★</label>
