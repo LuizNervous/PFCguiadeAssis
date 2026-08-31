@@ -44,6 +44,7 @@ async function carregarServicos() {
     } catch (erro) {
         console.error("Erro ao carregar a API:", erro);
         const container = document.getElementById("containerCards");
+         container.innerHTML= "<p>Carregando avaliações...</p>";
         if (container) {
             container.innerHTML = "<h2 style='text-align:center; width:100%'>Erro ao carregar os serviços.</h2>";
         }
@@ -53,8 +54,8 @@ async function carregarServicos() {
 function renderizarCards(lista) {
     const container = document.getElementById("containerCards");
     if (!container) return;
-
-    container.innerHTML = "";
+    
+   
 
     if (lista.length === 0) {
         container.innerHTML = `

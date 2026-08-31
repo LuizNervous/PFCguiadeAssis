@@ -2,11 +2,8 @@
 <html lang="pt-BR">
 
 <head>
-  <script>if (!localStorage.getItem('usuario')) {
-      alert("Acesso negado! Faça o login para entrar");
-      window.location.href = "../login/login.html";
-    }
-  </script>
+ <script> if (localStorage.getItem("tema") === "Escuro") { document.documentElement.classList.add("Escuro"); } 
+    </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Avaliações</title>
@@ -93,35 +90,18 @@
     </div>
   </header>
   <main>
-    <section>
+    <section id="avaliacao">
       <h1>Avalie</h1>
       <div id="pontoSelecionado">
-        <img id="imagemPonto" src="../imagens/pontos/boca_lanches.jpg" alt="boca lanches">
-        <h1 id="tituloPonto"> Bar Boca Lanches</h1>
-        <p id="descricaoPonto">Ponto tradicional para lanches caprichados, porções e bebidas geladas, ideal para encontrar os amigos em um ambiente descontraído.</p>
-        <h3 id="enderecoPonto">5829, Av. Tupãssi, 5733, Assis Chateaubriand - PR, 85935-000</h3>
-      </div>
-      <h1>Veja as avaliações</h1>
-      <div>
-        <div>
 
-        </div>
+      </div>
+      <div id="avaliacoes">
+
       </div>
     </section>
-    <div id="pontoClick"></div>
-    <div class="rating-input">
-      <input type="radio" name="rating" value="5" id="star5"><label for="star5">★</label>
-      <input type="radio" name="rating" value="4" id="star4"><label for="star4">★</label>
-      <input type="radio" name="rating" value="3" id="star3"><label for="star3">★</label>
-      <input type="radio" name="rating" value="2" id="star2"><label for="star2">★</label>
-      <input type="radio" name="rating" value="1" id="star1"><label for="star1">★</label>
-    </div>
-    <div>
-      <button></button>
-      <button></button>
-      <button></button>
-      <button></button>
-    </div>
+    <section class="todasAvaliacoes">
+
+    </section>
   </main>
   <script src="../js/global.js"></script>
   <script src="../js/avalia.js"></script>

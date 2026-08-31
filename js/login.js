@@ -18,11 +18,11 @@ olho.addEventListener("click", () => {
     }
 
 });
-function verLogado (){
-      const usuario= JSON.parse(localStorage.getItem('usuario'));
-      if (!usuario) {
+function verLogado() {
+    const usuario = JSON.parse(localStorage.getItem('usuario'));
+    if (!usuario) {
         console.log("Faça login.")
-      }
+    }
 }
 verLogado()
 const API_URL = 'https://guia-assis.onrender.com/api';
@@ -40,9 +40,10 @@ document.getElementById("FormLogin").addEventListener("submit", async (e) => {
         const dados = await resposta.json();
         if (resposta.ok) {
             localStorage.setItem('usuario', JSON.stringify(dados.usuario));
-            window.location.href="../servicos/index.html";
+            localStorage.setItem('token', dados.token );
+            window.location.href = "../servicos/index.html";
         }
-        else{
+        else {
             alert(dados.mensagem || 'E-mail ou senha incorretos.');
         }
     }
