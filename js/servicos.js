@@ -148,7 +148,6 @@ function aplicarFiltros() {
     const categoria = categoriaAtiva ? removerAcentos(categoriaAtiva.dataset.categoria.toLowerCase().trim()) : "todos";
 
     pontosFiltrados = pontos.filter(ponto => {
-        // CORRIGIDO: Fallbacks com || "" para evitar travamentos com dados nulos
         const nomeStr = removerAcentos((ponto.nome || "").toLowerCase());
         const descStr = removerAcentos((ponto.descricao || "").toLowerCase());
         const endStr = removerAcentos((ponto.endereco || "").toLowerCase());
@@ -172,7 +171,6 @@ function abrirModal(id) {
     const ponto = pontos.find(item => item.id == id);
     if (!ponto) return;
 
-    // CORRIGIDO: Verificação segura para categoria
     const categoria = (ponto.categoria_nome || "").toLowerCase();
     const icone = icones[categoria] || "fa-location-dot";
     const cor = cores[categoria] || "azul";
@@ -187,7 +185,6 @@ function abrirModal(id) {
         ? [...new Set(ponto.tags.split(', ').map(t => t.trim()).filter(t => t !== ''))].slice(0, 3)
         : [];
         
-    // CORRIGIDO: 'listaTags' em vez de 'lista'
     const tagsHTML = listaTags.length > 0 
         ? listaTags.map(tag => `<span class="tag-badge">${tag}</span>`).join('') 
         : '<span class="tag-badge-vazio">Sem observações</span>';

@@ -109,3 +109,15 @@ function googleTranslateElementInit() {
   gtScript.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
   document.head.appendChild(gtScript);
 })();
+
+  const abrirLogin = document.getElementById("linkAlternador");
+function alternarHref() {
+  const abrirLogin = document.getElementById("linkAlternador");
+  if (localStorage.getItem('token') && localStorage.getItem('usuario')) {
+    abrirLogin.href='/login/perfil.html';
+  }
+  else{
+    abrirLogin.href="../login/login.html"
+  }
+}
+abrirLogin.addEventListener("click", alternarHref)
