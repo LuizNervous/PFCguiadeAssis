@@ -38,24 +38,23 @@ const cores = {
 async function carregarServicos() {
     try {
         const resposta = await fetch(API);
+        if (!resposta.ok) throw new Error("Falha na resposta da API");
         pontos = await resposta.json();
         pontosFiltrados = [...pontos];
         renderizarCards(pontosFiltrados);
     } catch (erro) {
         console.error("Erro ao carregar a API:", erro);
         const container = document.getElementById("containerCards");
-         container.innerHTML= "<p>Carregando avaliações...</p>";
         if (container) {
             container.innerHTML = "<h2 style='text-align:center; width:100%'>Erro ao carregar os serviços.</h2>";
         }
     }
 }
+
 // 2. RENDERIZAR CARDS NA TELA
 function renderizarCards(lista) {
     const container = document.getElementById("containerCards");
     if (!container) return;
-    
-   
 
     if (lista.length === 0) {
         container.innerHTML = `
@@ -73,9 +72,22 @@ function renderizarCards(lista) {
         const cor = cores[categoria] || "azul";
         const imagemSrc = ponto.imagem ? `/imagens/pontos/${ponto.imagem}` : '/imagens/placeholder.png';
 
-        // Correção do bug da descrição nula ou curta
-        const descricaoTexto = ponto.descricao ? ponto.descricao : "";
+        const descricaoTexto = ponto.descricao || "";
         const descricaoCurta = descricaoTexto.length > 100 ? `${descricaoTexto.substring(0, 100)}...` : descricaoTexto;
+
+        const mediaNotaNum = Number(ponto.media_nota) || 0;
+        const notaArredondada = Math.round(mediaNotaNum);
+        const estrelasHtml = '★'.repeat(notaArredondada) + '☆'.repeat(5 - notaArredondada);
+        const totalAvaliacoes = ponto.total_avaliacoes || 0;
+        
+        const listaTags = ponto.tags 
+            ? [...new Set(ponto.tags.split(', ').map(t => t.trim()).filter(t => t !== ''))].slice(0, 3)
+            : [];
+            
+        // CORRIGIDO: Checa se a lista de tags possui itens
+        const tagsHTML = listaTags.length > 0 
+            ? listaTags.map(tag => `<span class="tag-badge">${tag}</span>`).join('') 
+            : '<span class="tag-badge-vazio">Sem observações</span>';
 
         htmlGerado += `
         <div class="card">
@@ -93,6 +105,15 @@ function renderizarCards(lista) {
 
                 <h3>${ponto.nome || 'Sem nome'}</h3>
                 <h4>avaliação</h4>
+
+                <div class="card-avaliacao">
+                    <span class="estrelas">${estrelasHtml}</span>
+                    <span class="nota-texto"><strong>${mediaNotaNum.toFixed(1)}</strong> (${totalAvaliacoes})</span>
+                </div>
+
+                <div class="card-tags">
+                    ${tagsHTML}
+                </div>
                 
                 <p class="endereco-card">
                     <i class="fa-solid fa-location-dot"></i> ${ponto.endereco || 'Endereço não informado'}
@@ -127,17 +148,18 @@ function aplicarFiltros() {
     const categoria = categoriaAtiva ? removerAcentos(categoriaAtiva.dataset.categoria.toLowerCase().trim()) : "todos";
 
     pontosFiltrados = pontos.filter(ponto => {
-        const nomeStr = removerAcentos(ponto.nome.toLowerCase());
-        const descStr = removerAcentos(ponto.descricao.toLowerCase());
-        const endStr = removerAcentos(ponto.endereco.toLowerCase());
-        const catStr = removerAcentos(ponto.categoria_nome.toLowerCase().trim());
+        // CORRIGIDO: Fallbacks com || "" para evitar travamentos com dados nulos
+        const nomeStr = removerAcentos((ponto.nome || "").toLowerCase());
+        const descStr = removerAcentos((ponto.descricao || "").toLowerCase());
+        const endStr = removerAcentos((ponto.endereco || "").toLowerCase());
+        const catStr = removerAcentos((ponto.categoria_nome || "").toLowerCase().trim());
 
         const combinaTexto = nomeStr.includes(texto) ||
             descStr.includes(texto) ||
             endStr.includes(texto) ||
             catStr.includes(texto);
 
-        const combinaCategoria = (categoria === "todos") || catStr === (categoria);
+        const combinaCategoria = (categoria === "todos") || catStr === categoria;
 
         return combinaTexto && combinaCategoria;
     });
@@ -150,10 +172,25 @@ function abrirModal(id) {
     const ponto = pontos.find(item => item.id == id);
     if (!ponto) return;
 
-    const categoria = ponto.categoria_nome.toLowerCase();
+    // CORRIGIDO: Verificação segura para categoria
+    const categoria = (ponto.categoria_nome || "").toLowerCase();
     const icone = icones[categoria] || "fa-location-dot";
     const cor = cores[categoria] || "azul";
     const imagemSrc = ponto.imagem ? `/imagens/pontos/${ponto.imagem}` : '/imagens/placeholder.png';
+
+    const mediaNotaNum = Number(ponto.media_nota) || 0;
+    const notaArredondada = Math.round(mediaNotaNum);
+    const estrelasHtml = '★'.repeat(notaArredondada) + '☆'.repeat(5 - notaArredondada);
+    const totalAvaliacoes = ponto.total_avaliacoes || 0;
+    
+    const listaTags = ponto.tags 
+        ? [...new Set(ponto.tags.split(', ').map(t => t.trim()).filter(t => t !== ''))].slice(0, 3)
+        : [];
+        
+    // CORRIGIDO: 'listaTags' em vez de 'lista'
+    const tagsHTML = listaTags.length > 0 
+        ? listaTags.map(tag => `<span class="tag-badge">${tag}</span>`).join('') 
+        : '<span class="tag-badge-vazio">Sem observações</span>';
 
     const modal = document.getElementById("modal");
     const conteudo = document.getElementById("modalContent");
@@ -162,22 +199,31 @@ function abrirModal(id) {
 
     conteudo.innerHTML = `
     <span class="fechar" onclick="fecharModal()">&times;</span>
-    <img src="${imagemSrc}" alt="${ponto.nome}" class="modal-imagem">
+    <img src="${imagemSrc}" alt="${ponto.nome || ''}" class="modal-imagem">
     
     <div class="modal-body">
         <span class="categoria-card ${cor}" style="margin-bottom: 15px;">
-            <i class="fa-solid ${icone}"></i> ${ponto.categoria_nome}
+            <i class="fa-solid ${icone}"></i> ${ponto.categoria_nome || 'Geral'}
         </span>
-        <h2>${ponto.nome}</h2>
+        <h2>${ponto.nome || 'Sem nome'}</h2>
+
+        <div class="card-avaliacao" style="margin: 10px 0;">
+            <span class="estrelas" style="color: #f39c12; font-size: 1.2rem;">${estrelasHtml}</span>
+            <span><strong>${mediaNotaNum.toFixed(1)}</strong> (${totalAvaliacoes} avaliações)</span>
+        </div>
+
+        <div class="card-tags" style="margin-bottom: 15px;">
+            ${tagsHTML}
+        </div>
         
-        <p style="margin-bottom: 20px; line-height: 1.5;">${ponto.descricao}</p>
+        <p style="margin-bottom: 20px; line-height: 1.5;">${ponto.descricao || ''}</p>
         
         <div class="info-box">
-            <p><strong>📍 Endereço:</strong> ${ponto.endereco}</p>
+            <p><strong>📍 Endereço:</strong> ${ponto.endereco || 'Não informado'}</p>
         </div>
         
         <div style="display:flex; gap:9px;">
-            <button class="btn-mapa" onclick="window.location='../mapa/index.html?categoria=${ponto.categoria_nome.toLowerCase()}&nome=${encodeURIComponent(ponto.nome)}'">
+            <button class="btn-mapa" onclick="window.location='../mapa/index.html?categoria=${encodeURIComponent((ponto.categoria_nome || '').toLowerCase())}&nome=${encodeURIComponent(ponto.nome || '')}'">
                  Ver no mapa
             </button>
             <button class="btn-mapa2" onclick="window.location.href='../servicos/avalia.html?id=${ponto.id}'">

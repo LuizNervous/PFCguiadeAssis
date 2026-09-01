@@ -29,7 +29,139 @@ html.Escuro {
     --tag-selected-text: #0f172a;
     --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
+/* ============================================================
+   ADAPTAÇÃO DOS TEMAS DE ACESSIBILIDADE PARA A PÁGINA AVALIA.CSS
+   ============================================================ */
 
+/* --- TEMA ALTO CONTRASTE --- */
+body.tema-contraste .detalhes-card,
+body.tema-contraste .box-avaliacao,
+body.tema-contraste .card-usuario-avaliacao {
+  background-color: #000000 !important;
+  color: #ffff00 !important;
+  border: 2px solid #ffff00 !important;
+  box-shadow: none !important;
+}
+
+body.tema-contraste h1,
+body.tema-contraste h2,
+body.tema-contraste h3,
+body.tema-contraste p,
+body.tema-contraste span,
+body.tema-contraste strong,
+body.tema-contraste label {
+  color: #ffff00 !important;
+}
+
+body.tema-contraste .rating-input label,
+body.tema-contraste .estrelas-usuario {
+  color: #ffff00 !important;
+}
+
+body.tema-contraste .btn-tag {
+  background-color: #000000 !important;
+  color: #ffff00 !important;
+  border: 2px solid #ffff00 !important;
+}
+
+body.tema-contraste .btn-tag:hover,
+body.tema-contraste .btn-tag.selecionada {
+  background-color: #ffff00 !important;
+  color: #000000 !important;
+  font-weight: bold !important;
+}
+
+body.tema-contraste .tag-badge,
+body.tema-contraste .categoria-tag,
+body.tema-contraste .tag-badge-vazio {
+  background-color: #000000 !important;
+  color: #ffff00 !important;
+  border: 1px solid #ffff00 !important;
+}
+
+body.tema-contraste .btn-enviar {
+  background-color: #ffff00 !important;
+  color: #000000 !important;
+  border: 2px solid #ffff00 !important;
+  font-weight: bold !important;
+}
+
+body.tema-contraste .btn-enviar:hover {
+  background-color: #000000 !important;
+  color: #ffff00 !important;
+}
+
+
+/* --- TEMA DICROMACIA --- */
+body.tema-dicromacia .detalhes-card,
+body.tema-dicromacia .box-avaliacao,
+body.tema-dicromacia .card-usuario-avaliacao {
+  background-color: #00152b !important;
+  color: #ffd700 !important;
+  border: 1px solid #ffd700 !important;
+  box-shadow: none !important;
+}
+
+body.tema-dicromacia h1,
+body.tema-dicromacia h2,
+body.tema-dicromacia h3,
+body.tema-dicromacia p,
+body.tema-dicromacia span,
+body.tema-dicromacia strong,
+body.tema-dicromacia label {
+  color: #ffd700 !important;
+}
+
+body.tema-dicromacia .rating-input label,
+body.tema-dicromacia .estrelas-usuario {
+  color: #ffd700 !important;
+}
+
+body.tema-dicromacia .btn-tag {
+  background-color: #003366 !important;
+  color: #ffd700 !important;
+  border: 1px solid #ffd700 !important;
+}
+
+body.tema-dicromacia .btn-tag:hover,
+body.tema-dicromacia .btn-tag.selecionada {
+  background-color: #ffd700 !important;
+  color: #00152b !important;
+  font-weight: bold !important;
+}
+
+body.tema-dicromacia .tag-badge,
+body.tema-dicromacia .categoria-tag,
+body.tema-dicromacia .tag-badge-vazio {
+  background-color: #003366 !important;
+  color: #ffd700 !important;
+  border: 1px solid #ffd700 !important;
+}
+
+body.tema-dicromacia .btn-enviar {
+  background-color: #ffd700 !important;
+  color: #00152b !important;
+  border: 1px solid #ffd700 !important;
+  font-weight: bold !important;
+}
+
+body.tema-dicromacia .btn-enviar:hover {
+  background-color: #003366 !important;
+  color: #ffd700 !important;
+}
+
+
+/* --- TEMA MONOCROMACIA (AJUSTES ESPECÍFICOS DE BORDA) --- */
+body.tema-monocromacia .detalhes-card,
+body.tema-monocromacia .box-avaliacao,
+body.tema-monocromacia .card-usuario-avaliacao {
+  border: 1px solid #000000 !important;
+}
+
+body.tema-monocromacia .btn-tag.selecionada {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+} 
 main {
     max-width: 1000px;
     margin: 30px auto;
@@ -262,4 +394,8 @@ html.Escuro .btn-enviar {
         width: 100%;
         height: 200px;
     }
+}
+body.tema-contraste  {
+    background: #000000 !important;
+    border-bottom: 2px solid #ffff00 !important;
 }

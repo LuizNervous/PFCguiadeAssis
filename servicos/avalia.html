@@ -103,8 +103,46 @@
 
     </section>
   </main>
+    
+<footer>
+        <div class="name-time">
+            <h3>Desenvolvido por</h3>
+            <a href="https://curriculoescolar.vercel.app/" target="_blank" rel="noopener noreferrer">
+                <p>Luiz Gustavo</p>
+            </a>
+            <a href="#" target="_blank" rel="noopener noreferrer">
+                <p>Bruno Eduardo</p>
+            </a>
+            <a href="#" target="_blank" rel="noopener noreferrer">
+                <p>Gabriel Bombarda</p>
+            </a>
+        </div>
+        <ul class="linksFast">
+            <h3>Links rápidos</h3>
+            <li><a href="../index.html">Início</a></li>
+            <li><a href="../mapa/index.html">Mapa</a></li>
+            <li><a href="../servicos/index.html">Guia de serviços</a></li>
+            <li><a href="../historia/index.html">História</a></li>
+        </ul>
+    </footer>
+    <button id="topBtn" title="Voltar ao topo">⬆</button>
+  
   <script src="../js/global.js"></script>
   <script src="../js/avalia.js"></script>
+
+       <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+<script>
+  // O script aguarda o carregamento completo para executar sem erros
+  window.addEventListener('DOMContentLoaded', () => {
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+  });
+</script>
 </body>
 
 </html>
