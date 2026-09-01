@@ -70,7 +70,7 @@ app.get('/api/pontos', (req, res) => {
     SELECT p.*, 
     c.nome AS categoria_nome,
      COALESCE(ROUND(AVG(a.nota), 1), 0) AS media_nota, 
-     COUNT(a.id) AS total_avaliacoes
+     COUNT(a.id) AS total_avaliacoes,
      GROUP_CONCAT(DISTINCT a.tags SEPARATOR ', ') AS tags
     FROM pontos p
     JOIN categorias c ON p.id_categoria = c.id
