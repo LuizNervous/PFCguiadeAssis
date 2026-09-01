@@ -159,7 +159,7 @@ main {
     opacity: 0.85;
 }
 
-.btn-tag.selecionada {
+.btn-tag.selecionada{
     background-color: var(--tag-selected-bg);
     color: var(--tag-selected-text);
     border-color: var(--tag-selected-bg);

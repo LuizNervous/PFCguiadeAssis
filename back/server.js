@@ -111,6 +111,12 @@ app.get('/api/pontos/:id', (req, res) => {
 
 app.get('/api/pontos/:id/avaliacoes', (req, res) => {
     const { id } = req.params;
+     const idPonto = parseInt(id, 10);
+   if (isNaN(idPonto)) {
+        return res.status(400).json({
+            mensagem: "ID do ponto turístico inválido."
+        });
+    }
     const query = `
         SELECT a.id, a.nota, a.tags, u.nome AS usuario_nome
         FROM avaliacoes a

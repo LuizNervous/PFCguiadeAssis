@@ -16,7 +16,7 @@ async function CarregarPontos() {
     const ponto = await resposta.json();
     renderizarPontos(ponto);
     renderizarFormularioAvaliacao();
-    await carregarListaDeAvaliacoes();
+     carregarListaDeAvaliacoes();
   }
   catch (erro) {
     console.error(erro);
@@ -74,7 +74,7 @@ function renderizarFormularioAvaliacao() {
   const botoesTag = container.querySelectorAll(".btn-tag");
   botoesTag.forEach(botao => {
     botao.addEventListener('click', () => {
-      botao.classList.toggle("selecionado");
+      botao.classList.toggle("selecionada");
     });
   });
   document.getElementById("btnEnviar").addEventListener("click", enviarAvaliacao)
@@ -133,7 +133,9 @@ function criarAvaliacao(item) {
   card.appendChild(tagsContainer);
 
   return card;
-} async function carregarListaDeAvaliacoes() {
+}
+
+async function carregarListaDeAvaliacoes() {
   const container = document.querySelector(".todasAvaliacoes");
   container.innerHTML= "<p>Carregando avaliações...</p>";
 
@@ -174,7 +176,7 @@ function criarAvaliacao(item) {
 
   }catch (erro) {
   console.error(erro);
-  document.getElementById("pontoSelecionado").innerHTML = `
+  container.innerHTML = `
     <h2>Erro ao carregar os dados deste local.</h2>
     <p>Tente novamente mais tarde.</p>
     <a href="../servicos/index.html">Voltar ao Guia de Serviços</a>
@@ -196,7 +198,7 @@ async function enviarAvaliacao() {
     return;
   }
   const nota = parseInt(inputEstrela.value);
-  const tagsElementos = document.querySelectorAll('.btn-tag.selecionado');
+  const tagsElementos = document.querySelectorAll('.btn-tag.selecionada');
   const tagsArray = Array.from(tagsElementos).map(tag => tag.innerText);
 
   try {
