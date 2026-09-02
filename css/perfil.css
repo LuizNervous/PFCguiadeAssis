@@ -1,0 +1,15 @@
+main{
+  text-align: center;
+}
+#logOut{
+  padding: 10px;
+  border-radius: 10px;
+  background-color: rgb(255, 150, 150);
+  border: 2px red solid;
+  margin: 10px;
+  transition: all 0.3s;
+}
+#logOut:hover{
+ transform: scale(1.1);
+ cursor: pointer;
+}

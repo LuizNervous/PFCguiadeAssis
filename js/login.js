@@ -40,8 +40,12 @@ document.getElementById("FormLogin").addEventListener("submit", async (e) => {
         const dados = await resposta.json();
         if (resposta.ok) {
             localStorage.setItem('usuario', JSON.stringify(dados.usuario));
-            localStorage.setItem('token', dados.token );
-            window.location.href = "../servicos/index.html";
+            localStorage.setItem('token', dados.token);
+           
+            alert(`Bem vindo ${dados.usuario.nome} !`);
+            const redirencionando = setTimeout(() => {
+                  window.location.href = "../servicos/index.html";
+            }, 1500);
         }
         else {
             alert(dados.mensagem || 'E-mail ou senha incorretos.');

@@ -120,4 +120,4 @@ function alternarHref() {
     abrirLogin.href="../login/login.html"
   }
 }
-abrirLogin.addEventListener("click", alternarHref)
+abrirLogin.addEventListener("click", alternarHref())
