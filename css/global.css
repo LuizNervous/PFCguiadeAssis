@@ -58,6 +58,12 @@ header a,
   transition: color 0.3s ease;
 }
 
+.logo img {
+  width: 150%;
+  height: 100px;
+  object-fit: cover;
+}
+
 .return h3,
 .return p {
   color: inherit;
@@ -215,17 +221,52 @@ header #closeMenu img {
 }
 
 #controleTexto {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 15px;
+    gap: 12px;
+}
+
+#controleTexto span {
+    font-weight: 700;
+    color: #64748b;
 }
 
 #controleTexto input[type="range"] {
-  flex: 1;
-  cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+
+    height: 6px;
+
+    border-radius: 10px;
+
+    background: #dbeafe;
+
+    outline: none;
 }
 
+
+/* Bolinha do slider */
+
+#controleTexto input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    -webkit-appearance: none;
+
+    width: 18px;
+    height: 18px;
+
+    border-radius: 50%;
+
+    background: #2563eb;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 2px 7px rgba(37, 99, 235, 0.4);
+
+    transition: transform 0.2s ease;
+}
+
+#controleTexto input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+}
 .menu-sanfona summary {
   cursor: pointer;
   font-weight: bold;
@@ -604,4 +645,141 @@ body {
   top: 0px !important;
   position: static !important;
   margin-top: 0px !important;
+}
+
+#botoesCores {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding-top: 15px;
+}
+
+#botoesCores button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    width: 95%;
+    min-height: 55px;
+
+    padding: 10px;
+    margin: 0;
+
+    border: 1px solid #d1d5db;
+    border-radius: 12px;
+
+    background: #ffffff;
+    color: #1f2937;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+/* Círculo de pré-visualização */
+#botoesCores button::before {
+    content: "";
+    flex-shrink: 0;
+
+    width: 30px;
+    height: 30px;
+
+    border-radius: 50%;
+
+  
+}
+
+/* Padrão */
+#botoesCores button:nth-of-type(1)::before {
+    background: linear-gradient(
+        135deg,
+        #f3f3f3 50%,
+        #ffffff 50%
+    );
+}
+
+/* Modo escuro */
+#botoesCores button:nth-of-type(2)::before {
+    background: linear-gradient(
+        135deg,
+        #121212 50%,
+        #2a2a2a 50%
+    );
+}
+
+/* Alto contraste */
+#botoesCores button:nth-of-type(3)::before {
+    background: linear-gradient(
+        135deg,
+        #000000 50%,
+        #ffff00 50%
+    );
+}
+
+/* Tricromacia */
+#botoesCores button:nth-of-type(4)::before {
+    background: linear-gradient(
+        135deg,
+        #ff0000 50%,
+        #00aaff 50%
+    );
+}
+
+/* Dicromacia */
+#botoesCores button:nth-of-type(5)::before {
+    background: linear-gradient(
+        135deg,
+        #001f3f 50%,
+        #ffd700 50%
+    );
+}
+
+/* Monocromacia */
+#botoesCores button:nth-of-type(6)::before {
+    background: linear-gradient(
+        135deg,
+        #000000 50%,
+        #ffffff 50%
+    );
+}
+
+/* Efeito ao passar o mouse */
+#botoesCores button:hover {
+    transform: translateY(-2px);
+
+    border-color: #2563eb;
+
+    box-shadow:
+        0 5px 15px rgba(0, 0, 0, 0.12);
+}
+
+/* Clique */
+#botoesCores button:active {
+    transform: scale(0.97);
+}
+
+/* Linha separadora */
+#botoesCores hr {
+    grid-column: 1 / -1;
+    width: 100%;
+    margin: 5px 0;
+    border: none;
+    border-top: 1px solid #e5e7eb;
+}
+
+/* Texto explicativo */
+#botoesCores p {
+    grid-column: 1 / -1;
+
+    margin: 2px 0 0;
+
+    font-size: 12px;
+    color: #64748b;
 }
