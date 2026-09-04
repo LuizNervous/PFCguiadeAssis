@@ -15,7 +15,7 @@ app.set('trust proxy', 1);
 app.use(helmet());
 const limitadorGeral = rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 70,
+    max: 20,
     message: { mensagem: "Muitas requisições vindas deste IP. Tente novamente em 15 minutos " },
     standardHeaders: true,
     legacyHeaders: false,
