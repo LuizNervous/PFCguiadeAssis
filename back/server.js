@@ -9,21 +9,21 @@ const rateLimit = require('express-rate-limit')
 const jwt = require('jsonwebtoken');
 
 const app = express();
-app.use(cors());
+
 app.use(express.json({ limit: '10kb' }));
 app.set('trust proxy', 1);
 app.use(helmet());
 const limitadorGeral = rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 20,
-    message: { mensagem: "Muitas requisições vindas deste IP. Tente novamente em 15 minutos " },
+    max: 100,
+    message: { mensagem: "Muitas requisições vindas deste IP. Tente novamente mais tarde." },
     standardHeaders: true,
     legacyHeaders: false,
 });
 const limitadorRigoroso = rateLimit({
     windowMs: 15 * 60 * 1000,
     max: 10,
-    message: { mensagem: 'Limite de tentativas atingido. Aguarde 15 minutos para tentar novamente.' }
+    message: { mensagem: 'Limite de tentativas atingido. Tente novamente mais tarde' }
 });
 
 app.use('/api/cadastro', limitadorRigoroso);
@@ -32,12 +32,15 @@ app.use('/api/', limitadorGeral);
 
 const segredo = process.env.JWT_SECRET;
 
-const db = mysql.createConnection({
+const db = mysql.createPool({
     host: process.env.DB_HOST,
     port: process.env.DB_PORT || 3306,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0,
     ssl: {
         rejectUnauthorized: false
     }
