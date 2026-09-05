@@ -9,10 +9,11 @@ const rateLimit = require('express-rate-limit')
 const jwt = require('jsonwebtoken');
 
 const app = express();
-
+app.use(cors())
 app.use(express.json({ limit: '10kb' }));
 app.set('trust proxy', 1);
 app.use(helmet());
+
 const limitadorGeral = rateLimit({
     windowMs: 15 * 60 * 1000,
     max: 100,
@@ -119,7 +120,7 @@ app.get('/api/pontos/:id/avaliacoes', (req, res) => {
         JOIN usuarios u ON a.id_usuario =u.id
         WHERE a.id_ponto=?
         ORDER BY a.id DESC`;
-    db.query(query, [id], (erro, results) => {
+    db.query(query, [idPonto], (erro, results) => {
         if (erro) {
             console.error("Erro ao buscar avaliações:", erro);
             return res.status(500).json({
@@ -276,7 +277,7 @@ app.post('/api/avaliar', autenticar, (req, res) => {
         });
     }
     let tagsFiltradas=[];
-    if (typeof tags === 'string' && tags.trim !=='') {
+    if (typeof tags === 'string' && tags.trim() !=='') {
         const arrayTagsEnviadas = tags.split(',').map(t => t.trim());
         tagsFiltradas = arrayTagsEnviadas.filter(tag => tagsPermitidas.includes(tag));
     }

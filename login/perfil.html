@@ -44,12 +44,12 @@
         </section>
 
         <section class="menuMain">
-          <div>
+          <!-- <div>
             <h3>Tema</h3>
             <div id="conteiner">
               <div id="bolinha"></div>
             </div>
-          </div>
+          </div> -->
           <div class="acessibilidade">
             <h3>Acessibilidade</h3>
 
@@ -65,7 +65,7 @@
 
               <hr>
               <details class="menu-sanfona">
-                <summary>Alterar a cor <span>▼</span></summary>
+                <summary>Alterar o tema <span>▼</span></summary>
 
                 <div id="botoesCores">
                   <button onclick="mudarCor('padrao')">Padrão</button>
@@ -94,18 +94,58 @@
     </div>
   </header>
   <main>
-    <section>
+    <section class="informacoes">
       <div>
+a
 
-<button id="logOut">Sair?</button>
       </div>
       <div>
  
       </div>
     </section>
+    <section class="mudancas">
+a
+    </section>
   </main>
-  <script src="../js/global.js"></script>
-  <script src="../js/perfil.js"></script>
+    <footer>
+        <div class="name-time">
+            <h3>Desenvolvido por</h3>
+            <a href="https://curriculoescolar.vercel.app/" target="_blank" rel="noopener noreferrer">
+                <p>Luiz Gustavo</p>
+            </a>
+            <a href="" target="_blank" rel="noopener noreferrer">
+                <p>Bruno Eduardo</p>
+            </a>
+            <a href="" target="_blank" rel="noopener noreferrer">
+                <p>Gabriel Bombarda</p>
+            </a>
+        </div>
+        <ul class="linksFast">
+            <h3>Links rápidos</h3>
+            <li><a href="../index.html">Início</a></li>
+            <li><a href="../mapa/index.html">Mapa</a></li>
+            <li><a href="../servicos/index.html">Guia de serviços</a></li>
+            <li><a href="../historia/index.html">História</a></li>
+        </ul>
+    </footer>
+
+    <script src="/js/login.js"></script>
+    <script src="../js/global.js"></script>
+
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        // O script aguarda o carregamento completo para executar sem erros
+        window.addEventListener('DOMContentLoaded', () => {
+            new window.VLibras.Widget('https://vlibras.gov.br/app');
+        });
+    </script>
+
 </body>
 
 </html>

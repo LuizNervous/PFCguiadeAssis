@@ -1,5 +1,38 @@
-main{
-  text-align: center;
+main {
+  display: flex;
+  width: 100%;
+  align-items: stretch;              
+  padding: 30px;
+  gap: 10px;
+}
+
+.informacoes,
+ .mudancas {
+  background-color: #fdfcfc;
+  border-radius: 12px;
+  padding: 24px;                 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); 
+  max-height: 1200px;
+}
+
+.informacoes {
+  width: 20%;
+}
+
+.mudancas {            
+  width: 80%;;
+}
+
+
+@media (max-width: 768px) {
+  main {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .informacoes, 
+  .mudancas {
+    width: 100%;               
+  }
 }
 #logOut{
   padding: 10px;
@@ -12,4 +45,9 @@ main{
 #logOut:hover{
  transform: scale(1.1);
  cursor: pointer;
+}
+body.Escuro section{
+  background: rgba(27, 27, 27, 0.95);
+  border-bottom: 1px solid #333333;
+
 }
