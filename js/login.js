@@ -45,7 +45,7 @@ document.getElementById("FormLogin").addEventListener("submit", async (e) => {
             alert(`Bem vindo ${dados.usuario.nome} !`);
             const redirencionando = setTimeout(() => {
                   window.location.href = "../servicos/index.html";
-            }, 1500);
+            }, 900);
         }
         else {
             alert(dados.mensagem || 'E-mail ou senha incorretos.');
