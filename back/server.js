@@ -45,14 +45,6 @@ const db = mysql.createPool({
         rejectUnauthorized: false
     }
 });
-db.connect((err) => {
-    if (err) {
-        console.error('Erro de conexão:', err.message);
-        return;
-    }
-    console.log('Conectado ao banco de dados com sucesso!');
-});
-
 
 function validarDominioEmail(email) {
     return new Promise((resolve) => {
