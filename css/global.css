@@ -34,22 +34,6 @@ main {
 /* ==========================================
    CABEÇALHO (HEADER)
    ========================================== */
-header {
-  width: 100%;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  padding: 18px 40px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-  z-index: 1000;
-  flex-wrap: wrap;
-  gap: 10px;
-  transition: all 0.3s ease;
-}
 
 header a,
 .return {
@@ -127,25 +111,6 @@ header #closeMenu img {
   width: 40px;
 }
 
-.escondido {
-  position: fixed;
-  top: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  right: 0;
-  overflow-y: auto;
-  width: 350px;
-  height: 100vh;
-  background-color: #ffffff;
-  z-index: 10000;
-  transform: translateX(100%);
-  visibility: hidden;
-  box-shadow: -8px 0 25px rgba(0, 0, 0, 0.15);
-  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.35s, background-color 0.3s ease, color 0.3s ease;
-  padding: 20px;
-  pointer-events: none;
-}
 
 
 .escondido.aberto {
@@ -376,21 +341,28 @@ body {
 }
 
 footer {
-  padding: 30px;
+  padding: 15px;
   color: white;
   background-color: #1a2a3a;
-  display: flex;
+ text-align: center;
+  margin-top: 30px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+footer .conteiner{
+   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-around;
-  margin-top: 30px;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  border-bottom:1px solid rgb(211, 206, 206) ;
+  margin-bottom: 10px;
+
 }
 
 footer .name-time {
   display: flex;
   flex-direction: column;
   gap: 5px;
+  margin-bottom: 10px;
 }
 
 footer .name-time a,
@@ -416,6 +388,7 @@ footer h3 {
   color: #ffffff;
   flex-direction: column;
   list-style: none;
+    margin-bottom: 10px;
 }
 
 body.Escuro {
