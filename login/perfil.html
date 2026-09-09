@@ -18,15 +18,28 @@
   </div>
   <main>
     <section class="informacoes">
-      <div>
-        a
 
-      </div>
-      <div>
+      <img src="/imagens/IUsuario.png" alt="">
 
+      <h2>Meus dados : </h2>
+      <div class="dados">
+        <p><strong>Nome:</strong> <span id="nomeUsuario"></span></p>
+        <p><strong>E-mail:</strong> <span id="emailUsuario"></span></p>
       </div>
+
+
     </section>
     <section class="mudancas">
+      <h2>Editar meus dados</h2>
+      <form id="formMudarDados">
+        <div class="input">
+          <input type="text" id="nomeEditar" placeholder="Nome completo" required>
+        </div>
+        <div class="input">
+          <input type="email" id="emailEditar" placeholder="E-mail" required>
+        </div>
+        <button type="submit">Salvar alterações</button>
+      </form>
       <button id="logOut">Sair</button>
     </section>
   </main>

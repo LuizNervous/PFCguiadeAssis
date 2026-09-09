@@ -119,3 +119,13 @@ body.Escuro .card2{
   border-bottom: 1px solid #333333;
 
 }
+body.tema-contraste .card2  {
+  border:1px solid #ffd700;
+  background-color: #000000 !important;
+  color: #ffd700 !important;
+}
+body.tema-dicromacia .card2  {
+    border:1px solid #ffd700;
+   background-color: #001f3f !important;
+  color: #ffd700 !important;
+}

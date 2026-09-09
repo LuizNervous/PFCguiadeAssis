@@ -7,6 +7,7 @@ const dns = require('dns');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit')
 const jwt = require('jsonwebtoken');
+const e = require('express');
 
 const app = express();
 app.use(cors())
@@ -108,8 +109,8 @@ app.get('/api/pontos/:id', (req, res) => {
 
 app.get('/api/pontos/:id/avaliacoes', (req, res) => {
     const { id } = req.params;
-     const idPonto = parseInt(id, 10);
-   if (isNaN(idPonto)) {
+    const idPonto = parseInt(id, 10);
+    if (isNaN(idPonto)) {
         return res.status(400).json({
             mensagem: "ID do ponto turístico inválido."
         });
@@ -138,7 +139,7 @@ app.post('/api/cadastro', async (req, res) => {
         return res.status(400).json({ mensagem: 'Preencha todos os campos obrigatórios!' });
     }
     if (senha.length < 6) {
-        return res.status(400).json({ mensagem: 'A senha precisa ter 6 ou mais caracteres!' });
+        return res.status(400).json({ mensagem: 'A senha precisa ter 6 caracteres no minimo !' });
     }
     const emailValido = await validarDominioEmail(email);
     if (!emailValido) {
@@ -255,14 +256,14 @@ function autenticar(req, res, next) {
     }
 }
 
-const tagsPermitidas=[
-      "Atendimento Ruim",
-      "Lugar confortável",
-      "Preço elevado",
-      "Custo benefício",
-      "Bom atendimento" 
+const tagsPermitidas = [
+    "Atendimento Ruim",
+    "Lugar confortável",
+    "Preço elevado",
+    "Custo benefício",
+    "Bom atendimento"
 ]
-  
+
 app.post('/api/avaliar', autenticar, (req, res) => {
     const { id_ponto, nota, tags } = req.body;
     const pontoId = Number(id_ponto);
@@ -276,26 +277,26 @@ app.post('/api/avaliar', autenticar, (req, res) => {
             mensagem: 'Dados inválidos para a avaliação.'
         });
     }
-    let tagsFiltradas=[];
-    if (typeof tags === 'string' && tags.trim() !=='') {
+    let tagsFiltradas = [];
+    if (typeof tags === 'string' && tags.trim() !== '') {
         const arrayTagsEnviadas = tags.split(',').map(t => t.trim());
         tagsFiltradas = arrayTagsEnviadas.filter(tag => tagsPermitidas.includes(tag));
     }
-    const tagsParaSalvar= tagsFiltradas.join(', ');
+    const tagsParaSalvar = tagsFiltradas.join(', ');
 
     const usuarioId = req.usuario.id;
     const checkUserQuery =
         'SELECT id FROM usuarios WHERE id = ?';
 
-    db.query( checkUserQuery, [usuarioId], (errUser, userResults) => {
-            if (errUser) {
-                console.error(errUser);
-                return res.status(500).json({ mensagem: 'Erro interno no servidor.'});
-            }
-            if (userResults.length === 0) {
-                return res.status(401).json({mensagem: 'Usuário não encontrado.'});
-            }
-            const query = `
+    db.query(checkUserQuery, [usuarioId], (errUser, userResults) => {
+        if (errUser) {
+            console.error(errUser);
+            return res.status(500).json({ mensagem: 'Erro interno no servidor.' });
+        }
+        if (userResults.length === 0) {
+            return res.status(401).json({ mensagem: 'Usuário não encontrado.' });
+        }
+        const query = `
                 INSERT INTO avaliacoes
                 (id_usuario, id_ponto, nota, tags)
                 VALUES (?, ?, ?, ?)
@@ -304,19 +305,53 @@ app.post('/api/avaliar', autenticar, (req, res) => {
                 tags = VALUES(tags)
             `;
 
-            db.query(query,[ usuarioId, pontoId,notaNumero,tagsParaSalvar],
-                (err) => {
-                    if (err) {
-                        console.error('Erro ao salvar avaliação:', err  );
-                        return res.status(500).json({ mensagem:'Erro interno no banco de dados.'});
-                    }
-                    return res.json({mensagem:'Avaliação salva com sucesso!'
-                    });
+        db.query(query, [usuarioId, pontoId, notaNumero, tagsParaSalvar],
+            (err) => {
+                if (err) {
+                    console.error('Erro ao salvar avaliação:', err);
+                    return res.status(500).json({ mensagem: 'Erro interno no banco de dados.' });
                 }
-            );
-        }
+                return res.json({
+                    mensagem: 'Avaliação salva com sucesso!'
+                });
+            }
+        );
+    }
     );
 });
+
+app.put('api/usuario', autenticar, async (req, res) => {
+    const { nome, email } = req.body;
+    const usuarioId = req.usuario.id
+
+    if (!nome || !email) {
+        return res.status(400).json({ mensagem: "Nome e e-mail são obrigátorios ." })
+    }
+    const emailValido = await validarDominioEmail(email);
+    if (!emailValido) {
+        return res.status(400).json({ mensagem: "Escreva um e-mail válido." })
+    }
+
+    const checkEmailQuery = 'SELECT id FROM usuarios WHERE email=? AND id != ?'
+    db.query(checkEmailQuery, [email, usuarioId], (err, results)=>{
+        if (err) {
+            return res.status(500).json({ mensagem: 'Erro no servidor', erro: err });
+        }
+        if (results.length>0) {
+            return res.status(400).json({mensagem:'Este e-mail ja sendo usado por outra conta'})
+        }
+    })
+    const updateQuery= 'UPDATE usuarios SET nome =?, email =? WHERE id= ?'
+    db.query(updateQuery [nome, email, usuarioId], (err)=>{
+        if (err) {
+            return res.status(500).json({mensagem:"Erro ao atualizar os dados."})
+        }
+        return res.json({
+            mensagem:"Atualizado com sucesso . ",
+            usuario:{id:usuarioId, nome, email}
+        })
+    })
+})
 
 
 const PORT = process.env.PORT || 3000;

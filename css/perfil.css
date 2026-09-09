@@ -1,27 +1,76 @@
 main {
   display: flex;
   width: 100%;
-  align-items: stretch;              
+  align-items: stretch;
   padding: 30px;
   gap: 10px;
 }
 
 .informacoes,
- .mudancas {
+.mudancas {
   background-color: #fdfcfc;
   border-radius: 12px;
-  padding: 24px;                 
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); 
+  padding: 24px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
   max-height: 1200px;
 }
 
 .informacoes {
   width: 20%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.mudancas {            
-  width: 80%;;
+.mudancas {
+  width: 80%;
+  ;
 }
+
+.informacoes img {
+  width: 80%;
+}
+
+.informacoes .dados {
+  width: 100%;
+  margin: 10px;
+}
+
+.informacoes .dados p {
+  overflow-wrap: break-word;
+  word-break: break-all
+}
+
+#formMudarDados {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 400px;
+  margin-bottom: 20px;
+  margin-top: 11px;
+}
+
+#formMudarDados input {
+  padding: 10px;
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+#formMudarDados button[type="submit"] {
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  background-color: #2563EB;
+  color: white;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.3s ease;
+}
+
+#formMudarDados button[type="submit"]:hover {
+  opacity: 0.9;
+}
+
 
 
 @media (max-width: 768px) {
@@ -29,12 +78,14 @@ main {
     flex-direction: column;
     gap: 20px;
   }
-  .informacoes, 
+
+  .informacoes,
   .mudancas {
-    width: 100%;               
+    width: 100%;
   }
 }
-#logOut{
+
+#logOut {
   padding: 10px;
   border-radius: 10px;
   background-color: rgb(255, 150, 150);
@@ -42,12 +93,36 @@ main {
   margin: 10px;
   transition: all 0.3s;
 }
-#logOut:hover{
- transform: scale(1.1);
- cursor: pointer;
+
+#logOut:hover {
+  transform: scale(1.1);
+  cursor: pointer;
 }
-body.Escuro section{
+
+body.Escuro section {
   background: rgba(27, 27, 27, 0.95);
   border-bottom: 1px solid #333333;
 
+}
+body.Escuro section {
+  background: rgba(27, 27, 27, 0.95);
+  border-bottom: 1px solid #333333;
+
+}body.tema-contraste .informacoes {
+    background: #000000 ;
+    border-bottom: 2px solid #ffff00 ;
+}
+body.tema-contraste .mudancas  {
+    background: #000000 ;
+    border-bottom: 2px solid #ffff00 ;
+}
+body.tema-dicromacia .informacoes {
+  border:1px solid #ffd700;
+  background-color: #001f3f !important;
+  color: #ffd700 !important;
+}
+body.tema-dicromacia .mudancas  {
+    border:1px solid #ffd700;
+   background-color: #001f3f !important;
+  color: #ffd700 !important;
 }
