@@ -1,7 +1,4 @@
 
-
-const api_url = 'https://guia-assis.onrender.com/api';
-
 const usuarioSalvo = localStorage.getItem("usuario");
 const token = localStorage.getItem("token");
 
@@ -24,7 +21,7 @@ document.getElementById("formMudarDados").addEventListener("submit", async (e) =
   const email = document.getElementById("emailEditar").value.trim();
 
   try {
-    const resposta = await fetch(`${api_url}/usuario`, {
+    const resposta = await fetch(`${API_URL}/usuario`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

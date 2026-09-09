@@ -11,8 +11,8 @@ async function carregarComponente(id, arquivo) {
     if (id==="header" && typeof inicializarHeader === "function") {
             inicializarHeader();
     }
-       if (id==="footer" && typeof inicializarFooter === "function") {
-            inicializarFooter();
+    if (id==="header" && typeof inicializarTradutor === "function") {
+            inicializarTradutor();
     }
     } catch (erro) {
       console.error("Erro ao carregar a pagina", erro)

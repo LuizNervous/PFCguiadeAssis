@@ -62,11 +62,11 @@ function renderizarCards(categoria) {
         divs.innerHTML += `
              <div class="ponto-card" id="ponto-${ponto.id}">
                 <div class="introducao">
-                    <img src="../imagens/pontos/${ponto.imagem}" alt="${ponto.nome}">
+                    <img src="../imagens/pontos/${escaparHtml(ponto.imagem)}" alt="${escaparHtml(ponto.nome)}">
                     <div class="descricao">
-                        <h3>${ponto.nome}</h3>
-                        <p><strong>Endereço: </strong>${ponto.endereco}</p>
-                        <p>${ponto.descricao}</p>
+                        <h3>${escaparHtml(ponto.nome)}</h3>
+                        <p><strong>Endereço: </strong>${escaparHtml(ponto.endereco)}</p>
+                        <p>${escaparHtml(ponto.descricao)}</p>
                     </div>
                 </div>
                 <div class="links">
@@ -80,7 +80,7 @@ function renderizarCards(categoria) {
 // 4. Requisição de dados da API
 async function carregarPontos() {
     try {
-        const resposta = await fetch("https://guia-assis.onrender.com/api/pontos");
+        const resposta = await fetch(`${API_URL}/pontos`);
         dadosDosPontos = await resposta.json();
 
         dadosDosPontos.forEach(ponto => {
@@ -89,8 +89,8 @@ async function carregarPontos() {
 
         <div class="popup-imagem-container">
             <img 
-                src="../imagens/pontos/${ponto.imagem}" 
-                alt="${ponto.nome}"
+                src="../imagens/pontos/${escaparHtml(ponto.imagem)}" 
+                alt="${escaparHtml(ponto.nome)}"
                 class="popup-imagem"
             >
         </div>
@@ -98,13 +98,13 @@ async function carregarPontos() {
         <div class="popup-conteudo">
 
             <div class="popup-categoria">
-                ${ponto.categoria || 'Local'}
+                ${escaparHtml(ponto.categoria_nome || 'Local')}
             </div>
 
-            <h3>${ponto.nome}</h3>
+            <h3>${escaparHtml(ponto.nome)}</h3>
 
             <p class="popup-descricao">
-                ${ponto.descricao || 'Conheça este lugar e confira mais informações.'}
+                ${escaparHtml(ponto.descricao || 'Conheça este lugar e confira mais informações.')}
             </p>
 
             <a 

@@ -76,7 +76,8 @@ app.get('/api/pontos', (req, res) => {
 
     db.query(query, (erro, results) => {
         if (erro) {
-            return res.status(500).json(erro);
+            console.error("Erro ao buscar pontos:", erro);
+            return res.status(500).json({ mensagem: "Erro ao buscar os pontos." });
         };
         res.json(results);
     });
@@ -97,7 +98,8 @@ app.get('/api/pontos/:id', (req, res) => {
 
     db.query(query, [id], (erro, results) => {
         if (erro) {
-            return res.status(500).json({ mensagem: "Erro ao buscar o ponto", erro });
+            console.error("Erro ao buscar o ponto:", erro);
+            return res.status(500).json({ mensagem: "Erro ao buscar o ponto" });
         }
         if (results.length === 0) {
             return res.status(404).json({ mensagem: "Ponto não encontrado" });
@@ -141,6 +143,12 @@ app.post('/api/cadastro', async (req, res) => {
     if (senha.length < 6) {
         return res.status(400).json({ mensagem: 'A senha precisa ter 6 caracteres no minimo !' });
     }
+    if (!/[A-Z]/.test(senha)) {
+        return res.status(400).json({ mensagem: 'A senha precisa ter 1 letra maiúscula!' });
+    }
+    if (!/[^a-zA-Z0-9]/.test(senha)) {
+        return res.status(400).json({ mensagem: 'A senha precisa ter um caractere especial' });
+    }
     const emailValido = await validarDominioEmail(email);
     if (!emailValido) {
         return res.status(400).json({ mensagem: 'O domínio do e-mail digitado não existe ou não pode receber mensagens!' });
@@ -148,7 +156,10 @@ app.post('/api/cadastro', async (req, res) => {
 
     const checkQuery = 'SELECT * FROM usuarios WHERE email = ?';
     db.query(checkQuery, [email], async (err, results) => {
-        if (err) return res.status(500).json({ mensagem: 'Erro no servidor', erro: err });
+        if (err) {
+            console.error("Erro ao verificar e-mail:", err);
+            return res.status(500).json({ mensagem: 'Erro no servidor' });
+        }
 
         if (results.length > 0) {
             return res.status(400).json({ mensagem: 'Este e-mail já está cadastrado!' });
@@ -160,7 +171,10 @@ app.post('/api/cadastro', async (req, res) => {
 
             const insertQuery = 'INSERT INTO usuarios (nome, data_nascimento, email, senha) VALUES (?, ?, ?, ?)';
             db.query(insertQuery, [nome, data_nascimento, email, senhaHash], (err, result) => {
-                if (err) return res.status(500).json({ mensagem: 'Erro ao cadastrar', erro: err });
+                if (err) {
+                    console.error("Erro ao cadastrar:", err);
+                    return res.status(500).json({ mensagem: 'Erro ao cadastrar' });
+                }
 
                 return res.status(201).json({
                     mensagem: 'Usuário cadastrado com sucesso!',
@@ -320,7 +334,7 @@ app.post('/api/avaliar', autenticar, (req, res) => {
     );
 });
 
-app.put('api/usuario', autenticar, async (req, res) => {
+app.put('/api/usuario', autenticar, async (req, res) => {
     const { nome, email } = req.body;
     const usuarioId = req.usuario.id
 
@@ -335,20 +349,20 @@ app.put('api/usuario', autenticar, async (req, res) => {
     const checkEmailQuery = 'SELECT id FROM usuarios WHERE email=? AND id != ?'
     db.query(checkEmailQuery, [email, usuarioId], (err, results)=>{
         if (err) {
-            return res.status(500).json({ mensagem: 'Erro no servidor', erro: err });
+            return res.status(500).json({ mensagem: 'Erro no servidor' });
         }
         if (results.length>0) {
             return res.status(400).json({mensagem:'Este e-mail ja sendo usado por outra conta'})
         }
-    })
-    const updateQuery= 'UPDATE usuarios SET nome =?, email =? WHERE id= ?'
-    db.query(updateQuery [nome, email, usuarioId], (err)=>{
-        if (err) {
-            return res.status(500).json({mensagem:"Erro ao atualizar os dados."})
-        }
-        return res.json({
-            mensagem:"Atualizado com sucesso . ",
-            usuario:{id:usuarioId, nome, email}
+        const updateQuery= 'UPDATE usuarios SET nome =?, email =? WHERE id= ?'
+        db.query(updateQuery, [nome, email, usuarioId], (err)=>{
+            if (err) {
+                return res.status(500).json({mensagem:"Erro ao atualizar os dados."})
+            }
+            return res.json({
+                mensagem:"Atualizado com sucesso . ",
+                usuario:{id:usuarioId, nome, email}
+            })
         })
     })
 })

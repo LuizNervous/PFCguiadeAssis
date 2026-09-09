@@ -35,7 +35,7 @@ function validarSenha(senha) {
     const temEspecial = /[^a-zA-Z0-9]/.test(senha);
 
     if (!temTamanhoMinimo) {
-        alert("A senha precisa ter até 6 caracteres");
+        alert("A senha precisa ter no mínimo 6 caracteres");
         return false;
     }
     if (!temMaiuscula) {
@@ -67,8 +67,6 @@ olho.addEventListener("click", () => {
     }
 
 });
-const API_URL = 'https://guia-assis.onrender.com/api';
-
 document.getElementById("FormCadastro").addEventListener("submit", async (e) => {
     e.preventDefault();
     const nome = document.getElementById("nome").value;

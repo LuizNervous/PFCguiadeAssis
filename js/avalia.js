@@ -1,5 +1,3 @@
-const API = 'https://guia-assis.onrender.com/api';
-
 const parametrosURL = new URLSearchParams(window.location.search);
 const idPonto = parametrosURL.get('id');
 
@@ -10,7 +8,7 @@ async function CarregarPontos() {
     return;
   }
   try {
-    const resposta = await fetch(`${API}/pontos/${idPonto}`);
+    const resposta = await fetch(`${API_URL}/pontos/${idPonto}`);
     if (!resposta.ok) throw new Error("Erro ao buscar informações do local");
 
     const ponto = await resposta.json();
@@ -26,18 +24,18 @@ async function CarregarPontos() {
 function renderizarPontos(ponto) {
   const container = document.getElementById("pontoSelecionado");
 
-  const imagemSrc = `../imagens/pontos/${ponto.imagem}`;
+  const imagemSrc = `../imagens/pontos/${escaparHtml(ponto.imagem)}`;
   const mediaNota = ponto.media_nota ? Number(ponto.media_nota).toFixed(1) : "0.0";
 
   container.innerHTML = `
   <div class="detalhes-card">
-      <img src="${imagemSrc}" alt="${ponto.nome}" class="imagem-ponto">
+      <img src="${imagemSrc}" alt="${escaparHtml(ponto.nome)}" class="imagem-ponto">
       <div class="detalhes-info">
-          <span class="categoria-tag">${ponto.categoria_nome || 'Geral'}</span>
-          <h2>${ponto.nome}</h2>
+          <span class="categoria-tag">${escaparHtml(ponto.categoria_nome || 'Geral')}</span>
+          <h2>${escaparHtml(ponto.nome)}</h2>
           <p class="nota-media">⭐ <strong>${mediaNota}</strong> (${ponto.total_avaliacoes || 0} avaliações)</p>
-          <p class="endereco">📍 ${ponto.endereco}</p>
-          <p class="descricao">${ponto.descricao}</p>
+          <p class="endereco">📍 ${escaparHtml(ponto.endereco)}</p>
+          <p class="descricao">${escaparHtml(ponto.descricao)}</p>
         </div>
     </div>
   `
@@ -61,11 +59,11 @@ function renderizarFormularioAvaliacao() {
 
             <p style="margin-top: 15px;">O que você achou deste local? (Opcional)</p>
             <div class="container-tags">
-                <button type="button" class="btn-tag">Atendimento ruim</button>
+                <button type="button" class="btn-tag">Atendimento Ruim</button>
                 <button type="button" class="btn-tag">Lugar confortável</button>
                 <button type="button" class="btn-tag">Preço elevado</button>
                 <button type="button" class="btn-tag">Custo benefício</button>
-                <button type="button" class="btn-tag">Bom atendimento </button>
+                <button type="button" class="btn-tag">Bom atendimento</button>
             </div>
 
             <button id="btnEnviar" class="btn-enviar">Enviar Avaliação</button>
@@ -140,7 +138,7 @@ async function carregarListaDeAvaliacoes() {
   container.innerHTML= "<p>Carregando avaliações...</p>";
 
   try {
-    const resposta = await fetch(`${API}/pontos/${idPonto}/avaliacoes`);
+    const resposta = await fetch(`${API_URL}/pontos/${idPonto}/avaliacoes`);
 
     if (!resposta.ok) {
       throw new Error("Erro ao buscar avaliações");
@@ -199,10 +197,10 @@ async function enviarAvaliacao() {
   }
   const nota = parseInt(inputEstrela.value);
   const tagsElementos = document.querySelectorAll('.btn-tag.selecionada');
-  const tagsArray = Array.from(tagsElementos).map(tag => tag.innerText);
+  const tagsArray = Array.from(tagsElementos).map(tag => tag.innerText.trim());
 
   try {
-    const resposta = await fetch(`${API}/avaliar`, {
+    const resposta = await fetch(`${API_URL}/avaliar`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json',
                   'Authorization': `Bearer ${token}`},

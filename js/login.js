@@ -25,7 +25,6 @@ function verLogado() {
     }
 }
 verLogado()
-const API_URL = 'https://guia-assis.onrender.com/api';
 document.getElementById("FormLogin").addEventListener("submit", async (e) => {
     e.preventDefault();
     const senha = senhaInput.value;

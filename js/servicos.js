@@ -1,4 +1,3 @@
-const API = "https://guia-assis.onrender.com/api/pontos";
 let pontos = [];
 let pontosFiltrados = [];
 
@@ -37,7 +36,7 @@ const cores = {
 // 1. CARREGAR DADOS DA API
 async function carregarServicos() {
     try {
-        const resposta = await fetch(API);
+        const resposta = await fetch(`${API_URL}/pontos`);
         if (!resposta.ok) throw new Error("Falha na resposta da API");
         pontos = await resposta.json();
         pontosFiltrados = [...pontos];
@@ -70,7 +69,7 @@ function renderizarCards(lista) {
         const categoria = ponto.categoria_nome ? ponto.categoria_nome.toLowerCase() : "";
         const icone = icones[categoria] || "fa-location-dot";
         const cor = cores[categoria] || "azul";
-        const imagemSrc = ponto.imagem ? `/imagens/pontos/${ponto.imagem}` : '/imagens/placeholder.png';
+        const imagemSrc = ponto.imagem ? `/imagens/pontos/${escaparHtml(ponto.imagem)}` : '/imagens/placeholder.png';
 
         const descricaoTexto = ponto.descricao || "";
         const descricaoCurta = descricaoTexto.length > 100 ? `${descricaoTexto.substring(0, 100)}...` : descricaoTexto;
@@ -86,13 +85,13 @@ function renderizarCards(lista) {
             
         // CORRIGIDO: Checa se a lista de tags possui itens
         const tagsHTML = listaTags.length > 0 
-            ? listaTags.map(tag => `<span class="tag-badge">${tag}</span>`).join('') 
+            ? listaTags.map(tag => `<span class="tag-badge">${escaparHtml(tag)}</span>`).join('') 
             : '<span class="tag-badge-vazio">Sem observações</span>';
 
         htmlGerado += `
         <div class="card">
             <div class="card-imagem-container">
-                <img class="card-imagem" src="${imagemSrc}" alt="${ponto.nome || 'Serviço'}">
+                <img class="card-imagem" src="${imagemSrc}" alt="${escaparHtml(ponto.nome || 'Serviço')}">
                 <div class="card-icone ${cor}">
                     <i class="fa-solid ${icone}"></i>
                 </div>
@@ -100,10 +99,10 @@ function renderizarCards(lista) {
 
             <div class="card-body">
                 <span class="categoria-card ${cor}">
-                    ${ponto.categoria_nome || 'Geral'}
+                    ${escaparHtml(ponto.categoria_nome || 'Geral')}
                 </span>
 
-                <h3>${ponto.nome || 'Sem nome'}</h3>
+                <h3>${escaparHtml(ponto.nome || 'Sem nome')}</h3>
                 <h4>avaliação</h4>
 
                 <div class="card-avaliacao">
@@ -116,11 +115,11 @@ function renderizarCards(lista) {
                 </div>
                 
                 <p class="endereco-card">
-                    <i class="fa-solid fa-location-dot"></i> ${ponto.endereco || 'Endereço não informado'}
+                    <i class="fa-solid fa-location-dot"></i> ${escaparHtml(ponto.endereco || 'Endereço não informado')}
                 </p>
 
                 <p class="descricao-card">
-                    ${descricaoCurta}
+                    ${escaparHtml(descricaoCurta)}
                 </p>
 
                 <button class="btn-detalhes" onclick="abrirModal(${ponto.id})">
@@ -174,7 +173,7 @@ function abrirModal(id) {
     const categoria = (ponto.categoria_nome || "").toLowerCase();
     const icone = icones[categoria] || "fa-location-dot";
     const cor = cores[categoria] || "azul";
-    const imagemSrc = ponto.imagem ? `/imagens/pontos/${ponto.imagem}` : '/imagens/placeholder.png';
+    const imagemSrc = ponto.imagem ? `/imagens/pontos/${escaparHtml(ponto.imagem)}` : '/imagens/placeholder.png';
 
     const mediaNotaNum = Number(ponto.media_nota) || 0;
     const notaArredondada = Math.round(mediaNotaNum);
@@ -186,7 +185,7 @@ function abrirModal(id) {
         : [];
         
     const tagsHTML = listaTags.length > 0 
-        ? listaTags.map(tag => `<span class="tag-badge">${tag}</span>`).join('') 
+        ? listaTags.map(tag => `<span class="tag-badge">${escaparHtml(tag)}</span>`).join('') 
         : '<span class="tag-badge-vazio">Sem observações</span>';
 
     const modal = document.getElementById("modal");
@@ -196,13 +195,13 @@ function abrirModal(id) {
 
     conteudo.innerHTML = `
     <span class="fechar" onclick="fecharModal()">&times;</span>
-    <img src="${imagemSrc}" alt="${ponto.nome || ''}" class="modal-imagem">
+    <img src="${imagemSrc}" alt="${escaparHtml(ponto.nome || '')}" class="modal-imagem">
     
     <div class="modal-body">
         <span class="categoria-card ${cor}" style="margin-bottom: 15px;">
-            <i class="fa-solid ${icone}"></i> ${ponto.categoria_nome || 'Geral'}
+            <i class="fa-solid ${icone}"></i> ${escaparHtml(ponto.categoria_nome || 'Geral')}
         </span>
-        <h2>${ponto.nome || 'Sem nome'}</h2>
+        <h2>${escaparHtml(ponto.nome || 'Sem nome')}</h2>
 
         <div class="card-avaliacao" style="margin: 10px 0;">
             <span class="estrelas" style="color: #f39c12; font-size: 1.2rem;">${estrelasHtml}</span>
@@ -213,10 +212,10 @@ function abrirModal(id) {
             ${tagsHTML}
         </div>
         
-        <p style="margin-bottom: 20px; line-height: 1.5;">${ponto.descricao || ''}</p>
+        <p style="margin-bottom: 20px; line-height: 1.5;">${escaparHtml(ponto.descricao || '')}</p>
         
         <div class="info-box">
-            <p><strong>📍 Endereço:</strong> ${ponto.endereco || 'Não informado'}</p>
+            <p><strong>📍 Endereço:</strong> ${escaparHtml(ponto.endereco || 'Não informado')}</p>
         </div>
         
         <div style="display:flex; gap:9px;">
