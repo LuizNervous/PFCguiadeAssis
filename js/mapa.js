@@ -2,6 +2,7 @@
 const meuMapa = L.map('mapa').setView([-24.4183, -53.5210], 14);
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    className: 'map-tiles',
     maxZoom: 19,
     attribution: '&copy; OpenStreetMap contributors'
 }).addTo(meuMapa);
@@ -76,6 +77,31 @@ function renderizarCards(categoria) {
              </div>`;
     });
 }
+const iconesCategoria = {
+    "mobilidade": "🚍",
+    "turismo": "📸",
+    "gastronomia": "🍽️",
+    "posto": "⛽",
+    "postos": "⛽",
+    "farmacia": "💊",
+    "farmacias": "💊",
+    "posto de saúde": "🏥",
+    "postos de saúde": "🏥",
+    "hospital": "🏨",
+    "hospitais": "🏨"
+};
+function criarIconePersonalizado(categoria) {
+    const emoji = iconesCategoria[categoria] || "📍";
+
+    return L.divIcon({
+        className: "icone-mapa-personalizado",
+        html: `<div class="pino-categoria">${emoji}</div>`,
+        iconSize: [32, 32],
+        iconAnchor: [16, 32],
+        popupAnchor: [0, -32],
+        tooltipAnchor: [0, -28]
+    })
+}
 
 // 4. Requisição de dados da API
 async function carregarPontos() {
@@ -84,8 +110,9 @@ async function carregarPontos() {
         dadosDosPontos = await resposta.json();
 
         dadosDosPontos.forEach(ponto => {
-           const pino = L.marker([ponto.latitude, ponto.longitude]).bindPopup(`
-    <div class="popup-ponto">
+            const grupoCategoria = ponto.categoria_nome.toLowerCase().trim();
+            const pino = L.marker([ponto.latitude, ponto.longitude], { icon: criarIconePersonalizado(grupoCategoria) }).bindPopup(`
+        <div class="popup-ponto">
 
         <div class="popup-imagem-container">
             <img 
@@ -119,9 +146,9 @@ async function carregarPontos() {
 
     </div>
 `);
-
-            const grupoCategoria = ponto.categoria_nome.toLowerCase().trim();
-
+            pino.bindTooltip(ponto.nome);
+                
+            
             if (todasCategorias[grupoCategoria]) {
                 pino.addTo(todasCategorias[grupoCategoria]);
             }

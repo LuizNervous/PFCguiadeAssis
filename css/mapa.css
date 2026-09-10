@@ -204,6 +204,7 @@
     transform: scale(1.02);
 }
 
+
 /* POPUPS DO MAPA */
 .leaflet-popup-content-wrapper {
     padding: 0 !important;
@@ -219,8 +220,8 @@
 
 .popup-ponto {
     width: 320px;
-    background: #111;
-    color: white;
+    background: #ffffff;
+    color: black;
     overflow: hidden;
 }
 
@@ -253,7 +254,7 @@
     background: linear-gradient(
         to bottom,
         transparent,
-        #111
+        #ffff
     );
 }
 
@@ -269,14 +270,14 @@
 .popup-categoria {
     font-size: 11px;
     font-weight: 600;
-    color: #bdbdbd;
+    color: #3d3c3c;
     text-transform: uppercase;
     margin-bottom: 4px;
 }
 
 .popup-conteudo h3 {
     margin: 0 0 8px;
-    color: white;
+    color: rgb(20, 20, 20);
     font-size: 24px;
     font-weight: 700;
     line-height: 1.1;
@@ -286,7 +287,7 @@
 
 .popup-descricao {
     margin: 0 0 15px;
-    color: #d0d0d0;
+    color: #141414;
     font-size: 13px;
     line-height: 1.4;
 
@@ -342,6 +343,19 @@
     z-index: 10;
 }
 
+
+.pino-categoria {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    line-height: 1;
+
+
+    border-radius: 50%;
+}
 /* ==========================================
    TEMAS DE ACESSIBILIDADE - MAPA
    ========================================== */
@@ -352,12 +366,29 @@ body.Escuro .painel-filtros {
     background-color: #1b1b1b;
     color: #ebebeb;
 }
-
+body.Escuro .map-tiles {
+    filter: brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) brightness(0.7);
+}
 body.Escuro .introducao,
 body.Escuro .descricao,
 body.Escuro .painel-filtros button,
 body.Escuro .popup-ponto h3 {
     color: #ebebeb;
+}
+body.Escuro .popup-descricao ,
+body.Escuro .popup-categoria,
+body.Escuro .popup-ponto h3 {
+    color: #ebebeb;
+}
+body.Escuro .popup-ponto{
+    background-color: #080808;
+}
+body.Escuro .popup-imagem-container::after {
+    background: linear-gradient(
+        to bottom,
+        transparent,
+        #070707
+    );
 }
 
 body.Escuro .painel-filtros button:hover {
@@ -370,11 +401,34 @@ body.tema-contraste .info {
     border-bottom: 2px solid #ffff00 !important;
 }
 
+body.tema-contraste .popup-descricao ,
+body.tema-contraste .popup-categoria,
+body.tema-contraste .popup-ponto h3 {
+    color: #ffe607;
+}
+body.tema-contraste .popup-ponto{
+    background-color: #f9fd00;
+}
+body.tema-contraste .popup-imagem-container::after {
+    background: linear-gradient(
+        to bottom,
+        transparent,
+        #070707
+    );
+}
+
 body.tema-contraste .ponto-card,
 body.tema-contraste .painel-filtros,
 body.tema-contraste .popup-ponto {
     background-color: #000000 !important;
     color: #ffff00 !important;
+    border: 2px solid #ffff00 !important;
+}
+body.tema-contraste .map-tiles {
+    filter: brightness(0.8) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) brightness(0.7);
+}
+body.tema-contraste .pino-categoria {
+    background-color: #000000 !important;
     border: 2px solid #ffff00 !important;
 }
 
@@ -413,6 +467,26 @@ body.tema-dicromacia .info {
     background: #00152b !important;
     border-bottom: 1px solid #ffd700 !important;
 }
+body.tema-dicromacia .map-tiles {
+  filter: invert(100%) hue-rotate(190deg) brightness(85%) contrast(110%) saturate(130%);
+}
+
+body.tema-dicromacia .popup-descricao ,
+body.tema-dicromacia .popup-categoria,
+body.tema-dicromacia .popup-ponto h3 {
+    color: #ffe607;
+}
+body.tema-dicromacia .popup-ponto{
+    background-color: #00152b !important;
+    border: 2px solid yellow;
+}
+body.tema-dicromacia .popup-imagem-container::after {
+    background: linear-gradient(
+        to bottom,
+        transparent,
+        #00152b
+    );
+}
 
 body.tema-dicromacia .ponto-card,
 body.tema-dicromacia .painel-filtros {
@@ -425,6 +499,10 @@ body.tema-dicromacia .descricao,
 body.tema-dicromacia .painel-filtros h3,
 body.tema-dicromacia .popup-ponto h3 {
     color: #ffd700 !important;
+}
+body.tema-dicromacia .pino-categoria {
+    background-color: #00152b !important;
+    border: 1px solid #ffd700 !important;
 }
 
 body.tema-dicromacia .btn-filtro {
@@ -469,6 +547,11 @@ body.tema-monocromacia {
         height: auto;
         padding: 0 10px;
     }
+     .pino-categoria {
+        width: 28px;
+        height: 28px;
+        font-size: 15px;
+    }   
 
     .painel-filtros {
         width: 100%;

@@ -346,3 +346,12 @@ body.tema-contraste .menu-sanfona p {
 body.tema-dicromacia .menu-sanfona p {
   color: #ffff00;
 }
+body.tema-monocromacia {
+    filter: grayscale(100%) contrast(150%);
+    background-color: #ffffff !important;
+    color: #000000 !important;
+}
+body.tema-monocromacia .logo {
+    
+    color: #000000 !important;
+}

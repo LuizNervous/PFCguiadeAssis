@@ -14,8 +14,8 @@
     --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-html.Escuro {
-    --bg-card: #1e293b;
+body.Escuro {
+    --bg-card: #0a1a33;
     --text-primary: #f8fafc;
     --text-secondary: #94a3b8;
     --border-color: #334155;
@@ -29,6 +29,7 @@ html.Escuro {
     --tag-selected-text: #0f172a;
     --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
+
 /* ============================================================
    ADAPTAÇÃO DOS TEMAS DE ACESSIBILIDADE PARA A PÁGINA AVALIA.CSS
    ============================================================ */
@@ -37,10 +38,10 @@ html.Escuro {
 body.tema-contraste .detalhes-card,
 body.tema-contraste .box-avaliacao,
 body.tema-contraste .card-usuario-avaliacao {
-  background-color: #000000 !important;
-  color: #ffff00 !important;
-  border: 2px solid #ffff00 !important;
-  box-shadow: none !important;
+    background-color: #000000 !important;
+    color: #ffff00 !important;
+    border: 2px solid #ffff00 !important;
+    box-shadow: none !important;
 }
 
 body.tema-contraste h1,
@@ -50,56 +51,62 @@ body.tema-contraste p,
 body.tema-contraste span,
 body.tema-contraste strong,
 body.tema-contraste label {
-  color: #ffff00 !important;
+    color: #ffff00 !important;
 }
 
 body.tema-contraste .rating-input label,
 body.tema-contraste .estrelas-usuario {
-  color: #ffff00 !important;
+    color: #ffff00 !important;
 }
 
 body.tema-contraste .btn-tag {
-  background-color: #000000 !important;
-  color: #ffff00 !important;
-  border: 2px solid #ffff00 !important;
+    background-color: #000000 !important;
+    color: #ffff00 !important;
+    border: 2px solid #ffff00 !important;
 }
 
 body.tema-contraste .btn-tag:hover,
 body.tema-contraste .btn-tag.selecionada {
-  background-color: #ffff00 !important;
-  color: #000000 !important;
-  font-weight: bold !important;
+    background-color: #ffff00 !important;
+    color: #000000 !important;
+    font-weight: bold !important;
 }
 
 body.tema-contraste .tag-badge,
 body.tema-contraste .categoria-tag,
 body.tema-contraste .tag-badge-vazio {
-  background-color: #000000 !important;
-  color: #ffff00 !important;
-  border: 1px solid #ffff00 !important;
+    background-color: #000000 !important;
+    color: #ffff00 !important;
+    border: 1px solid #ffff00 !important;
 }
 
 body.tema-contraste .btn-enviar {
-  background-color: #ffff00 !important;
-  color: #000000 !important;
-  border: 2px solid #ffff00 !important;
-  font-weight: bold !important;
+    background-color: #ffff00 !important;
+    color: #000000 !important;
+    border: 2px solid #ffff00 !important;
+    font-weight: bold !important;
 }
 
 body.tema-contraste .btn-enviar:hover {
-  background-color: #000000 !important;
-  color: #ffff00 !important;
+    background-color: #000000 !important;
+    color: #ffff00 !important;
 }
+
+body.tema-contraste {
+    background: #000000 !important;
+    border-bottom: 2px solid #ffff00 !important;
+}
+
 
 
 /* --- TEMA DICROMACIA --- */
 body.tema-dicromacia .detalhes-card,
 body.tema-dicromacia .box-avaliacao,
 body.tema-dicromacia .card-usuario-avaliacao {
-  background-color: #00152b !important;
-  color: #ffd700 !important;
-  border: 1px solid #ffd700 !important;
-  box-shadow: none !important;
+    background-color: #00152b !important;
+    color: #ffd700 !important;
+    border: 1px solid #ffd700 !important;
+    box-shadow: none !important;
 }
 
 body.tema-dicromacia h1,
@@ -109,45 +116,45 @@ body.tema-dicromacia p,
 body.tema-dicromacia span,
 body.tema-dicromacia strong,
 body.tema-dicromacia label {
-  color: #ffd700 !important;
+    color: #ffd700 !important;
 }
 
 body.tema-dicromacia .rating-input label,
 body.tema-dicromacia .estrelas-usuario {
-  color: #ffd700 !important;
+    color: #ffd700 !important;
 }
 
 body.tema-dicromacia .btn-tag {
-  background-color: #003366 !important;
-  color: #ffd700 !important;
-  border: 1px solid #ffd700 !important;
+    background-color: #003366 !important;
+    color: #ffd700 !important;
+    border: 1px solid #ffd700 !important;
 }
 
 body.tema-dicromacia .btn-tag:hover,
 body.tema-dicromacia .btn-tag.selecionada {
-  background-color: #ffd700 !important;
-  color: #00152b !important;
-  font-weight: bold !important;
+    background-color: #ffd700 !important;
+    color: #00152b !important;
+    font-weight: bold !important;
 }
 
 body.tema-dicromacia .tag-badge,
 body.tema-dicromacia .categoria-tag,
 body.tema-dicromacia .tag-badge-vazio {
-  background-color: #003366 !important;
-  color: #ffd700 !important;
-  border: 1px solid #ffd700 !important;
+    background-color: #003366 !important;
+    color: #ffd700 !important;
+    border: 1px solid #ffd700 !important;
 }
 
 body.tema-dicromacia .btn-enviar {
-  background-color: #ffd700 !important;
-  color: #00152b !important;
-  border: 1px solid #ffd700 !important;
-  font-weight: bold !important;
+    background-color: #ffd700 !important;
+    color: #00152b !important;
+    border: 1px solid #ffd700 !important;
+    font-weight: bold !important;
 }
 
 body.tema-dicromacia .btn-enviar:hover {
-  background-color: #003366 !important;
-  color: #ffd700 !important;
+    background-color: #003366 !important;
+    color: #ffd700 !important;
 }
 
 
@@ -155,13 +162,32 @@ body.tema-dicromacia .btn-enviar:hover {
 body.tema-monocromacia .detalhes-card,
 body.tema-monocromacia .box-avaliacao,
 body.tema-monocromacia .card-usuario-avaliacao {
-  border: 1px solid #000000 !important;
+    border: 1px solid #000000 !important;
 }
 
+body.tema-monocromacia .tag-badge,
+body.tema-monocromacia .categoria-tag,
+body.tema-monocromacia .tag-badge-vazio {
+    background-color: #003366 !important;
+    color: #fdfdfd !important;
+    border: 1px solid #ffd700 !important;
+}
+body.tema-monocromacia .btn-tag {
+    background-color: #ad9821 !important;
+    color: #ffd700 !important;
+    border: 1px solid #ffd700 !important;
+}
 body.tema-monocromacia .btn-tag.selecionada {
-  background-color: #000000 !important;
-  color: #ffffff !important;
-} 
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border: 3px solid rgb(10, 10, 10);
+}
+body.tema-monocromacia .btn-tag.selecionada {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+}
+
+
 main {
     max-width: 1000px;
     margin: 30px auto;
@@ -222,7 +248,9 @@ main {
     color: var(--text-primary);
 }
 
-.nota-media, .endereco, .descricao {
+.nota-media,
+.endereco,
+.descricao {
     color: var(--text-secondary);
     font-size: 0.95rem;
     margin: 0;
@@ -264,8 +292,8 @@ main {
 }
 
 .rating-input label:hover,
-.rating-input label:hover ~ label,
-.rating-input input:checked ~ label {
+.rating-input label:hover~label,
+.rating-input input:checked~label {
     color: var(--star-active);
 }
 
@@ -291,7 +319,7 @@ main {
     opacity: 0.85;
 }
 
-.btn-tag.selecionada{
+.btn-tag.selecionada {
     background-color: var(--tag-selected-bg);
     color: var(--tag-selected-text);
     border-color: var(--tag-selected-bg);
@@ -394,8 +422,4 @@ html.Escuro .btn-enviar {
         width: 100%;
         height: 200px;
     }
-}
-body.tema-contraste  {
-    background: #000000 !important;
-    border-bottom: 2px solid #ffff00 !important;
 }
