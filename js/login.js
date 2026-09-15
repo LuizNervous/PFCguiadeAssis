@@ -40,11 +40,9 @@ document.getElementById("FormLogin").addEventListener("submit", async (e) => {
         if (resposta.ok) {
             localStorage.setItem('usuario', JSON.stringify(dados.usuario));
             localStorage.setItem('token', dados.token);
-           
-            alert(`Bem vindo ${dados.usuario.nome} !`);
-            const redirencionando = setTimeout(() => {
-                  window.location.href = "../servicos/index.html";
-            }, 900);
+
+            criarAlerta(`Bem vindo ${dados.usuario.nome} !`, "alertBom", 3000);
+            criarAlerta(`Redirencionando...`, "alertBom", 3000);
         }
         else {
             alert(dados.mensagem || 'E-mail ou senha incorretos.');

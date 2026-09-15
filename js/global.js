@@ -9,6 +9,21 @@ function escaparHtml(texto) {
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#39;");
 }
+function criarAlerta(mensagem, tipo, tempo) {
+  let container = document.querySelector(".container-alerts");
+  if (!container) {
+    container = document.createElement("div");
+    container.classList.add("container-alerts");
+    document.body.appendChild(container);
+  }
+  const toast = document.createElement("div");
+  toast.innerText = mensagem;
+  toast.className = tipo;
+
+  container.appendChild(toast);
+
+  setTimeout(() => toast.remove(), tempo)
+}
 
 document.addEventListener("click", (e) => {
 

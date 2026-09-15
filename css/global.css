@@ -191,6 +191,40 @@ header #closeMenu img {
   gap: 12px;
 }
 
+.container-alerts {
+  position: fixed;
+  top: 90px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.alertBom {
+  background-color: #4CAF50;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 10px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  font-family: sans-serif;
+  font-size: 16px;
+  z-index: 9999;
+}
+
+.alertRuim {
+  background: #c72c2c;
+  color: rgb(219, 219, 219);
+  padding: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 10px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  font-family: sans-serif;
+  font-size: 16px;
+  z-index: 9999;
+}
+
 #controleTexto span {
   font-weight: 700;
   color: #64748b;
@@ -464,10 +498,12 @@ body.tema-contraste footer {
   color: #ffff00 !important;
   border-color: #ffff00 !important;
 }
-body.tema-contraste footer{
+
+body.tema-contraste footer {
   border-top: 1px solid #ffff00;
 }
-body.tema-contraste .info{
+
+body.tema-contraste .info {
   color: #e9e905;
 }
 
@@ -504,7 +540,8 @@ body.tema-dicromacia {
   background-color: #001f3f !important;
   color: #ffd700 !important;
 }
-body.tema-dicromacia .info{
+
+body.tema-dicromacia .info {
   color: #e9e905;
 }
 
@@ -565,6 +602,15 @@ body.tema-monocromacia .return {
     flex-wrap: wrap;
     padding: 15px;
     gap: 8px;
+  }
+
+  .container-alerts {
+    top: auto;
+    right: auto;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
   }
 
   .topicos {

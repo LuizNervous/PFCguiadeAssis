@@ -62,6 +62,22 @@ function validarDominioEmail(email) {
     });
 }
 
+function validarDataNascimento(dataStrig) {
+    const nascimento = new Date(dataStrig);
+
+    if (isNaN(nascimento.getTime())) return false;
+    const hoje = new Date();
+    if (nascimento > hoje) {
+        return false;
+    }
+    let idade = nascimento.getFullYear() - hoje.getFullYear();
+    const diferecaMes = nascimento.getMonth() - hoje.getMonth();
+    if (diferecaMes < 0 || (diferecaMes == 0 && hoje.getDate() < nascimento.getDate())) {
+        idade--;
+    }
+    return idade >= 3 && idade <= 110;
+}
+
 app.get('/api/pontos', (req, res) => {
     const query = `
     SELECT p.*, 
@@ -139,6 +155,9 @@ app.post('/api/cadastro', async (req, res) => {
 
     if (!nome || !data_nascimento || !email || !senha) {
         return res.status(400).json({ mensagem: 'Preencha todos os campos obrigatórios!' });
+    }
+    if (!validarDataNascimento(data_nascimento)) {
+        return res.status(400).json({mensagem: "Data de nascimento inválida."})
     }
     if (senha.length < 6) {
         return res.status(400).json({ mensagem: 'A senha precisa ter 6 caracteres no minimo !' });
@@ -347,21 +366,21 @@ app.put('/api/usuario', autenticar, async (req, res) => {
     }
 
     const checkEmailQuery = 'SELECT id FROM usuarios WHERE email=? AND id != ?'
-    db.query(checkEmailQuery, [email, usuarioId], (err, results)=>{
+    db.query(checkEmailQuery, [email, usuarioId], (err, results) => {
         if (err) {
             return res.status(500).json({ mensagem: 'Erro no servidor' });
         }
-        if (results.length>0) {
-            return res.status(400).json({mensagem:'Este e-mail ja sendo usado por outra conta'})
+        if (results.length > 0) {
+            return res.status(400).json({ mensagem: 'Este e-mail ja sendo usado por outra conta' })
         }
-        const updateQuery= 'UPDATE usuarios SET nome =?, email =? WHERE id= ?'
-        db.query(updateQuery, [nome, email, usuarioId], (err)=>{
+        const updateQuery = 'UPDATE usuarios SET nome =?, email =? WHERE id= ?'
+        db.query(updateQuery, [nome, email, usuarioId], (err) => {
             if (err) {
-                return res.status(500).json({mensagem:"Erro ao atualizar os dados."})
+                return res.status(500).json({ mensagem: "Erro ao atualizar os dados." })
             }
             return res.json({
-                mensagem:"Atualizado com sucesso . ",
-                usuario:{id:usuarioId, nome, email}
+                mensagem: "Atualizado com sucesso . ",
+                usuario: { id: usuarioId, nome, email }
             })
         })
     })
