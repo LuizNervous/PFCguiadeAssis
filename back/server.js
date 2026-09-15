@@ -195,9 +195,20 @@ app.post('/api/cadastro', async (req, res) => {
                     return res.status(500).json({ mensagem: 'Erro ao cadastrar' });
                 }
 
+                const usuarioCriado = {
+                    id: result.insertId,
+                    nome: nome,
+                    email: email
+                }
+                const token = jwt.sign(
+                    { id: usuarioCriado.id },
+                    segredo,
+                    { expiresIn:'2h'}
+                )
                 return res.status(201).json({
                     mensagem: 'Usuário cadastrado com sucesso!',
-                    id: result.insertId
+                    usuario: usuarioCriado,
+                    token:token
                 });
             });
         } catch (error) {

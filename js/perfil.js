@@ -34,13 +34,14 @@ document.getElementById("formMudarDados").addEventListener("submit", async (e) =
       localStorage.setItem("usuario", JSON.stringify(dados.usuario));
       document.getElementById("nomeUsuario").textContent = dados.usuario.nome;
       document.getElementById("emailUsuario").textContent = dados.usuario.email;
-      alert("Dados atualizados com sucesso!");
+      criarAlerta("Dados atualizados com sucesso!", 'alertBom', 3000);
     } else {
-      alert(dados.mensagem || "Erro ao atualizar os dados.");
+      criarAlerta(dados.mensagem || "Erro ao atualizar os dados.", 'alertRuim', 5000)
     }
   } catch (erro) {
     console.error("Erro ao atualizar perfil:", erro);
-    alert("Erro de conexão com o servidor.");
+    criarAlerta("Erro de conexão com o servidor.", 'alertRuim', 5000);
+
   }
 });
 

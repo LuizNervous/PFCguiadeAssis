@@ -35,15 +35,15 @@ function validarSenha(senha) {
     const temEspecial = /[^a-zA-Z0-9]/.test(senha);
 
     if (!temTamanhoMinimo) {
-        alert("A senha precisa ter no mínimo 6 caracteres");
+        criarAlerta("A senha precisa ter no mínimo 6 caracteres", "alertRuim", 5000);
         return false;
     }
     if (!temMaiuscula) {
-        alert("A senha precisa ter 1 letra maiúscula!")
+        criarAlerta("A senha precisa ter 1 letra maiúscula!", "alertRuim", 5000)
         return false;
     }
     if (!temEspecial) {
-        alert("A senha precisa ter um caractere especial")
+        criarAlerta("A senha precisa ter um caractere especial", "alertRuim", 5000)
         return false;
     }
     return true;
@@ -78,7 +78,7 @@ document.getElementById("FormCadastro").addEventListener("submit", async (e) => 
         return;
     }
     if (!validarIdadePermitida(data_nascimento)) {
-        alert("Cadastro inválido! Idade Inválida!");
+        criarAlerta("Cadastro inválido! Idade Inválida!", "alertRuim", 5000);
         return;
     }
 
@@ -90,14 +90,22 @@ document.getElementById("FormCadastro").addEventListener("submit", async (e) => 
         });
         const dados = await resposta.json();
         if (resposta.ok) {
-            alert("Cadastro feito com sucesso! Faça login para continuar.");
-            window.location.href = '../login/login.html'
+            localStorage.setItem('token', dados.token);
+            localStorage.setItem('usuario', JSON.stringify(dados.usuario));
+
+            criarAlerta(`Bem-vindo, ${dados.usuario.nome}! Cadastro realizado com sucesso.`, "alertBom", 3000);
+            criarAlerta(`Redirencionando para o Guia de Serviços...`, "alertBom", 3000);
+
+            const redirencionar = setTimeout(() => {
+                window.location.href = "../servicos/perfil.html"
+            }, 2500)
+
         } else {
-            alert(dados.mensagem || 'Erro ao realizar o cadastro')
+            criarAlerta(dados.mensagem || 'Erro ao realizar o cadastro', "alertRuim", 5000)
         }
     }
     catch (err) {
         console.error('Erro na requisição de cadastro', err);
-        alert("Erro na conexão com o servidor.");
+        criarAlerta("Erro na conexão com o servidor. Tente novamente mais tarde.", "alertRuim", 5000);
     }
 })

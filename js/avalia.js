@@ -3,8 +3,12 @@ const idPonto = parametrosURL.get('id');
 
 async function CarregarPontos() {
   if (!idPonto) {
-    alert("Nenhum local foi selecionado ! ");
-    window.location.href = "../servicos/index.html";
+    criarAlerta("Nenhum local foi selecionado ! ", "alertRuim", 5000);
+    criarAlerta(`Redirencionando para o Guia de Serviços...`, "alertRuim", 5000);
+    const redirencionar = setTimeout(() => {
+      window.location.href = "../servicos/index.html"
+    }, 2700
+    )
     return;
   }
   try {
@@ -14,7 +18,7 @@ async function CarregarPontos() {
     const ponto = await resposta.json();
     renderizarPontos(ponto);
     renderizarFormularioAvaliacao();
-     carregarListaDeAvaliacoes();
+    carregarListaDeAvaliacoes();
   }
   catch (erro) {
     console.error(erro);
@@ -135,7 +139,7 @@ function criarAvaliacao(item) {
 
 async function carregarListaDeAvaliacoes() {
   const container = document.querySelector(".todasAvaliacoes");
-  container.innerHTML= "<p>Carregando avaliações...</p>";
+  container.innerHTML = "<p>Carregando avaliações...</p>";
 
   try {
     const resposta = await fetch(`${API_URL}/pontos/${idPonto}/avaliacoes`);
@@ -172,27 +176,31 @@ async function carregarListaDeAvaliacoes() {
 
     container.appendChild(lista);
 
-  }catch (erro) {
-  console.error(erro);
-  container.innerHTML = `
+  } catch (erro) {
+    console.error(erro);
+    container.innerHTML = `
     <h2>Erro ao carregar os dados deste local.</h2>
     <p>Tente novamente mais tarde.</p>
     <a href="../servicos/index.html">Voltar ao Guia de Serviços</a>
   `;
-}
+  }
 }
 
 
 async function enviarAvaliacao() {
-  const token=localStorage.getItem('token');
+  const token = localStorage.getItem('token');
   if (!token) {
-    alert("Sua sessão expirou ou você não está logado. Faça login para continuar.");
-    window.location.href = "../login/login.html";
+    criarAlerta("Sua sessão expirou ou você não está logado. Faça login para continuar.", "alertRuim", 5000);
+    criarAlerta(`Redirencionando para o Login...`, "alertRuim", 3500);
+    const redirencionar = setTimeout(() => {
+      window.location.href = "../login/login.html"
+    }, 3400
+    )
     return;
   }
   const inputEstrela = document.querySelector("input[name='rating']:checked");
   if (!inputEstrela) {
-    alert("Por favor, selecione quantas estrelas você dá para este local.");
+    criarAlerta("Por favor, selecione quantas estrelas você dá para este local.", "alertRuim", 5000);
     return;
   }
   const nota = parseInt(inputEstrela.value);
@@ -202,8 +210,10 @@ async function enviarAvaliacao() {
   try {
     const resposta = await fetch(`${API_URL}/avaliar`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json',
-                  'Authorization': `Bearer ${token}`},
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
       body: JSON.stringify({
         id_ponto: parseInt(idPonto),
         nota: nota,
@@ -212,15 +222,16 @@ async function enviarAvaliacao() {
     });
     const dados = await resposta.json();
     if (resposta.ok) {
-      alert("Avaliação registrada!");
-      location.reload();
+      CarregarPontos()
+      criarAlerta("Avaliação registrada!", "alertBom", 3000);
+
     } else {
-      alert(dados.mensagem || "Erro ao registrar avaliação.");
+      criarAlerta(dados?.mensagem || "Erro ao registrar avaliação.", "alertRuim", 5000);
     }
 
   } catch (erro) {
     console.error("Erro no envio:", erro);
-    alert("Erro na conexão com o servidor.");
+    criarAlerta("Erro na conexão com o servidor.", "alertRuim", 5000);
   }
 }
 

@@ -42,14 +42,17 @@ document.getElementById("FormLogin").addEventListener("submit", async (e) => {
             localStorage.setItem('token', dados.token);
 
             criarAlerta(`Bem vindo ${dados.usuario.nome} !`, "alertBom", 3000);
-            criarAlerta(`Redirencionando...`, "alertBom", 3000);
+            criarAlerta(`Redirencionando para o Guia de Serviços...`, "alertBom", 3000);
+            const redirencionar = setTimeout(() => {
+                window.location.href = "../servicos/index.html"
+            }, 2000)
         }
         else {
-            alert(dados.mensagem || 'E-mail ou senha incorretos.');
+            criarAlerta(dados?.mensagem || 'E-mail ou senha incorretos.', "alertRuim", 5000);
         }
     }
     catch (erro) {
         console.error("Erro na requisição de login : ", erro);
-        alert("Erro de conexão com o servidor.")
+        criarAlerta("Erro de conexão com o servidor.", "alertRuim", 5000)
     }
 })
