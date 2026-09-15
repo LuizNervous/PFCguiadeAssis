@@ -70,7 +70,7 @@ function validarDataNascimento(dataStrig) {
     if (nascimento > hoje) {
         return false;
     }
-    let idade = nascimento.getFullYear() - hoje.getFullYear();
+    let idade = hoje.getFullYear() - nascimento.getFullYear();
     const diferecaMes = nascimento.getMonth() - hoje.getMonth();
     if (diferecaMes < 0 || (diferecaMes == 0 && hoje.getDate() < nascimento.getDate())) {
         idade--;
@@ -157,7 +157,7 @@ app.post('/api/cadastro', async (req, res) => {
         return res.status(400).json({ mensagem: 'Preencha todos os campos obrigatórios!' });
     }
     if (!validarDataNascimento(data_nascimento)) {
-        return res.status(400).json({mensagem: "Data de nascimento inválida."})
+        return res.status(400).json({ mensagem: "Data de nascimento inválida." })
     }
     if (senha.length < 6) {
         return res.status(400).json({ mensagem: 'A senha precisa ter 6 caracteres no minimo !' });
