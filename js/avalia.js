@@ -194,9 +194,7 @@ async function enviarAvaliacao() {
     criarAlerta(`Redirencionando para o Login...`, "alertRuim", 3500);
     const redirencionar = setTimeout(() => {
       window.location.href = "../login/login.html"
-    }, 3400
-    )
-    return;
+    }, 3400); return;
   }
   const inputEstrela = document.querySelector("input[name='rating']:checked");
   if (!inputEstrela) {
@@ -225,6 +223,14 @@ async function enviarAvaliacao() {
       CarregarPontos()
       criarAlerta("Avaliação registrada!", "alertBom", 3000);
 
+    } else if (resposta.status === 401) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("usuario");
+      criarAlerta("Sua sessão expirou ou você não está logado. Faça login para continuar.", "alertRuim", 5000);
+      criarAlerta(`Redirencionando para o Login...`, "alertRuim", 3500);
+      const redirencionar = setTimeout(() => {
+        window.location.href = "../login/login.html"
+      }, 3400); return;
     } else {
       criarAlerta(dados?.mensagem || "Erro ao registrar avaliação.", "alertRuim", 5000);
     }

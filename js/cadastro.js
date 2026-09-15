@@ -93,14 +93,14 @@ document.getElementById("FormCadastro").addEventListener("submit", async (e) => 
             localStorage.setItem('token', dados.token);
             localStorage.setItem('usuario', JSON.stringify(dados.usuario));
 
-            criarAlerta(`Bem-vindo, ${dados.usuario.nome}! Cadastro realizado com sucesso.`, "alertBom", 3000);
-            criarAlerta(`Redirencionando para o Guia de Serviços...`, "alertBom", 3000);
+            criarAlerta(`Bem-vindo, ${dados.usuario.nome}! Cadastro realizado com sucesso.`, "alertBom", 3500);
+            criarAlerta(`Redirencionando para o Guia de Serviços...`, "alertBom", 3500);
 
             const redirencionar = setTimeout(() => {
-                window.location.href = "../servicos/perfil.html"
-            }, 2500)
+                window.location.href = "../servicos/index.html"
+            }, 3500)
 
-        } else {
+        }else {
             criarAlerta(dados.mensagem || 'Erro ao realizar o cadastro', "alertRuim", 5000)
         }
     }
