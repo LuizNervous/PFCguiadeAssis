@@ -7,7 +7,6 @@ const dns = require('dns');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit')
 const jwt = require('jsonwebtoken');
-const e = require('express');
 
 const app = express();
 app.use(cors())
@@ -44,7 +43,8 @@ const db = mysql.createPool({
     connectionLimit: 10,
     queueLimit: 0,
     ssl: {
-        rejectUnauthorized: false
+        rejectUnauthorized: true,
+        ca: process.env.DB_CA
     }
 });
 
@@ -76,6 +76,10 @@ function validarDataNascimento(dataStrig) {
         idade--;
     }
     return idade >= 3 && idade <= 110;
+}
+
+function ehTexto(valor) {
+    return typeof valor === 'string';
 }
 
 app.get('/api/pontos', (req, res) => {
@@ -151,7 +155,11 @@ app.get('/api/pontos/:id/avaliacoes', (req, res) => {
 });
 
 app.post('/api/cadastro', async (req, res) => {
-    const { nome, data_nascimento, email, senha } = req.body;
+    const { nome, data_nascimento, email, senha } = req.body ?? {};
+
+    if (![nome, data_nascimento, email, senha].every(ehTexto)) {
+        return res.status(400).json({ mensagem: 'Dados inválidos.' });
+    }
 
     if (!nome || !data_nascimento || !email || !senha) {
         return res.status(400).json({ mensagem: 'Preencha todos os campos obrigatórios!' });
@@ -203,12 +211,12 @@ app.post('/api/cadastro', async (req, res) => {
                 const token = jwt.sign(
                     { id: usuarioCriado.id },
                     segredo,
-                    { expiresIn:'2h'}
+                    { expiresIn: '2h' }
                 )
                 return res.status(201).json({
                     mensagem: 'Usuário cadastrado com sucesso!',
                     usuario: usuarioCriado,
-                    token:token
+                    token: token
                 });
             });
         } catch (error) {
@@ -217,9 +225,9 @@ app.post('/api/cadastro', async (req, res) => {
     });
 });
 app.post('/api/login', (req, res) => {
-    const { email, senha } = req.body;
+    const { email, senha } = req.body ?? {};
 
-    if (!email || !senha) {
+    if (!ehTexto(senha) || !ehTexto(email) || !email || !senha) {
         return res.status(400).json({
             mensagem: 'Informe e-mail e senha!'
         });
@@ -241,15 +249,17 @@ app.post('/api/login', (req, res) => {
                 mensagem: 'E-mail ou senha incorretos!'
             });
         }
-        const senhaValida = await bcrypt.compare(
-            senha,
-            usuario.senha
-        );
-        if (!senhaValida) {
-            return res.status(401).json({
-                mensagem: 'E-mail ou senha incorretos!'
-            });
+        let senhaValida;
+        try {
+            senhaValida = await bcrypt.compare(senha, usuario.senha);
+        } catch (erro) {
+            console.error('Erro as comparar senha: ', erro);
+            return res.status(500).json({ mensagem: 'Erro interno no servidor' });
         }
+        if (!senhaValida) {
+            return res.status(401).json({ mensagem: 'E-mail ou senha incorretos!' });
+        }
+
         const token = jwt.sign(
             { id: usuario.id },
             segredo,
@@ -365,8 +375,12 @@ app.post('/api/avaliar', autenticar, (req, res) => {
 });
 
 app.put('/api/usuario', autenticar, async (req, res) => {
-    const { nome, email } = req.body;
+    const { nome, email } = req.body ?? {};
     const usuarioId = req.usuario.id
+
+    if (!ehTexto(nome) || !ehTexto(email)) {
+        return res.status(400).json({ mensagem: 'Nome e e-mail devem ser texto.' });
+    }
 
     if (!nome || !email) {
         return res.status(400).json({ mensagem: "Nome e e-mail são obrigátorios ." })
@@ -395,7 +409,19 @@ app.put('/api/usuario', autenticar, async (req, res) => {
             })
         })
     })
-})
+});
+app.use((err, req, res, next) => {
+    console.error('Erro não tratado:', err);
+
+    if (res.headersSent) {
+        return next(err);
+    }
+
+    const status = err.status >= 400 && err.status < 500 ? err.status : 500;
+    const mensagem = status === 500 ? 'Erro interno no servidor.' : 'Requisição inválida.';
+
+    res.status(status).json({ mensagem });
+});
 
 
 const PORT = process.env.PORT || 3000;
