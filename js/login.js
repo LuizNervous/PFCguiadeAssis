@@ -40,6 +40,7 @@ document.getElementById("FormLogin").addEventListener("submit", async (e) => {
         if (resposta.ok) {
             localStorage.setItem('usuario', JSON.stringify(dados.usuario));
             localStorage.setItem('token', dados.token);
+            document.getElementById("nomeUsuario").textContent = `${dados.usuario.nome} `
 
             criarAlerta(`Bem vindo ${dados.usuario.nome} !`, "alertBom", 3000);
             criarAlerta(`Redirencionando para o Guia de Serviços...`, "alertBom", 3000);
