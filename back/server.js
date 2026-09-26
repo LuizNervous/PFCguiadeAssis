@@ -141,7 +141,7 @@ app.get('/api/pontos/:id/avaliacoes', (req, res) => {
         });
     }
     const query = `
-        SELECT a.id, a.nota, a.tags, u.nome AS usuario_nome
+        SELECT a.id, a.nota, a.tags, u.nome AS usuario_nome, u.foto_url AS usuario_foto
         FROM avaliacoes a
         JOIN usuarios u ON a.id_usuario =u.id
         WHERE a.id_ponto=?

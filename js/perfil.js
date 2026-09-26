@@ -164,7 +164,7 @@ if (token) carregarFoto();
 const btnSair = document.getElementById("logOut");
 
 btnSair.addEventListener("click", () => {
-  if (!confirm("Remover sua foto de perfil?")) return;
+  if (!confirm("Deseja sair de sua conta?")) return;
   else {
     localStorage.removeItem("usuario");
     localStorage.removeItem("token");

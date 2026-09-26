@@ -474,6 +474,10 @@ body.Escuro .name-time a,
 body.Escuro .linksFast a {
   color: #f5f5f5;
 }
+body.Escuro .name-time a:hover,
+body.Escuro .linksFast a:hover {
+  color: #4c90e9;
+}
 
 body.Escuro #conteiner {
   background: linear-gradient(135deg, #1f2937, #111827);

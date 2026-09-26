@@ -16,8 +16,29 @@ function inicializarHeader() {
   const token = localStorage.getItem("token");
   const usuario = localStorage.getItem("usuario");
 
+  async function carregarFotoHeader(token) {
+    const fotoUsuario = document.getElementById("FotoUsuario");
+    if (!fotoUsuario) return;
+    try {
+      const resposta=await fetch(`${API_URL}/usuario`, {
+        headers:{"Authorization":`Bearer ${token}`}
+      });
+      if (!resposta.ok) return
+
+      const dados=await resposta.json();
+      if (dados.usuario.foto_url) {
+        fotoUsuario.src=dados.usuario.foto_url;
+        fotoUsuario.addEventListener("error", ()=>{
+          fotoUsuario.src="../imagens/IUsuario.png"
+        })
+      }
+    } catch (erro) {
+      console.error("Erro ao carregar a foto do header : ",erro)
+    }
+  }
   if (token && usuario) {
     linkAlternador.href = "/login/perfil.html";
+    carregarFotoHeader(token);
   } else {
     linkAlternador.href = "/login/login.html";
   }
@@ -58,10 +79,7 @@ function mudarTema(tema) {
   }
 
   localStorage.setItem("tema", tema);
-}
-
-
-function carregarTema() {
+} function carregarTema() {
   const temaSalvo = localStorage.getItem("tema");
   if (temaSalvo) mudarTema(temaSalvo);
 }

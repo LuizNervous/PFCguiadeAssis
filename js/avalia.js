@@ -90,11 +90,17 @@ function criarAvaliacao(item) {
   header.className = "header-avaliacao-usuario";
 
   const usuario = document.createElement("strong");
+  usuario.className = "usuario-avaliacao";
 
-  const icone = document.createElement("i");
-  icone.className = "fa-solid fa-user";
+  const foto = document.createElement("img");
+  foto.className = "foto-usuario-avaliacao";
+  foto.src = item.usuario_foto || "../imagens/IUsuario.png"
+  foto.alt = "";
+  foto.addEventListener("error", () => {
+    foto.src = "../imagens/IUsuario.png";
+  });
 
-  usuario.appendChild(icone);
+  usuario.appendChild(foto);
   usuario.appendChild(
     document.createTextNode(" " + (item.usuario_nome || "Usuário"))
   );

@@ -30,6 +30,15 @@ body.Escuro {
     --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
+.foto-usuario-avaliacao {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+    vertical-align: middle;
+
+}
+
 /* ============================================================
    ADAPTAÇÃO DOS TEMAS DE ACESSIBILIDADE PARA A PÁGINA AVALIA.CSS
    ============================================================ */
@@ -172,16 +181,19 @@ body.tema-monocromacia .tag-badge-vazio {
     color: #fdfdfd !important;
     border: 1px solid #ffd700 !important;
 }
+
 body.tema-monocromacia .btn-tag {
     background-color: #ad9821 !important;
     color: #ffd700 !important;
     border: 1px solid #ffd700 !important;
 }
+
 body.tema-monocromacia .btn-tag.selecionada {
     background-color: #000000 !important;
     color: #ffffff !important;
     border: 3px solid rgb(10, 10, 10);
 }
+
 body.tema-monocromacia .btn-tag.selecionada {
     background-color: #000000 !important;
     color: #ffffff !important;
