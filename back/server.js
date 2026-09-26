@@ -7,6 +7,9 @@ const dns = require('dns');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit')
 const jwt = require('jsonwebtoken');
+const multer = require('multer');
+
+const { PASTAS, PRESETS, ImagemInvalidaError, detectarFormato, prepararImagem, enviarImagem, apagarImagem } = require('./imagens');
 
 const app = express();
 app.use(cors())
@@ -374,6 +377,35 @@ app.post('/api/avaliar', autenticar, (req, res) => {
     );
 });
 
+const dbp = db.promise();
+
+const limitadorFotoPerfil = rateLimit({
+    windowMs: 60 * 60 * 1000,
+    limit: 10,
+    keyGenerator: (req) => String(req.usuario.id),
+    message: { mensagem: 'Você trocou a foto muitas vezes. Tente novamente mais tarde.' },
+    standardHeaders: true,
+    legacyHeaders: false,
+})
+
+const uploadFoto = multer({
+    storage: multer.memoryStorage(),
+    limits: { fileSize: 5 * 1024 * 1024, files: 1, fields: 0 },
+    fileFilter: (req, file, cb) => {
+        const permitidos = ['image/jpeg', 'image/png', 'image/webp'];
+        cb(null, permitidos.includes(file.mimetype));
+    }
+});
+function receberFoto(req, res, next) {
+    uploadFoto.single('imagem')(req, res, (erro) => {
+        if (!erro) return next();
+        if (erro.code === "LIMIT_FILE_SIZE") {
+            return res.status(413).json({ mensagem: "A imagem é grande demais (máximo 5 MB)." })
+        }
+        return res.status(400).json({ mensagem: "Envio de imagem inválido ." })
+    })
+}
+
 app.put('/api/usuario', autenticar, async (req, res) => {
     const { nome, email } = req.body ?? {};
     const usuarioId = req.usuario.id
@@ -410,6 +442,84 @@ app.put('/api/usuario', autenticar, async (req, res) => {
         })
     })
 });
+
+app.get("/api/usuario", autenticar, async (req, res) => {
+    try {
+        const [linhas] = await dbp.query(
+            'SELECT id,nome,email, foto_url FROM usuarios WHERE id=?', [req.usuario.id]
+        );
+        if (linhas.length === 0) {
+            return res.status(401).json({ mensagem: "Usuário não encontrado." })
+        }
+        return res.json({ usuario: linhas[0] });
+    } catch (erro) {
+        console.error('Erro ao buscar usuário:', erro);
+        return res.status(500).json({ mensagem: 'Erro interno no servidor.' });
+    }
+});
+
+app.put('/api/usuario/foto', autenticar, limitadorFotoPerfil, receberFoto, async (req, res) => {
+    if (!req.file) {
+        return res.status(400).json({ mensagem: 'Envie uma imagem JPEG, PNG ou WebP.' });
+    }
+    const usuarioId = req.usuario.id;
+    try {
+        const [linhas] = await dbp.query('SELECT foto_file_id FROM usuarios WHERE id = ?', [usuarioId]);
+        if (linhas.length === 0) {
+            return res.status(401).json({ mensagem: 'Usuário não encontrado.' });
+        }
+        const fotoAntigaId = linhas[0].foto_file_id;
+        let imagem;
+        try {
+            const otimizada = await prepararImagem(req.file.buffer, PRESETS.avatar);
+            imagem = await enviarImagem(otimizada, PASTAS.perfis);
+        } catch (erro) {
+            if (erro instanceof ImagemInvalidaError) {
+                return res.status(400).json({ mensagem: erro.mensagem });
+            }
+            console.error('Falha ao enviar foto de perfil:', erro.message);
+            return res.status(502).json({ mensagem: 'Não foi possível salvar a imagem agora. Tente novamente.' });
+        }
+        try {
+            await dbp.query(
+                'UPDATE usuarios SET foto_url=?, foto_file=? WHERE id=?',
+                [imagem.url, imagem.fileId, usuarioId]
+            );
+        } catch (erro) {
+            apagarImagem(imagem.fileId).catch(e => console.error('Falha ao limpar imagem órfã:', e.message));
+            throw erro;
+        }
+        if (fotoAntigaId) {
+            apagarImagem(fotoAntigaId).catch(e => console.error('Falha ao apagar foto antiga : ', e.message));
+        }
+        return res.json({ mensagem: 'Foto atualizada com sucesso!', foto_url: imagem.url });
+    } catch (erro) {
+        console.error('Erro ao atualizar foto de perfil:', erro);
+        return res.status(500).json({ mensagem: 'Erro interno no servidor.' });
+    }
+});
+
+app.delete('/api/usuario/foto', autenticar, async (req, res) => {
+    const usuarioId = req.usuario.id;
+
+    try {
+        const [linhas] = await dbp.query('SELECT foto_file_id FROM usuarios WHERE id=?', [usuarioId]);
+        if (linhas.length === 0) {
+            return res.status(401).json({ mensagem: 'Usuário não encontrado.' });
+        }
+        const fotoId = linhas[0].foto_file_id;
+
+        await dbp.query('UPDATE usuario SET foto_url =NULL, foto_file_id=NULL WHERE id=? ', [usuarioId]);
+        if (fotoId) {
+            apagarImagem(fotoId).catch(e => console.error('Falha ao apagar a foto do ImageKit ', e.mensagem));
+        }
+        return res.json({ mensagem: 'Foto removida.' });
+    } catch (erro) {
+        console.error('Erro ao remover foto de perfil: ', erro);
+        return res.status(500).json({ mensagem: "Erro interno no servidor." })
+    }
+});
+
 app.use((err, req, res, next) => {
     console.error('Erro não tratado:', err);
 
