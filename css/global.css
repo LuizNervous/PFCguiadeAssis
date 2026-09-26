@@ -193,7 +193,7 @@ header #closeMenu img {
 
 .container-alerts {
   position: fixed;
-  top: 90px;
+  top: 120px;
   right: 20px;
   display: flex;
   flex-direction: column;

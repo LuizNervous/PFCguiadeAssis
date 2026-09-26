@@ -1,6 +1,6 @@
 const olho = document.getElementById("olho");
 const senhaInput = document.getElementById("senha");
-
+const btn = document.getElementById("logar");
 olho.addEventListener("click", () => {
 
     if (senhaInput.type === "password") {
@@ -30,6 +30,7 @@ document.getElementById("FormLogin").addEventListener("submit", async (e) => {
     const senha = senhaInput.value;
     const email = document.getElementById("email").value;
 
+    btn.textContent = "Logando...";
     try {
         const resposta = await fetch(`${API_URL}/login`, {
             method: "POST",
@@ -50,10 +51,12 @@ document.getElementById("FormLogin").addEventListener("submit", async (e) => {
         }
         else {
             criarAlerta(dados?.mensagem || 'E-mail ou senha incorretos.', "alertRuim", 5000);
+            btn.textContent="Entrar";
         }
     }
     catch (erro) {
         console.error("Erro na requisição de login : ", erro);
         criarAlerta("Erro de conexão com o servidor.", "alertRuim", 5000)
+        btn.textContent="Entrar";
     }
 })

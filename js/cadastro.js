@@ -73,6 +73,7 @@ document.getElementById("FormCadastro").addEventListener("submit", async (e) => 
     const senha = senhaInput.value;
     const email = document.getElementById("email").value;
     const data_nascimento = campoData.value;
+    document.getElementById("cadastrar").textContent="Cadastrando..."
 
     if (!validarSenha(senha)) {
         return;

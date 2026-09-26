@@ -71,7 +71,29 @@ main {
   opacity: 0.9;
 }
 
+#fotoPerfil {
+  max-width: 200px;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 50%;
+}
 
+.acoes-foto {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.acoes-foto button {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: #fff;
+  color: #1f2937;
+  cursor: pointer;
+}
 
 @media (max-width: 768px) {
   main {
