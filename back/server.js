@@ -475,14 +475,14 @@ app.put('/api/usuario/foto', autenticar, limitadorFotoPerfil, receberFoto, async
             imagem = await enviarImagem(otimizada, PASTAS.perfis);
         } catch (erro) {
             if (erro instanceof ImagemInvalidaError) {
-                return res.status(400).json({ mensagem: erro.mensagem });
+                return res.status(400).json({ mensagem: erro.message });
             }
             console.error('Falha ao enviar foto de perfil:', erro.message);
             return res.status(502).json({ mensagem: 'Não foi possível salvar a imagem agora. Tente novamente.' });
         }
         try {
             await dbp.query(
-                'UPDATE usuarios SET foto_url=?, foto_file=? WHERE id=?',
+                'UPDATE usuarios SET foto_url=?, foto_file_id=? WHERE id=?',
                 [imagem.url, imagem.fileId, usuarioId]
             );
         } catch (erro) {
@@ -509,7 +509,7 @@ app.delete('/api/usuario/foto', autenticar, async (req, res) => {
         }
         const fotoId = linhas[0].foto_file_id;
 
-        await dbp.query('UPDATE usuario SET foto_url =NULL, foto_file_id=NULL WHERE id=? ', [usuarioId]);
+        await dbp.query('UPDATE usuarios SET foto_url =NULL, foto_file_id=NULL WHERE id=? ', [usuarioId]);
         if (fotoId) {
             apagarImagem(fotoId).catch(e => console.error('Falha ao apagar a foto do ImageKit ', e.mensagem));
         }
