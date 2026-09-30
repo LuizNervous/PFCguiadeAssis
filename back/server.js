@@ -379,6 +379,24 @@ app.post('/api/avaliar', autenticar, (req, res) => {
 
 const dbp = db.promise();
 
+async function  exigirAdmin(req,res,next) {
+    try {
+        const [linhas]=await db.query('SELECT eh_admin FROM usuario WHERE id =?')
+        if (linhas.length === 0) {
+            return res.status(401).json({mensagem:"Usuário não encontrado."})
+        }
+        if (Number(linhas[0].eh_admin !== 1)) {
+            return res.status(403).json({mensagem:"Acesso negado."})
+        }
+        next();
+    } catch (erro) {
+        console.error('Erro ao verificar administrador:', erro);
+        return res.status(500).json({ mensagem: 'Erro interno no servidor.' });
+    }
+}
+app.get('/api/admim/verficar', autenticar, exigirAdmin, (req,res)=>{
+    res.json({admin:true});
+});
 const limitadorFotoPerfil = rateLimit({
     windowMs: 60 * 60 * 1000,
     limit: 10,
@@ -446,7 +464,7 @@ app.put('/api/usuario', autenticar, async (req, res) => {
 app.get("/api/usuario", autenticar, async (req, res) => {
     try {
         const [linhas] = await dbp.query(
-            'SELECT id,nome,email, foto_url FROM usuarios WHERE id=?', [req.usuario.id]
+            'SELECT id,nome,email, foto_url, eh_admin FROM usuarios WHERE id=?', [req.usuario.id]
         );
         if (linhas.length === 0) {
             return res.status(401).json({ mensagem: "Usuário não encontrado." })
@@ -534,5 +552,5 @@ app.use((err, req, res, next) => {
 });
 
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.DB_PORT || 3000;
 app.listen(PORT, () => console.log(`servidor rodando na porta ${PORT}`));

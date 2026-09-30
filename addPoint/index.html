@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard ADMIN</title>
+  <meta name="robots" content="noindex">
+  <title>Painel Administrativo - Guia Assis</title>
 
   <link rel="stylesheet" href="../css/global.css">
-  <link rel="stylesheet" href="../css/admin.css">
   <link rel="stylesheet" href="../css/header.css">
+  <link rel="stylesheet" href="../css/admin.css">
   <link rel="shortcut icon" href="../imagens/icone.png" type="image/x-icon">
 </head>
 
@@ -16,10 +17,41 @@
   <div id="header"></div>
 
   <main>
+    <section class="adm-topo">
+      <h1>Painel Administrativo</h1>
+      <p>Gerencie os pontos do Guia Assis</p>
+    </section>
 
+    <p id="admVerificando" class="adm-status" role="status">Verificando permissões…</p>
+
+    <div id="admPainel" class="adm-layout" hidden>
+      <nav class="adm-nav" aria-label="Seções do painel">
+        <button type="button" data-secao="geral" class="ativo" aria-current="page">Visão geral</button>
+        <button type="button" data-secao="pontos">Pontos</button>
+        <button type="button" data-secao="imagens">Imagens</button>
+      </nav>
+
+      <div class="adm-conteudo">
+        <section id="sec-geral" class="adm-secao">
+          <h2>Visão geral</h2>
+          <div id="admResumo" class="adm-cards"></div>
+        </section>
+
+        <section id="sec-pontos" class="adm-secao" hidden>
+          <h2>Pontos</h2>
+          <p class="adm-aviso">Somente leitura por enquanto. Adicionar, editar e excluir pontos serão a próxima etapa.</p>
+          <div id="admTabela"></div>
+        </section>
+
+        <section id="sec-imagens" class="adm-secao" hidden>
+          <h2>Imagens</h2>
+          <div id="admImagens" class="adm-galeria"></div>
+        </section>
+      </div>
+    </div>
   </main>
-  <div id="footer"></div>
 
+  <div id="footer"></div>
 
   <script src="../js/global.js"></script>
   <script src="../js/admin.js"></script>

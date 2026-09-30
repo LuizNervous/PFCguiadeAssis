@@ -1,0 +1,250 @@
+[hidden] {
+  display: none !important;
+}
+
+:root {
+  --adm-bg: #ffffff;
+  --adm-texto: #1f2937;
+  --adm-suave: #64748b;
+  --adm-borda: #e2e8f0;
+  --adm-destaque: #2563eb;
+  --adm-destaque-texto: #ffffff;
+  --adm-fundo-suave: #f1f5f9;
+}
+
+body.Escuro {
+  --adm-bg: #1b1b1b;
+  --adm-texto: #f5f5f5;
+  --adm-suave: #a8b0bd;
+  --adm-borda: #333333;
+  --adm-destaque: #4c90e9;
+  --adm-destaque-texto: #0b1220;
+  --adm-fundo-suave: #262626;
+}
+
+body.tema-contraste {
+  --adm-bg: #000000;
+  --adm-texto: #ffff00;
+  --adm-suave: #ffff00;
+  --adm-borda: #ffff00;
+  --adm-destaque: #ffff00;
+  --adm-destaque-texto: #000000;
+  --adm-fundo-suave: #000000;
+}
+
+body.tema-dicromacia {
+  --adm-bg: #00152b;
+  --adm-texto: #ffd700;
+  --adm-suave: #ffd700;
+  --adm-borda: #ffd700;
+  --adm-destaque: #ffd700;
+  --adm-destaque-texto: #00152b;
+  --adm-fundo-suave: #001f3f;
+}
+
+.adm-topo {
+  padding: 60px 10%;
+  color: #ffffff;
+  background: linear-gradient(135deg, #0d34b3 0%, #03c02c 100%);
+  box-shadow: 0 10px 30px rgba(13, 52, 179, 0.2);
+}
+
+.adm-topo h1 {
+  font-size: clamp(30px, 5vw, 48px);
+}
+
+.adm-topo p {
+  margin-top: 8px;
+}
+
+body.tema-contraste .adm-topo {
+  background: #000000;
+  color: #ffff00;
+  border-bottom: 2px solid #ffff00;
+  box-shadow: none;
+}
+
+body.tema-dicromacia .adm-topo {
+  background: #00152b;
+  color: #ffd700;
+  border-bottom: 1px solid #ffd700;
+  box-shadow: none;
+}
+
+.adm-layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 24px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 24px auto;
+  padding: 0 20px;
+}
+
+.adm-nav,
+.adm-conteudo {
+  background: var(--adm-bg);
+  color: var(--adm-texto);
+  border: 1px solid var(--adm-borda);
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.adm-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px;
+  align-self: start;
+}
+
+.adm-nav button {
+  padding: 12px 14px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--adm-suave);
+  font-size: 15px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.adm-nav button:hover {
+  background: var(--adm-fundo-suave);
+  color: var(--adm-texto);
+}
+
+.adm-nav button.ativo {
+  background: var(--adm-destaque);
+  color: var(--adm-destaque-texto);
+}
+
+.adm-nav button:focus-visible {
+  outline: 3px solid var(--adm-destaque);
+  outline-offset: 2px;
+}
+
+.adm-conteudo {
+  min-width: 0;
+  padding: 24px;
+}
+
+.adm-conteudo h2 {
+  margin-bottom: 16px;
+}
+
+.adm-aviso {
+  margin-bottom: 16px;
+  padding: 12px 14px;
+  border-left: 4px solid var(--adm-destaque);
+  border-radius: 6px;
+  background: var(--adm-fundo-suave);
+  color: var(--adm-texto);
+  font-size: 14px;
+}
+
+.adm-status {
+  padding: 30px 20px;
+  text-align: center;
+  color: var(--adm-suave);
+}
+
+.adm-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.adm-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 20px;
+  border: 1px solid var(--adm-borda);
+  border-radius: 12px;
+  background: var(--adm-fundo-suave);
+}
+
+.adm-card strong {
+  font-size: 2rem;
+  color: var(--adm-destaque);
+}
+
+.adm-card span {
+  color: var(--adm-suave);
+  font-size: 14px;
+}
+
+.adm-tabela-wrap {
+  overflow-x: auto;
+}
+
+.adm-tabela-wrap table {
+  width: 100%;
+  min-width: 560px;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.adm-tabela-wrap th,
+.adm-tabela-wrap td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--adm-borda);
+}
+
+.adm-tabela-wrap th {
+  color: var(--adm-suave);
+  font-weight: 600;
+}
+
+.adm-galeria {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.adm-foto img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid var(--adm-borda);
+}
+
+.adm-foto figcaption {
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--adm-suave);
+}
+
+.adm-so-leitor {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .adm-layout {
+    grid-template-columns: 1fr;
+    padding: 0 12px;
+  }
+
+  .adm-nav {
+    flex-direction: row;
+    overflow-x: auto;
+  }
+
+  .adm-nav button {
+    white-space: nowrap;
+  }
+
+  .adm-conteudo {
+    padding: 16px;
+  }
+}

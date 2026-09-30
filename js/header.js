@@ -32,6 +32,9 @@ function inicializarHeader() {
           fotoUsuario.src="../imagens/IUsuario.png"
         })
       }
+      if (dados.usuario.eh_admin === 1) {
+        document.getElementById("linkAdmin")?.removeAttribute("hidden");
+      }
     } catch (erro) {
       console.error("Erro ao carregar a foto do header : ",erro)
     }
