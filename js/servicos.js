@@ -69,8 +69,8 @@ function renderizarCards(lista) {
         const categoria = ponto.categoria_nome ? ponto.categoria_nome.toLowerCase() : "";
         const icone = icones[categoria] || "fa-location-dot";
         const cor = cores[categoria] || "azul";
-        const imagemSrc = ponto.imagem ? `/imagens/pontos/${escaparHtml(ponto.imagem)}` : '/imagens/placeholder.png';
-
+        const imagemSrc = escaparHtml(urlImagemPonto(ponto.imagem));
+        
         const descricaoTexto = ponto.descricao || "";
         const descricaoCurta = descricaoTexto.length > 100 ? `${descricaoTexto.substring(0, 100)}...` : descricaoTexto;
 

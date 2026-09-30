@@ -65,17 +65,17 @@ function validarDominioEmail(email) {
     });
 }
 
-function validarDataNascimento(dataStrig) {
-    const nascimento = new Date(dataStrig);
-
+function validarDataNascimento(dataString) {
+    const nascimento = new Date(dataString);
     if (isNaN(nascimento.getTime())) return false;
+
     const hoje = new Date();
-    if (nascimento > hoje) {
-        return false;
-    }
+    if (nascimento > hoje) return false;
+
     let idade = hoje.getFullYear() - nascimento.getFullYear();
-    const diferecaMes = nascimento.getMonth() - hoje.getMonth();
-    if (diferecaMes < 0 || (diferecaMes == 0 && hoje.getDate() < nascimento.getDate())) {
+    const diferencaMes = nascimento.getMonth() - hoje.getMonth();
+
+    if (diferencaMes < 0 || (diferencaMes === 0 && hoje.getDate() < nascimento.getDate())) {
         idade--;
     }
     return idade >= 3 && idade <= 110;
@@ -87,7 +87,7 @@ function ehTexto(valor) {
 
 app.get('/api/pontos', (req, res) => {
     const query = `
-    SELECT p.*, 
+    SELECT p.id, p.nome, p.endereco, p.descricao, p.imagem, p.id_categoria, p.latitude, p.longitude, 
     c.nome AS categoria_nome,
      COALESCE(ROUND(AVG(a.nota), 1), 0) AS media_nota, 
      COUNT(a.id) AS total_avaliacoes,
@@ -109,7 +109,7 @@ app.get('/api/pontos', (req, res) => {
 app.get('/api/pontos/:id', (req, res) => {
     const { id } = req.params;
     const query = `
-        SELECT p.*,
+        SELECT p.id, p.nome, p.endereco, p.descricao, p.imagem, p.id_categoria, p.latitude, p.longitude,
                 c.nome AS categoria_nome,
                 COALESCE(ROUND(AVG(a.nota), 1), 0) AS media_nota,
                 COUNT(a.id) AS total_avaliacoes
@@ -530,7 +530,7 @@ app.delete('/api/usuario/foto', autenticar, async (req, res) => {
 
         await dbp.query('UPDATE usuarios SET foto_url =NULL, foto_file_id=NULL WHERE id=? ', [usuarioId]);
         if (fotoId) {
-            apagarImagem(fotoId).catch(e => console.error('Falha ao apagar a foto do ImageKit ', e.mensagem));
+            apagarImagem(fotoId).catch(e => console.error('Falha ao apagar a foto do ImageKit ', e.message));
         }
         return res.json({ mensagem: 'Foto removida.' });
     } catch (erro) {
@@ -553,5 +553,5 @@ app.use((err, req, res, next) => {
 });
 
 
-const PORT = process.env.DB_PORT || 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`servidor rodando na porta ${PORT}`));

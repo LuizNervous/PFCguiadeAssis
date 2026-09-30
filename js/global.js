@@ -43,7 +43,10 @@ window.addEventListener("scroll", () => {
     }
   }
 });
-
+function urlImagemPonto(imagem) {
+  if (!imagem) return '/imagens/placeholder.png';
+  return /^https?:\/\//.test(imagem) ? imagem : `/imagens/pontos/${imagem}` ; 
+}
 
 let tradutorInicializado = false;
 

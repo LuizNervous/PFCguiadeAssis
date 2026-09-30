@@ -63,7 +63,7 @@ function renderizarCards(categoria) {
         divs.innerHTML += `
              <div class="ponto-card" id="ponto-${ponto.id}">
                 <div class="introducao">
-                    <img src="../imagens/pontos/${escaparHtml(ponto.imagem)}" alt="${escaparHtml(ponto.nome)}">
+                    <img src="${escaparHtml(urlImagemPonto(ponto.imagem))}">
                     <div class="descricao">
                         <h3>${escaparHtml(ponto.nome)}</h3>
                         <p><strong>Endereço: </strong>${escaparHtml(ponto.endereco)}</p>
@@ -116,7 +116,7 @@ async function carregarPontos() {
 
         <div class="popup-imagem-container">
             <img 
-                src="../imagens/pontos/${escaparHtml(ponto.imagem)}" 
+                src="${escaparHtml(urlImagemPonto(ponto.imagem))}"
                 alt="${escaparHtml(ponto.nome)}"
                 class="popup-imagem"
             >
@@ -147,8 +147,8 @@ async function carregarPontos() {
     </div>
 `);
             pino.bindTooltip(ponto.nome);
-                
-            
+
+
             if (todasCategorias[grupoCategoria]) {
                 pino.addTo(todasCategorias[grupoCategoria]);
             }

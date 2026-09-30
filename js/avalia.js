@@ -28,7 +28,7 @@ async function CarregarPontos() {
 function renderizarPontos(ponto) {
   const container = document.getElementById("pontoSelecionado");
 
-  const imagemSrc = `../imagens/pontos/${escaparHtml(ponto.imagem)}`;
+  const imagemSrc = escaparHtml(urlImagemPonto(ponto.imagem));
   const mediaNota = ponto.media_nota ? Number(ponto.media_nota).toFixed(1) : "0.0";
 
   container.innerHTML = `
