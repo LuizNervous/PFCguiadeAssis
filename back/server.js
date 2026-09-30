@@ -381,7 +381,7 @@ const dbp = db.promise();
 
 async function  exigirAdmin(req,res,next) {
     try {
-        const [linhas]=await db.query('SELECT eh_admin FROM usuario WHERE id =?')
+        const [linhas]=await dbp.query('SELECT eh_admin FROM usuarios WHERE id =?');
         if (linhas.length === 0) {
             return res.status(401).json({mensagem:"Usuário não encontrado."})
         }
@@ -394,7 +394,7 @@ async function  exigirAdmin(req,res,next) {
         return res.status(500).json({ mensagem: 'Erro interno no servidor.' });
     }
 }
-app.get('/api/admim/verficar', autenticar, exigirAdmin, (req,res)=>{
+app.get('/api/admin/verificar', autenticar, exigirAdmin, (req,res)=>{
     res.json({admin:true});
 });
 const limitadorFotoPerfil = rateLimit({

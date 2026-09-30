@@ -124,7 +124,8 @@ inputFoto.addEventListener("change", async () => {
     const dados = await resposta.json();
     if (resposta.ok) {
       mostrarFoto(dados.foto_url);
-      criarAlerta("Foto atualzida!", "alertBom", 3000);
+      window.location.reload();
+      criarAlerta("Foto atualizada!", "alertBom", 3000);
     } else if (resposta.status === 401) sessaoExpirou();
     else {
       criarAlerta(dados.mensagem || "Erro ao enviar a foto.", "alertRuim", 5000);
