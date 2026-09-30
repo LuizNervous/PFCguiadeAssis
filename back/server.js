@@ -379,14 +379,14 @@ app.post('/api/avaliar', autenticar, (req, res) => {
 
 const dbp = db.promise();
 
-async function  exigirAdmin(req,res,next) {
+async function exigirAdmin(req, res, next) {
     try {
-        const [linhas]=await dbp.query('SELECT eh_admin FROM usuarios WHERE id =?');
+        const [linhas] = await dbp.query('SELECT eh_admin FROM usuarios WHERE id = ?', [req.usuario.id]);
         if (linhas.length === 0) {
-            return res.status(401).json({mensagem:"Usuário não encontrado."})
+            return res.status(401).json({ mensagem: 'Usuário não encontrado.' });
         }
-        if (Number(linhas[0].eh_admin !== 1)) {
-            return res.status(403).json({mensagem:"Acesso negado."})
+        if (Number(linhas[0].eh_admin) !== 1) {
+            return res.status(403).json({ mensagem: 'Acesso negado.' });
         }
         next();
     } catch (erro) {
@@ -394,8 +394,9 @@ async function  exigirAdmin(req,res,next) {
         return res.status(500).json({ mensagem: 'Erro interno no servidor.' });
     }
 }
-app.get('/api/admin/verificar', autenticar, exigirAdmin, (req,res)=>{
-    res.json({admin:true});
+
+app.get('/api/admin/verificar', autenticar, exigirAdmin, (req, res) => {
+    res.json({ admin: true });
 });
 const limitadorFotoPerfil = rateLimit({
     windowMs: 60 * 60 * 1000,
