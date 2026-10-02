@@ -433,6 +433,10 @@ function lerId(valor) {
     }
     return numero;
 }
+function lerNumero(valor) {
+    if (!ehTexto(valor) || valor.trim() === '') return NaN;
+    return Number(valor);
+}
 
 async function validarPonto(corpo) {
     const { nome, endereco, descricao, id_categoria, latitude, longitude } = corpo ?? {};
