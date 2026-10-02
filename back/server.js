@@ -1,4 +1,4 @@
-require('dotenv').config({path:'./back/.env'});
+require('dotenv').config({ path: './back/.env' });
 const express = require('express');
 const cors = require('cors');
 const mysql = require('mysql2');
@@ -419,14 +419,19 @@ function receberImagemPonto(req, res, next) {
             return res.status(400).json({ mensagem: "Envio inválido." });
         }
         if (req.imagemRejeitada) {
-            return res.status(400).json({ mensagem: "Envie uma iamgem JPEG, PNG ou WebP." })
+            return res.status(400).json({ mensagem: "Envie uma imagem JPEG, PNG ou WebP." })
         }
         next()
     });
 }
 function lerId(valor) {
     if (!ehTexto(valor) || valor.trim() === '') return NaN;
-    return Number(valor);
+    const numero = Number(valor);
+
+    if (!Number.isInteger(numero) || numero <= 0) {
+        return NaN;
+    }
+    return numero;
 }
 
 async function validarPonto(corpo) {
@@ -437,11 +442,11 @@ async function validarPonto(corpo) {
     }
     const dados = { nome: nome.trim(), endereco: endereco.trim(), descricao: typeof descricao === 'string' ? descricao.trim() : '' }
 
-    if (!dados.nome || !dados.endereco || !dados.latitude || !dados.longitude || !dados.id_categoria) {
-        return { erro: 'Preencha nome, endereço, latitude, longitude e a categoria.' };
+    if (!dados.nome || !dados.endereco) {
+        return { erro: 'Preencha nome, endereço.' };
     }
     if (dados.nome.length > 100) return { erro: 'O nome pode ter no máximo 100 caracteres.' };
-    if (dados.endereco.length > 255) return { erro: 'O endereço pode ter no máximo 200 caracteres.' };
+    if (dados.endereco.length > 255) return { erro: 'O endereço pode ter no máximo 255 caracteres.' };
     if (dados.descricao.length > 1000) return { erro: 'A descrição pode ter no máximo 1000 caracteres.' };
 
     const categoriaId = lerNumero(id_categoria);
@@ -516,7 +521,7 @@ app.post('/api/admin/pontos', autenticar, exigirAdmin, receberImagemPonto, async
 });
 
 app.put('/api/admin/pontos/:id', autenticar, exigirAdmin, receberImagemPonto, async (req, res) => {
-    const id = lerId(req.params.body);
+    const id = lerId(req.params.id);
     if (!id) return res.status(400).json({ mensagem: "ID do ponto inválido." })
 
     try {
