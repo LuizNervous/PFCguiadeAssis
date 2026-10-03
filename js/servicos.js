@@ -70,7 +70,7 @@ function renderizarCards(lista) {
         const icone = icones[categoria] || "fa-location-dot";
         const cor = cores[categoria] || "azul";
         const imagemSrc = escaparHtml(urlImagemPonto(ponto.imagem));
-        
+
         const descricaoTexto = ponto.descricao || "";
         const descricaoCurta = descricaoTexto.length > 100 ? `${descricaoTexto.substring(0, 100)}...` : descricaoTexto;
 
@@ -78,14 +78,14 @@ function renderizarCards(lista) {
         const notaArredondada = Math.round(mediaNotaNum);
         const estrelasHtml = '★'.repeat(notaArredondada) + '☆'.repeat(5 - notaArredondada);
         const totalAvaliacoes = ponto.total_avaliacoes || 0;
-        
-        const listaTags = ponto.tags 
+
+        const listaTags = ponto.tags
             ? [...new Set(ponto.tags.split(', ').map(t => t.trim()).filter(t => t !== ''))].slice(0, 3)
             : [];
-            
+
         // CORRIGIDO: Checa se a lista de tags possui itens
-        const tagsHTML = listaTags.length > 0 
-            ? listaTags.map(tag => `<span class="tag-badge">${escaparHtml(tag)}</span>`).join('') 
+        const tagsHTML = listaTags.length > 0
+            ? listaTags.map(tag => `<span class="tag-badge">${escaparHtml(tag)}</span>`).join('')
             : '<span class="tag-badge-vazio">Sem observações</span>';
 
         htmlGerado += `
@@ -173,19 +173,19 @@ function abrirModal(id) {
     const categoria = (ponto.categoria_nome || "").toLowerCase();
     const icone = icones[categoria] || "fa-location-dot";
     const cor = cores[categoria] || "azul";
-    const imagemSrc = ponto.imagem ? `/imagens/pontos/${escaparHtml(ponto.imagem)}` : '/imagens/placeholder.png';
+    const imagemSrc = escaparHtml(urlImagemPonto(ponto.imagem));
 
     const mediaNotaNum = Number(ponto.media_nota) || 0;
     const notaArredondada = Math.round(mediaNotaNum);
     const estrelasHtml = '★'.repeat(notaArredondada) + '☆'.repeat(5 - notaArredondada);
     const totalAvaliacoes = ponto.total_avaliacoes || 0;
-    
-    const listaTags = ponto.tags 
+
+    const listaTags = ponto.tags
         ? [...new Set(ponto.tags.split(', ').map(t => t.trim()).filter(t => t !== ''))].slice(0, 3)
         : [];
-        
-    const tagsHTML = listaTags.length > 0 
-        ? listaTags.map(tag => `<span class="tag-badge">${escaparHtml(tag)}</span>`).join('') 
+
+    const tagsHTML = listaTags.length > 0
+        ? listaTags.map(tag => `<span class="tag-badge">${escaparHtml(tag)}</span>`).join('')
         : '<span class="tag-badge-vazio">Sem observações</span>';
 
     const modal = document.getElementById("modal");

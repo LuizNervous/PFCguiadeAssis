@@ -413,6 +413,7 @@ const uploadPonto = multer({
 function receberImagemPonto(req, res, next) {
     uploadPonto.single('imagem')(req, res, (erro) => {
         if (erro) {
+            console.error('Erro multer: ', { code: erro.code, message: erro.message, field: erro.field});
             if (erro.code === 'LIMIT_FILE_SIZE') {
                 return res.status(413).json({ mensagem: "A imagem é grande demais (máximo 5 MB)." });
             }
