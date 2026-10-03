@@ -403,7 +403,7 @@ app.get('/api/admin/verificar', autenticar, exigirAdmin, (req, res) => {
 const uploadPonto = multer({
     storage: multer.memoryStorage(),
     limits: { fileSize: 5 * 1024 * 1024, files: 1, fields: 8, fieldSize: 8 * 1024 },
-    fileFilter: (req, res, cb) => {
+    fileFilter: (req, file, cb) => {
         const permitido = ['image/jpeg', 'image/webp', 'image/png'].includes(file.mimetype);
         if (!permitido) req.imagemRejeitada = true;
         cb(null, permitido);
@@ -413,7 +413,7 @@ const uploadPonto = multer({
 function receberImagemPonto(req, res, next) {
     uploadPonto.single('imagem')(req, res, (erro) => {
         if (erro) {
-            console.error('Erro multer: ', { code: erro.code, message: erro.message, field: erro.field});
+            console.error('Erro multer: ', { code: erro.code, message: erro.message, field: erro.field });
             if (erro.code === 'LIMIT_FILE_SIZE') {
                 return res.status(413).json({ mensagem: "A imagem é grande demais (máximo 5 MB)." });
             }

@@ -38,7 +38,17 @@
         </section>
 
         <section id="sec-pontos" class="adm-secao" hidden>
-          <h2>Pontos</h2>
+          <div class="adm-cabecalho">
+            <h2>Pontos</h2>
+            <button type="button" id="admNovo" class="adm-btn adm-btn-principal">+ Novo ponto</button>
+          </div>
+          <div class="adm-filtros">
+            <label class="adm-so-leitor" for="admBusca">Buscar pontos</label>
+            <input type="search" id="admBusca" placeholder="Buscar por nome, endereço ou categoria…">
+            <label class="adm-so-leitor" for="admFiltroCategoria">Filtrar por categoria</label>
+            <select id="admFiltroCategoria"><option value="">Todas as categorias</option></select>
+          </div>
+          <p id="admContagem" class="adm-suave" role="status"></p>
           <div id="admTabela"></div>
         </section>
 
@@ -48,6 +58,64 @@
         </section>
       </div>
     </div>
+
+    <dialog id="admDialogoPonto" class="adm-dialogo" aria-labelledby="admTituloForm">
+      <form id="admForm" novalidate>
+        <h2 id="admTituloForm">Novo ponto</h2>
+        <input type="hidden" id="admId">
+
+        <div class="adm-campo">
+          <label for="admNome">Nome</label>
+          <input type="text" id="admNome" maxlength="100" required>
+        </div>
+        <div class="adm-campo">
+          <label for="admCategoria">Categoria</label>
+          <select id="admCategoria" required><option value="">Selecione…</option></select>
+        </div>
+        <div class="adm-campo">
+          <label for="admEndereco">Endereço</label>
+          <input type="text" id="admEndereco" maxlength="255" required>
+        </div>
+        <div class="adm-campo">
+          <label for="admDescricao">Descrição</label>
+          <textarea id="admDescricao" rows="4" maxlength="1000" required></textarea>
+        </div>
+        <div class="adm-linha-campos">
+          <div class="adm-campo">
+            <label for="admLatitude">Latitude</label>
+            <input type="number" id="admLatitude" step="any" min="-90" max="90" required>
+          </div>
+          <div class="adm-campo">
+            <label for="admLongitude">Longitude</label>
+            <input type="number" id="admLongitude" step="any" min="-180" max="180" required>
+          </div>
+        </div>
+        <div class="adm-campo">
+          <label for="admImagem">Imagem</label>
+          <input type="file" id="admImagem" accept="image/jpeg,image/png,image/webp" aria-describedby="admImagemDica">
+          <small id="admImagemDica"></small>
+          <figure class="adm-previa">
+            <img id="admPreview" alt="Pré-visualização da imagem do ponto" hidden>
+            <figcaption id="admLegendaPreview"></figcaption>
+          </figure>
+        </div>
+
+        <p id="admErroForm" class="adm-erro" role="alert" hidden></p>
+        <div class="adm-acoes">
+          <button type="button" id="admCancelar" class="adm-btn">Cancelar</button>
+          <button type="submit" id="admSalvar" class="adm-btn adm-btn-principal">Salvar</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="admDialogoExcluir" class="adm-dialogo" aria-labelledby="admTituloExcluir">
+      <h2 id="admTituloExcluir">Excluir ponto?</h2>
+      <p>Você vai excluir <strong id="admNomeExcluir"></strong>, com a imagem e todas as avaliações. Esta ação não pode ser desfeita.</p>
+      <div class="adm-acoes">
+        <button type="button" id="admCancelarExcluir" class="adm-btn">Cancelar</button>
+        <button type="button" id="admConfirmarExcluir" class="adm-btn adm-btn-perigo">Excluir</button>
+      </div>
+    </dialog>
   </main>
 
   <div id="footer"></div>
