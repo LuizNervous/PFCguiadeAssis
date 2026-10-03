@@ -50,7 +50,7 @@ async function prepararImagem(buffer, preset) {
 
 function configuracao() {
     const chave = process.env.IMAGEKIT_PRIVATE_KEY;
-    const endpoint = (process.env.IMAGEKIT_URL_ENDPOINT || '').replace(/\/+\$/, '');
+    const endpoint = (process.env.IMAGEKIT_URL_ENDPOINT || '').replace(/\/+$/, '');
     if (!chave || !endpoint) {
         throw new Error('IMAGEKIT_PRIVATE_KEY e IMAGEKIT_URL_ENDPOINT precisam estar configuradas.');
     }
