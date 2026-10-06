@@ -64,7 +64,7 @@ router.post('/cadastro', async (req, res) => {
                 const token = jwt.sign(
                     { id: usuarioCriado.id },
                     segredo,
-                    { expiresIn: '2h' }
+                    { expiresIn: '2h', algorithm: 'HS256' }
                 )
                 return res.status(201).json({
                     mensagem: 'Usuário cadastrado com sucesso!',
@@ -118,7 +118,7 @@ router.post('/login', (req, res) => {
         const token = jwt.sign(
             { id: usuario.id },
             segredo,
-            { expiresIn: '2h' }
+            { expiresIn: '2h', algorithm: 'HS256' }
         );
         return res.json({
             mensagem: 'Login efetuado com sucesso!',
