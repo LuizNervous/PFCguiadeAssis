@@ -1,210 +1,353 @@
+/* =========================================
+   LOGIN + CADASTRO — interface moderna
+   ========================================= */
+
 body {
-    display: flex;
-    flex-direction: column;
-
-    height: 100vh;
-
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(37, 99, 235, 0.10), transparent 32%),
+    radial-gradient(circle at 85% 80%, rgba(0, 217, 255, 0.08), transparent 30%),
+    #f7f9fc;
 }
 
 main {
-    display: flex;
-    flex: 1;
-
+  display: flex;
+  flex: 1;
+  min-height: calc(100vh - 90px);
+  align-items: stretch;
 }
 
 .info {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: #0370ff;
-    width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  min-height: 560px;
+  padding: clamp(40px, 7vw, 96px);
+  overflow: hidden;
+  color: #fff;
+  text-align: center;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255,255,255,.16), transparent 28%),
+    linear-gradient(145deg, #0757d5 0%, #0877f9 52%, #00b8d9 100%);
 }
+
+.info::before,
+.info::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.info::before {
+  width: 320px;
+  height: 320px;
+  right: -150px;
+  top: -130px;
+  background: rgba(255,255,255,.10);
+}
+
+.info::after {
+  width: 220px;
+  height: 220px;
+  left: -110px;
+  bottom: -110px;
+  background: rgba(0,0,0,.08);
+}
+
 .info div {
-    color: rgb(240, 240, 240)    ;
-    text-align: center;
+  position: relative;
+  z-index: 1;
+  max-width: 520px;
 }
+
+.info h2 {
+  margin: 0;
+  font-size: clamp(20px, 2.3vw, 30px);
+  font-weight: 500;
+  letter-spacing: -.02em;
+}
+
 .info #nomeUsuario {
-    margin: 10px;
-    color: #3cf078;
+  margin: 8px 0;
+  color: #bfffe1;
+  font-size: clamp(30px, 4vw, 52px);
+  font-weight: 800;
+  line-height: 1.05;
 }
 
 .login {
-    border-left: 1px solid blue;
-    width: 100%;
-    height: 100%;
-    padding: 45px;
-    background: rgb(235, 235, 235);
-}
-
-@media (max-width:760px) {
-    main {
-        flex-wrap: wrap;
-    }
-
-    .login {
-        width: 80vw;
-        max-width: 90vw;
-        padding: 15px;
-    }
+  width: 50%;
+  max-width: 620px;
+  margin: auto;
+  padding: clamp(32px, 5vw, 72px);
+  color: #172033;
+  background: rgba(255,255,255,.72);
+  border: 1px solid rgba(148,163,184,.22);
+  border-radius: 24px;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, .10);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
 
 .login h1 {
-
-    text-align: center;
-    font-size: 36px;
-
+  margin: 0;
+  text-align: center;
+  font-size: clamp(30px, 4vw, 42px);
+  font-weight: 800;
+  letter-spacing: -.04em;
 }
 
-.login p {
-
-    text-align: center;
-
-    margin: 10px 0 35px;
-
-    color: #6e6d6d;
-
+.login > p {
+  margin: 10px 0 34px;
+  color: #64748b;
+  text-align: center;
+  font-size: 15px;
 }
 
 .input {
-
-    position: relative;
-
-    margin-bottom: 20px;
-
+  position: relative;
+  margin-bottom: 16px;
 }
 
 .input input {
-    caret-color: rgb(8, 228, 228);
-    width: 100%;
-    color-scheme: dark;
-    padding: 14px 45px;
-    color: black;
-    border: none;
-
-    border-radius: 10px;
-
-    outline: none;
-
-    background: rgb(211, 211, 211);
-
-
-
+  width: 100%;
+  min-height: 52px;
+  padding: 14px 46px;
+  color: #172033;
+  background: #f8fafc;
+  border: 1px solid #dbe3ef;
+  border-radius: 13px;
+  outline: none;
+  box-shadow: inset 0 1px 1px rgba(15,23,42,.02);
+  transition: border-color .2s ease, box-shadow .2s ease, background-color .2s ease;
 }
 
 .input input::placeholder {
+  color: #8a96a8;
+}
 
-    color: #646464;
-
+.input input:focus {
+  background: #fff;
+  border-color: #1684f8;
+  box-shadow: 0 0 0 4px rgba(22,132,248,.12);
 }
 
 .input .fa-user,
 .input .fa-lock,
 .input .fa-envelope,
 .input .fa-calendar-days {
-
-    position: absolute;
-
-    left: 15px;
-    top: 15px;
-
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  color: #718096;
+  transform: translateY(-50%);
 }
 
 #olho {
-
-    position: absolute;
-
-    right: 15px;
-    top: 15px;
-
-    cursor: pointer;
-
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  color: #718096;
+  cursor: pointer;
+  transform: translateY(-50%);
 }
 
 .extras {
-
-    display: flex;
-
-    justify-content: space-between;
-
-    font-size: 14px;
-
-    margin-bottom: 25px;
-
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 6px 0 24px;
+  color: #64748b;
+  font-size: 13px;
 }
 
-.extras a {
-
-    color: #00d4ff;
-
-    text-decoration: none;
-
+.extras label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
 }
 
-button {
-
-    width: 100%;
-
-    padding: 15px;
-
-    border: none;
-
-    border-radius: 10px;
-
-    background: linear-gradient(90deg, #00AEEF, #00E58A);
-
-    color: white;
-
-    font-size: 17px;
-
-    cursor: pointer;
-
-    transition: .3s;
-
+.extras input {
+  accent-color: #1677e8;
 }
 
-button:hover {
-
-    transform: scale(1.03);
-
+.extras a,
+.login span a {
+  color: #0877e8;
+  font-weight: 700;
+  text-decoration: none;
 }
 
-span {
-
-    display: block;
-
-    text-align: center;
-
-    margin-top: 25px;
-
+.extras a:hover,
+.login span a:hover {
+  text-decoration: underline;
 }
 
-span a {
-
-    color: #00d4ff;
-
-    text-decoration: none;
-
+.login button {
+  width: 100%;
+  min-height: 52px;
+  padding: 14px 18px;
+  border: 0;
+  border-radius: 13px;
+  background: linear-gradient(100deg, #0877e8, #00aeea 55%, #00c98b);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 10px 24px rgba(8,119,232,.22);
+  transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
 }
 
-/* CADASTRO CSS */
+.login button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(8,119,232,.28);
+  filter: brightness(1.03);
+}
+
+.login button:active {
+  transform: translateY(0);
+}
+
+.login button:focus-visible,
+#olho:focus-visible,
+.extras a:focus-visible,
+.login span a:focus-visible {
+  outline: 3px solid rgba(8,119,232,.28);
+  outline-offset: 3px;
+}
+
+.login span {
+  display: block;
+  margin-top: 22px;
+  color: #64748b;
+  text-align: center;
+  font-size: 14px;
+}
+
+.overlay {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 90px);
+  padding: 40px 20px;
+}
+
+.overlay .login {
+  width: min(100%, 580px);
+  max-width: 580px;
+}
+
+.NomeIdade {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
 #NomeIdade {
-    display: flex;
-    flex-wrap: nowrap;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
 }
 
-footer {
-    margin-top: 0;
+body.Escuro {
+  background:
+    radial-gradient(circle at 15% 20%, rgba(37,99,235,.14), transparent 32%),
+    #0f172a;
 }
-body.Escuro .login{
-    background-color: rgb(39, 39, 38) ;
+
+body.Escuro .login {
+  color: #f1f5f9;
+  background: rgba(23, 31, 48, .88);
+  border-color: rgba(148,163,184,.18);
+  box-shadow: 0 24px 70px rgba(0,0,0,.35);
 }
-body.Escuro .input input{
-    background-color: rgb(68, 68, 68) ;
-    color: #e2e2e2;
+
+body.Escuro .login > p,
+body.Escuro .login span,
+body.Escuro .extras {
+  color: #a7b3c5;
 }
+
+body.Escuro .input input {
+  color: #f1f5f9;
+  background: #172033;
+  border-color: #334155;
+}
+
+body.Escuro .input input:focus {
+  background: #1e293b;
+}
+
 body.Escuro .input input::placeholder {
+  color: #8391a6;
+}
 
-    color: #949494;
+body.Escuro .input .fa-user,
+body.Escuro .input .fa-lock,
+body.Escuro .input .fa-envelope,
+body.Escuro .input .fa-calendar-days,
+body.Escuro #olho {
+  color: #94a3b8;
+}
 
+body.tema-contraste .login,
+body.tema-dicromacia .login {
+  border: 2px solid currentColor;
+}
+
+@media (max-width: 850px) {
+  main {
+    flex-direction: column;
+  }
+
+  .info,
+  .login {
+    width: 100%;
+    max-width: none;
+  }
+
+  .info {
+    min-height: 280px;
+    padding: 48px 24px;
+  }
+
+  .login {
+    margin: 24px auto;
+    width: min(92%, 620px);
+  }
+}
+
+@media (max-width: 560px) {
+  .info {
+    min-height: 230px;
+    padding: 36px 20px;
+  }
+
+  .login {
+    padding: 28px 20px;
+    border-radius: 20px;
+  }
+
+  .NomeIdade,
+  #NomeIdade {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .extras {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .login *,
+  .info * {
+    transition: none !important;
+  }
 }
