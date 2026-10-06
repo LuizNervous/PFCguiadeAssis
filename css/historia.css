@@ -36,7 +36,7 @@ body.Escuro .bloco {
   color: #f5f5f5;
 }
 
-.texto{
+.texto {
   text-align: center;
   margin-top: 25px;
 }
@@ -55,7 +55,7 @@ body.Escuro .bloco {
   color: #525151;
 }
 
-.cards{
+.cards {
   display: flex;
   justify-content: center;
   gap: 80px;
@@ -80,52 +80,82 @@ body.Escuro .bloco {
   height: 100%;
 }
 
-.historia{
-   display: flex;
+.historia {
+  display: flex;
   justify-content: center;
   margin-top: 50px;
   box-sizing: border-box;
- 
+
 }
 
-.historia h2{
-margin-bottom: 10px;
+.historia h2 {
+  margin-bottom: 10px;
 }
 
-.card2{
+.card2 {
   margin: 20px;
   max-height: 1000px;
   padding: 10px;
   border-radius: 12px;
   overflow: hidden;
   text-align: center;
-  background-color: #e7e6e6;
+  background-color: #f3f3f3;
   box-shadow: 0px 0 25px rgba(0, 0, 0, 0.15);
 }
 
 .card2 p {
-  max-width: 65ch; /* Aproximadamente 65 caracteres por linha */
+  max-width: 65ch;
+  /* Aproximadamente 65 caracteres por linha */
   margin: 0 auto;
 }
 
-.card2 h2{
+.prefeito-item {
+  background-color: #ececec;
+  border-radius: 5px;
+  border-left: 3px solid #eea301;
+  margin: 10px;
+  padding: 5px;
+}
+.periodo{
+  color: #ff8800;
+}
+
+.card2 h2 {
   margin-top: 10px;
 }
+
 /* modo escuro */
 
 
-body.Escuro .card2{
+body.Escuro .card2 {
   background: rgba(27, 27, 27, 0.95);
   border-bottom: 1px solid #333333;
 
 }
-body.tema-contraste .card2  {
-  border:1px solid #ffd700;
+
+body.Escuro .prefeito-item {
+  background: rgba(54, 54, 54, 0.95);
+  border-bottom: 1px solid #333333;
+}
+
+body.tema-contraste .card2 {
+  border: 1px solid #ffd700;
   background-color: #000000 !important;
   color: #ffd700 !important;
 }
-body.tema-dicromacia .card2  {
-    border:1px solid #ffd700;
-   background-color: #001f3f !important;
+
+body.tema-contraste .prefeito-item {
+  background: rgba(5, 5, 5, 0.95);
+  border: 1px solid #ffd700;
+}
+
+body.tema-dicromacia .card2 {
+  border: 1px solid #ffd700;
+  background-color: #001f3f !important;
   color: #ffd700 !important;
+}
+
+body.tema-dicromacia .prefeito-item {
+  background-color: #001f3f !important;
+  border: 1px solid #ffd700;
 }

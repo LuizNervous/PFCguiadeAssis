@@ -1,8 +1,3 @@
-/* =========================================================
-   LOGIN E CADASTRO — INTERFACE
-   Visual limpo, leve e responsivo.
-   A lógica dos formulários e os IDs existentes são preservados.
-   ========================================================= */
 
 body {
     min-height: 100vh;
@@ -17,9 +12,6 @@ main {
     min-height: 0;
 }
 
-/* =========================================================
-   ÁREA DE APRESENTAÇÃO DO LOGIN
-   ========================================================= */
 
 .info {
     position: relative;
@@ -55,7 +47,7 @@ main {
     border-radius: 50%;
 }
 
-.info > div {
+.info>div {
     position: relative;
     z-index: 1;
     width: min(100%, 30rem);
@@ -64,10 +56,14 @@ main {
 
 .info h2 {
     margin: 0.4rem 0;
-    font-size: 1.25rem;
+    font-size: 2rem;
     font-weight: 500;
     line-height: 1.4;
     color: #e8f2fa;
+}
+
+.info span {
+    color: #84ccff;
 }
 
 .info h1 {
@@ -85,9 +81,9 @@ main {
     overflow-wrap: anywhere;
 }
 
-/* =========================================================
-   CARD DE LOGIN / CADASTRO
-   ========================================================= */
+footer {
+    margin-top: 0px;
+}
 
 .login {
     align-self: center;
@@ -109,7 +105,7 @@ main {
     letter-spacing: -0.025em;
 }
 
-.login > p {
+.login>p {
     margin: 0.65rem 0 2rem;
     color: #64748b;
     text-align: left;
@@ -212,14 +208,14 @@ main {
 }
 
 .extras a,
-.login > span a {
+.login>span a {
     color: #1261a0;
     font-weight: 600;
     text-decoration: none;
 }
 
 .extras a:hover,
-.login > span a:hover {
+.login>span a:hover {
     text-decoration: underline;
 }
 
@@ -258,7 +254,7 @@ main {
     outline-offset: 2px;
 }
 
-.login > span {
+.login>span {
     display: block;
     margin-top: 1.5rem;
     color: #64748b;
@@ -267,24 +263,12 @@ main {
     line-height: 1.5;
 }
 
-/* Cadastro: nome e data continuam lado a lado quando houver espaço. */
-#NomeIdade,
-.NomeIdade {
-    display: grid;
-    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
-    gap: 0.8rem;
-}
-
-#NomeIdade .input,
-.NomeIdade .input {
-    min-width: 0;
-}
 
 input[type="date"] {
     color-scheme: light;
 }
 
-/* O cadastro não precisa da coluna de apresentação do login. */
+
 .overlay {
     flex: 1;
     display: flex;
@@ -301,9 +285,6 @@ input[type="date"] {
     max-width: 40rem;
 }
 
-/* =========================================================
-   MODO ESCURO
-   ========================================================= */
 
 body.Escuro {
     background: #101722;
@@ -339,8 +320,8 @@ body.Escuro .login h1 {
     color: #f8fafc;
 }
 
-body.Escuro .login > p,
-body.Escuro .login > span,
+body.Escuro .login>p,
+body.Escuro .login>span,
 body.Escuro .extras {
     color: #aebaca;
 }
@@ -374,7 +355,7 @@ body.Escuro #olho:hover {
 }
 
 body.Escuro .extras a,
-body.Escuro .login > span a {
+body.Escuro .login>span a {
     color: #8fc4e9;
 }
 
@@ -389,10 +370,6 @@ body.Escuro .login button#cadastrar:hover {
     background: #3b86bb;
     border-color: #3b86bb;
 }
-
-/* =========================================================
-   ALTO CONTRASTE
-   ========================================================= */
 
 body.tema-contraste .info,
 body.tema-contraste .login,
@@ -409,8 +386,8 @@ body.tema-contraste .info h1,
 body.tema-contraste .info h2,
 body.tema-contraste .info #nomeUsuario,
 body.tema-contraste .login h1,
-body.tema-contraste .login > p,
-body.tema-contraste .login > span,
+body.tema-contraste .login>p,
+body.tema-contraste .login>span,
 body.tema-contraste .extras,
 body.tema-contraste .extras label {
     color: #ffff00 !important;
@@ -446,7 +423,7 @@ body.tema-contraste .input input:focus {
 }
 
 body.tema-contraste .extras a,
-body.tema-contraste .login > span a {
+body.tema-contraste .login>span a {
     color: #ffffff !important;
     text-decoration: underline;
 }
@@ -464,15 +441,14 @@ body.tema-contraste .login button#cadastrar:hover {
     border-color: #ffffff !important;
 }
 
-/* =========================================================
-   DICROMACIA
-   ========================================================= */
-
 body.tema-dicromacia .info,
 body.tema-dicromacia .login,
 body.tema-dicromacia .overlay {
     background: #001f3f !important;
     color: #ffd700 !important;
+}
+body.tema-dicromacia .info span{
+color: #54c0ff;
 }
 
 body.tema-dicromacia .info {
@@ -483,8 +459,8 @@ body.tema-dicromacia .info h1,
 body.tema-dicromacia .info h2,
 body.tema-dicromacia .info #nomeUsuario,
 body.tema-dicromacia .login h1,
-body.tema-dicromacia .login > p,
-body.tema-dicromacia .login > span,
+body.tema-dicromacia .login>p,
+body.tema-dicromacia .login>span,
 body.tema-dicromacia .extras,
 body.tema-dicromacia .extras label {
     color: #ffd700 !important;
@@ -519,7 +495,7 @@ body.tema-dicromacia .input input:focus {
 }
 
 body.tema-dicromacia .extras a,
-body.tema-dicromacia .login > span a {
+body.tema-dicromacia .login>span a {
     color: #ffffff !important;
     text-decoration: underline;
 }
@@ -537,9 +513,6 @@ body.tema-dicromacia .login button#cadastrar:hover {
     border-color: #ffffff !important;
 }
 
-/* =========================================================
-   MONOCROMACIA
-   ========================================================= */
 
 body.tema-monocromacia .info,
 body.tema-monocromacia .login,
@@ -556,8 +529,8 @@ body.tema-monocromacia .info h1,
 body.tema-monocromacia .info h2,
 body.tema-monocromacia .info #nomeUsuario,
 body.tema-monocromacia .login h1,
-body.tema-monocromacia .login > p,
-body.tema-monocromacia .login > span,
+body.tema-monocromacia .login>p,
+body.tema-monocromacia .login>span,
 body.tema-monocromacia .extras,
 body.tema-monocromacia .extras label {
     color: #000000 !important;
@@ -584,10 +557,13 @@ body.tema-monocromacia .input .fa-envelope,
 body.tema-monocromacia .input .fa-calendar-days,
 body.tema-monocromacia #olho {
     color: #000000 !important;
+}body.tema-monocromacia .info span{
+    background-color: #000000;
+    border-radius: 5px;
 }
 
 body.tema-monocromacia .extras a,
-body.tema-monocromacia .login > span a {
+body.tema-monocromacia .login>span a {
     color: #000000 !important;
     text-decoration: underline;
 }
@@ -599,9 +575,6 @@ body.tema-monocromacia .login button#cadastrar {
     color: #ffffff !important;
 }
 
-/* =========================================================
-   RESPONSIVIDADE
-   ========================================================= */
 
 @media (max-width: 900px) {
     main {
@@ -613,7 +586,7 @@ body.tema-monocromacia .login button#cadastrar {
         padding: 2rem 1.5rem;
     }
 
-    .info > div {
+    .info>div {
         text-align: center;
     }
 
@@ -652,7 +625,7 @@ body.tema-monocromacia .login button#cadastrar {
         font-size: 1.7rem;
     }
 
-    .login > p {
+    .login>p {
         margin-bottom: 1.5rem;
     }
 
