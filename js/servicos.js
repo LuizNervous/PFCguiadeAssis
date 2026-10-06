@@ -8,12 +8,6 @@ const icones = {
     "farmacia": "fa-prescription-bottle-medical",
     "hospital": "fa-hospital",
     "posto de saúde": "fa-kit-medical",
-    "educação": "fa-school",
-    "comércio": "fa-cart-shopping",
-    "industria": "fa-industry",
-    "indústria": "fa-industry",
-    "emprego": "fa-briefcase",
-    "moradia": "fa-house",
     "mobilidade": "fa-bus"
 };
 
@@ -24,12 +18,6 @@ const cores = {
     "farmacia": "roxo",
     "hospital": "vermelho",
     "posto de saúde": "vermelho",
-    "educação": "roxo",
-    "comércio": "verde",
-    "industria": "azul",
-    "indústria": "azul",
-    "emprego": "rosa",
-    "moradia": "verde",
     "mobilidade": "azul"
 };
 
@@ -103,8 +91,7 @@ function renderizarCards(lista) {
                 </span>
 
                 <h3>${escaparHtml(ponto.nome || 'Sem nome')}</h3>
-                <h4>avaliação</h4>
-
+        
                 <div class="card-avaliacao">
                     <span class="estrelas">${estrelasHtml}</span>
                     <span class="nota-texto"><strong>${mediaNotaNum.toFixed(1)}</strong> (${totalAvaliacoes})</span>
