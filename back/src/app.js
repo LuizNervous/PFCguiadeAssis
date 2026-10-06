@@ -4,7 +4,24 @@ const helmet = require('helmet');
 const { limitadorGeral, limitadorRigoroso } = require('./middlewares/limitadores');
 
 const app = express();
-app.use(cors());
+
+const origensPermitidas = new Set(
+  (process.env.CORS_ORIGINS || '')
+    .split(',')
+    .map((origem) => origem.trim())
+    .filter(Boolean)
+);
+
+app.use(cors({
+  origin: (origin, callback) => {
+    // Requisições sem Origin (ex.: curl, Insomnia e chamadas internas) continuam funcionando.
+    if (!origin) return callback(null, true);
+    return callback(null, origensPermitidas.has(origin));
+  },
+  methods: ['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json({ limit: '10kb' }));
 app.set('trust proxy', 1);
 app.use(helmet());
