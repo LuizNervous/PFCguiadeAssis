@@ -1,131 +1,265 @@
-.info {
+/* =========================================
+   HISTÓRIA — visual editorial moderno
+   ========================================= */
 
-  padding: 60px 10%;
-  color: white;
-  background: linear-gradient(135deg, #a86601 0%, #eea301 100%);
-  box-shadow: 0 10px 30px rgba(255, 147, 24, 0.2);
+.info {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(56px, 8vw, 100px) 7%;
+  color: #fff;
+  background:
+    radial-gradient(circle at 82% 18%, rgba(255,255,255,.15), transparent 24%),
+    linear-gradient(135deg, #8a4e00 0%, #d98208 48%, #f0b323 100%);
+  box-shadow: 0 12px 30px rgba(139, 88, 11, .14);
 }
 
-.info a {
-  color: white;
-  text-decoration: none;
-  font-weight: 500;
+.info::after {
+  content: "";
+  position: absolute;
+  width: 360px;
+  height: 360px;
+  right: -170px;
+  bottom: -230px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.10);
+  pointer-events: none;
 }
 
 .info h1 {
-  margin-top: 15px;
-  font-size: 48px;
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0;
+  font-size: clamp(32px, 5vw, 58px);
+  line-height: 1.05;
+  letter-spacing: -.045em;
 }
 
-
-.topicos a::after {
-  background: #e99f15;
+.info p {
+  position: relative;
+  z-index: 1;
+  margin: 18px 0 0;
+  font-size: clamp(16px, 2vw, 21px);
+  opacity: .92;
 }
 
-/* Blocos de texto de História */
-.bloco {
-  background-color: #ffffff;
-  color: #1F2937;
-  padding: 20px;
-  border-radius: 12px;
-  margin: 20px 0;
-}
-
-body.Escuro .bloco {
-  background-color: #222222;
-  color: #f5f5f5;
-}
-
-.texto{
+.texto {
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 72px 24px 8px;
   text-align: center;
-  margin-top: 25px;
 }
 
-.texto h1 {
-  font-size: clamp(20px, 4vw, 40px);
-  font-weight: 700;
-  margin: auto;
+.texto h2 {
+  margin: 0;
+  color: #172033;
+  font-size: clamp(26px, 4vw, 40px);
+  letter-spacing: -.035em;
 }
 
 .texto p {
-  font-size: 20px;
-  line-height: 1.7;
-  margin: auto;
-  max-width: 700px;
-  color: #525151;
+  margin: 10px auto 0;
+  color: #64748b;
+  font-size: 18px;
 }
 
-.cards{
-  display: flex;
-  justify-content: center;
-  gap: 80px;
-  flex-wrap: wrap;
-  margin-top: 50px;
-
-  margin-bottom: 50px;
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(18px, 3vw, 30px);
+  max-width: 1180px;
+  margin: 42px auto 68px;
+  padding: 0 24px;
 }
-
 
 .card {
-  width: 400px;
-  height: 240px;
-  border-radius: 12px;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  min-height: 0;
   overflow: hidden;
-  text-align: center;
-  background-color: #161111;
+  border-radius: 18px;
+  background: #d9dee7;
+  box-shadow: 0 16px 40px rgba(15,23,42,.12);
+  isolation: isolate;
+}
+
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,.22), transparent 45%);
+  pointer-events: none;
 }
 
 .card img {
+  display: block;
   width: 100%;
   height: 100%;
+  object-fit: cover;
+  transition: transform .45s ease;
 }
 
-.historia{
-   display: flex;
-  justify-content: center;
-  margin-top: 50px;
-  box-sizing: border-box;
- 
+.card:hover img {
+  transform: scale(1.045);
 }
 
-.historia h2{
-margin-bottom: 10px;
+.historia {
+  display: block;
+  margin: 0;
+  padding: 0 24px 80px;
 }
 
-.card2{
-  margin: 20px;
-  max-height: 1000px;
-  padding: 10px;
-  border-radius: 12px;
-  overflow: hidden;
-  text-align: center;
-  background-color: #e7e6e6;
-  box-shadow: 0px 0 25px rgba(0, 0, 0, 0.15);
+.historia > .cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 24px;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.card2 {
+  margin: 0;
+  padding: clamp(26px, 4vw, 38px);
+  border: 1px solid #e6eaf0;
+  border-radius: 20px;
+  overflow: visible;
+  color: #334155;
+  text-align: left;
+  background: rgba(255,255,255,.86);
+  box-shadow: 0 12px 35px rgba(15,23,42,.07);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.card2 h2 {
+  margin: 0 0 18px;
+  color: #172033;
+  font-size: clamp(22px, 3vw, 29px);
+  line-height: 1.2;
+  letter-spacing: -.025em;
 }
 
 .card2 p {
-  max-width: 65ch; /* Aproximadamente 65 caracteres por linha */
-  margin: 0 auto;
+  max-width: 70ch;
+  margin: 0 0 16px;
+  color: #526176;
+  font-size: 16px;
+  line-height: 1.78;
 }
 
-.card2 h2{
-  margin-top: 10px;
+.card2 p:last-child {
+  margin-bottom: 0;
 }
-/* modo escuro */
 
-
-body.Escuro .card2{
-  background: rgba(27, 27, 27, 0.95);
-  border-bottom: 1px solid #333333;
-
+.lista-prefeitos {
+  display: grid;
+  gap: 8px;
 }
-body.tema-contraste .card2  {
-  border:1px solid #ffd700;
-  background-color: #000000 !important;
-  color: #ffd700 !important;
+
+.lista-prefeitos p,
+.prefeito-item {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #f7f9fc;
 }
-body.tema-dicromacia .card2  {
-    border:1px solid #ffd700;
-   background-color: #001f3f !important;
-  color: #ffd700 !important;
+
+.prefeito-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  border-left: 3px solid #d98208;
+}
+
+.prefeito-item .nome {
+  font-weight: 700;
+  color: #253047;
+}
+
+.prefeito-item .periodo {
+  color: #64748b;
+}
+
+body.Escuro .texto h2,
+body.Escuro .card2 h2 {
+  color: #f1f5f9;
+}
+
+body.Escuro .texto p,
+body.Escuro .card2 p {
+  color: #a7b3c5;
+}
+
+body.Escuro .card2 {
+  border-color: #334155;
+  background: rgba(27,27,27,.92);
+}
+
+body.Escuro .lista-prefeitos p,
+body.Escuro .prefeito-item {
+  background: #202938;
+}
+
+body.Escuro .prefeito-item .nome {
+  color: #f1f5f9;
+}
+
+body.Escuro .prefeito-item .periodo {
+  color: #a7b3c5;
+}
+
+body.tema-contraste .card2,
+body.tema-dicromacia .card2 {
+  border: 2px solid currentColor;
+}
+
+@media (max-width: 850px) {
+  .cards,
+  .historia > .cards {
+    grid-template-columns: 1fr;
+    max-width: 680px;
+  }
+
+  .historia {
+    padding-bottom: 50px;
+  }
+}
+
+@media (max-width: 560px) {
+  .info {
+    padding: 48px 20px;
+  }
+
+  .texto {
+    padding-top: 50px;
+  }
+
+  .cards {
+    margin-top: 30px;
+    margin-bottom: 50px;
+    padding: 0 16px;
+  }
+
+  .historia {
+    padding: 0 16px 50px;
+  }
+
+  .historia > .cards {
+    gap: 18px;
+  }
+
+  .card2 {
+    padding: 22px 20px;
+    border-radius: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card img {
+    transition: none;
+  }
 }
