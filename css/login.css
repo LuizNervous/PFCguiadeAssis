@@ -1,210 +1,656 @@
+
 body {
-    display: flex;
-    flex-direction: column;
-
-    height: 100vh;
-
+    min-height: 100vh;
+    background: #f4f7fb;
+    color: #172033;
 }
 
 main {
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(280px, 0.9fr) minmax(420px, 1.1fr);
     flex: 1;
-
+    min-height: 0;
 }
+
 
 .info {
+    position: relative;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: #0370ff;
-    width: 100%;
+    min-height: 32rem;
+    padding: 3rem;
+    overflow: hidden;
+    background: #0d4f83;
+    color: #ffffff;
 }
-.info div {
-    color: rgb(240, 240, 240)    ;
-    text-align: center;
+
+.info::before {
+    content: "";
+    position: absolute;
+    width: 18rem;
+    height: 18rem;
+    right: -9rem;
+    top: -7rem;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 50%;
 }
+
+.info::after {
+    content: "";
+    position: absolute;
+    width: 11rem;
+    height: 11rem;
+    left: -6rem;
+    bottom: -5rem;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 50%;
+}
+
+.info>div {
+    position: relative;
+    z-index: 1;
+    width: min(100%, 30rem);
+    text-align: left;
+}
+
+.info h2 {
+    margin: 0.4rem 0;
+    font-size: 2rem;
+    font-weight: 500;
+    line-height: 1.4;
+    color: #e8f2fa;
+}
+
+.info span {
+    color: #84ccff;
+}
+
+.info h1 {
+    margin: 0.2rem 0;
+    font-size: clamp(2rem, 4vw, 3.3rem);
+    line-height: 1.05;
+    font-weight: 750;
+    letter-spacing: -0.04em;
+    color: #ffffff;
+}
+
 .info #nomeUsuario {
-    margin: 10px;
-    color: #3cf078;
+    margin: 0.6rem 0;
+    color: #ffffff;
+    overflow-wrap: anywhere;
+}
+
+footer {
+    margin-top: 0px;
 }
 
 .login {
-    border-left: 1px solid blue;
-    width: 100%;
-    height: 100%;
-    padding: 45px;
-    background: rgb(235, 235, 235);
-}
-
-@media (max-width:760px) {
-    main {
-        flex-wrap: wrap;
-    }
-
-    .login {
-        width: 80vw;
-        max-width: 90vw;
-        padding: 15px;
-    }
+    align-self: center;
+    width: min(100%, 38rem);
+    margin: 2.5rem auto;
+    padding: 2.75rem clamp(1.5rem, 5vw, 4.5rem);
+    background: #ffffff;
+    border: 1px solid #dce4ee;
+    border-radius: 1rem;
+    box-shadow: 0 12px 32px rgba(24, 47, 72, 0.08);
 }
 
 .login h1 {
-
-    text-align: center;
-    font-size: 36px;
-
+    margin: 0;
+    color: #172033;
+    text-align: left;
+    font-size: clamp(1.75rem, 3vw, 2.3rem);
+    line-height: 1.15;
+    letter-spacing: -0.025em;
 }
 
-.login p {
-
-    text-align: center;
-
-    margin: 10px 0 35px;
-
-    color: #6e6d6d;
-
+.login>p {
+    margin: 0.65rem 0 2rem;
+    color: #64748b;
+    text-align: left;
+    font-size: 1rem;
+    line-height: 1.55;
 }
 
 .input {
-
     position: relative;
-
-    margin-bottom: 20px;
-
+    margin-bottom: 1rem;
 }
 
 .input input {
-    caret-color: rgb(8, 228, 228);
+    display: block;
     width: 100%;
-    color-scheme: dark;
-    padding: 14px 45px;
-    color: black;
-    border: none;
-
-    border-radius: 10px;
-
+    min-height: 3.15rem;
+    padding: 0.85rem 2.9rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.65rem;
     outline: none;
-
-    background: rgb(211, 211, 211);
-
-
-
+    background: #ffffff;
+    color: #172033;
+    caret-color: #1261a0;
+    color-scheme: light;
+    font-size: 1rem;
+    line-height: 1.3;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
 }
 
 .input input::placeholder {
+    color: #718096;
+    opacity: 1;
+}
 
-    color: #646464;
+.input input:hover {
+    border-color: #94a3b8;
+}
 
+.input input:focus {
+    border-color: #1261a0;
+    box-shadow: 0 0 0 3px rgba(18, 97, 160, 0.13);
 }
 
 .input .fa-user,
 .input .fa-lock,
 .input .fa-envelope,
 .input .fa-calendar-days {
-
     position: absolute;
-
-    left: 15px;
-    top: 15px;
-
+    left: 1rem;
+    top: 50%;
+    z-index: 1;
+    color: #64748b;
+    font-size: 1rem;
+    transform: translateY(-50%);
+    pointer-events: none;
 }
 
 #olho {
-
     position: absolute;
-
-    right: 15px;
-    top: 15px;
-
+    right: 1rem;
+    top: 50%;
+    z-index: 2;
+    color: #64748b;
+    font-size: 1rem;
     cursor: pointer;
+    transform: translateY(-50%);
+    transition: color 0.18s ease;
+}
 
+#olho:hover {
+    color: #1261a0;
+}
+
+#olho:focus-visible {
+    outline: 2px solid #1261a0;
+    outline-offset: 3px;
+    border-radius: 0.2rem;
 }
 
 .extras {
-
     display: flex;
-
+    align-items: center;
     justify-content: space-between;
-
-    font-size: 14px;
-
-    margin-bottom: 25px;
-
+    gap: 1rem;
+    margin: 0.25rem 0 1.5rem;
+    color: #526174;
+    font-size: 0.9rem;
 }
 
-.extras a {
+.extras label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+}
 
-    color: #00d4ff;
+.extras input[type="checkbox"] {
+    width: 1rem;
+    height: 1rem;
+    accent-color: #1261a0;
+}
 
+.extras a,
+.login>span a {
+    color: #1261a0;
+    font-weight: 600;
     text-decoration: none;
-
 }
 
-button {
+.extras a:hover,
+.login>span a:hover {
+    text-decoration: underline;
+}
 
+.login button#logar,
+.login button#cadastrar {
     width: 100%;
-
-    padding: 15px;
-
-    border: none;
-
-    border-radius: 10px;
-
-    background: linear-gradient(90deg, #00AEEF, #00E58A);
-
-    color: white;
-
-    font-size: 17px;
-
+    min-height: 3.15rem;
+    padding: 0.8rem 1.25rem;
+    border: 1px solid #1261a0;
+    border-radius: 0.65rem;
+    background: #1261a0;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.2;
     cursor: pointer;
-
-    transition: .3s;
-
+    box-shadow: none;
+    transition: background-color 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
 }
 
-button:hover {
-
-    transform: scale(1.03);
-
+.login button#logar:hover,
+.login button#cadastrar:hover {
+    background: #0b466f;
+    border-color: #0b466f;
+    transform: translateY(-1px);
 }
 
-span {
+.login button#logar:active,
+.login button#cadastrar:active {
+    transform: translateY(0);
+}
 
+.login button#logar:focus-visible,
+.login button#cadastrar:focus-visible {
+    outline: 3px solid rgba(18, 97, 160, 0.28);
+    outline-offset: 2px;
+}
+
+.login>span {
     display: block;
-
+    margin-top: 1.5rem;
+    color: #64748b;
     text-align: center;
-
-    margin-top: 25px;
-
+    font-size: 0.95rem;
+    line-height: 1.5;
 }
 
-span a {
 
-    color: #00d4ff;
-
-    text-decoration: none;
-
+input[type="date"] {
+    color-scheme: light;
 }
 
-/* CADASTRO CSS */
-#NomeIdade {
+
+.overlay {
+    flex: 1;
     display: flex;
-    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 0;
+    padding: 2rem 1rem;
+    background: #f4f7fb;
 }
 
-footer {
-    margin-top: 0;
+.overlay .login {
+    margin: 1rem auto;
+    max-width: 40rem;
 }
-body.Escuro .login{
-    background-color: rgb(39, 39, 38) ;
+
+
+body.Escuro {
+    background: #101722;
+    color: #edf2f7;
 }
-body.Escuro .input input{
-    background-color: rgb(68, 68, 68) ;
-    color: #e2e2e2;
+
+body.Escuro .info {
+    background: #0b2942;
+    color: #ffffff;
 }
+
+body.Escuro .info h2 {
+    color: #dbeafe;
+}
+
+body.Escuro .info h1,
+body.Escuro .info #nomeUsuario {
+    color: #ffffff;
+}
+
+body.Escuro .login,
+body.Escuro .overlay {
+    background: #101722;
+}
+
+body.Escuro .login {
+    background: #182231;
+    border-color: #2e3b4d;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.22);
+}
+
+body.Escuro .login h1 {
+    color: #f8fafc;
+}
+
+body.Escuro .login>p,
+body.Escuro .login>span,
+body.Escuro .extras {
+    color: #aebaca;
+}
+
+body.Escuro .input input {
+    background: #111a26;
+    border-color: #3b4a5f;
+    color: #f8fafc;
+    color-scheme: dark;
+}
+
 body.Escuro .input input::placeholder {
+    color: #8997a8;
+}
 
-    color: #949494;
+body.Escuro .input input:focus {
+    border-color: #67a9d8;
+    box-shadow: 0 0 0 3px rgba(103, 169, 216, 0.16);
+}
 
+body.Escuro .input .fa-user,
+body.Escuro .input .fa-lock,
+body.Escuro .input .fa-envelope,
+body.Escuro .input .fa-calendar-days,
+body.Escuro #olho {
+    color: #9eacbd;
+}
+
+body.Escuro #olho:hover {
+    color: #8fc4e9;
+}
+
+body.Escuro .extras a,
+body.Escuro .login>span a {
+    color: #8fc4e9;
+}
+
+body.Escuro .login button#logar,
+body.Escuro .login button#cadastrar {
+    background: #2b75aa;
+    border-color: #2b75aa;
+}
+
+body.Escuro .login button#logar:hover,
+body.Escuro .login button#cadastrar:hover {
+    background: #3b86bb;
+    border-color: #3b86bb;
+}
+
+body.tema-contraste .info,
+body.tema-contraste .login,
+body.tema-contraste .overlay {
+    background: #000000 !important;
+    color: #ffff00 !important;
+}
+
+body.tema-contraste .info {
+    border-right: 2px solid #ffff00;
+}
+
+body.tema-contraste .info h1,
+body.tema-contraste .info h2,
+body.tema-contraste .info #nomeUsuario,
+body.tema-contraste .login h1,
+body.tema-contraste .login>p,
+body.tema-contraste .login>span,
+body.tema-contraste .extras,
+body.tema-contraste .extras label {
+    color: #ffff00 !important;
+}
+
+body.tema-contraste .login {
+    border: 2px solid #ffff00 !important;
+    box-shadow: none;
+}
+
+body.tema-contraste .input input {
+    background: #000000 !important;
+    color: #ffff00 !important;
+    border: 2px solid #ffff00 !important;
+    color-scheme: dark;
+}
+
+body.tema-contraste .input input::placeholder {
+    color: #ffff00 !important;
+    opacity: 1;
+}
+
+body.tema-contraste .input .fa-user,
+body.tema-contraste .input .fa-lock,
+body.tema-contraste .input .fa-envelope,
+body.tema-contraste .input .fa-calendar-days,
+body.tema-contraste #olho {
+    color: #ffff00 !important;
+}
+
+body.tema-contraste .input input:focus {
+    box-shadow: 0 0 0 3px #ffffff;
+}
+
+body.tema-contraste .extras a,
+body.tema-contraste .login>span a {
+    color: #ffffff !important;
+    text-decoration: underline;
+}
+
+body.tema-contraste .login button#logar,
+body.tema-contraste .login button#cadastrar {
+    background: #ffff00 !important;
+    border: 2px solid #ffff00 !important;
+    color: #000000 !important;
+}
+
+body.tema-contraste .login button#logar:hover,
+body.tema-contraste .login button#cadastrar:hover {
+    background: #ffffff !important;
+    border-color: #ffffff !important;
+}
+
+body.tema-dicromacia .info,
+body.tema-dicromacia .login,
+body.tema-dicromacia .overlay {
+    background: #001f3f !important;
+    color: #ffd700 !important;
+}
+body.tema-dicromacia .info span{
+color: #54c0ff;
+}
+
+body.tema-dicromacia .info {
+    border-right: 2px solid #ffd700;
+}
+
+body.tema-dicromacia .info h1,
+body.tema-dicromacia .info h2,
+body.tema-dicromacia .info #nomeUsuario,
+body.tema-dicromacia .login h1,
+body.tema-dicromacia .login>p,
+body.tema-dicromacia .login>span,
+body.tema-dicromacia .extras,
+body.tema-dicromacia .extras label {
+    color: #ffd700 !important;
+}
+
+body.tema-dicromacia .login {
+    border: 1px solid #ffd700 !important;
+    box-shadow: none;
+}
+
+body.tema-dicromacia .input input {
+    background: #003366 !important;
+    color: #ffffff !important;
+    border: 1px solid #ffd700 !important;
+    color-scheme: dark;
+}
+
+body.tema-dicromacia .input input::placeholder {
+    color: #ffe98a !important;
+}
+
+body.tema-dicromacia .input .fa-user,
+body.tema-dicromacia .input .fa-lock,
+body.tema-dicromacia .input .fa-envelope,
+body.tema-dicromacia .input .fa-calendar-days,
+body.tema-dicromacia #olho {
+    color: #ffd700 !important;
+}
+
+body.tema-dicromacia .input input:focus {
+    box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.25);
+}
+
+body.tema-dicromacia .extras a,
+body.tema-dicromacia .login>span a {
+    color: #ffffff !important;
+    text-decoration: underline;
+}
+
+body.tema-dicromacia .login button#logar,
+body.tema-dicromacia .login button#cadastrar {
+    background: #ffd700 !important;
+    border-color: #ffd700 !important;
+    color: #001f3f !important;
+}
+
+body.tema-dicromacia .login button#logar:hover,
+body.tema-dicromacia .login button#cadastrar:hover {
+    background: #ffffff !important;
+    border-color: #ffffff !important;
+}
+
+
+body.tema-monocromacia .info,
+body.tema-monocromacia .login,
+body.tema-monocromacia .overlay {
+    background: #ffffff !important;
+    color: #000000 !important;
+}
+
+body.tema-monocromacia .info {
+    border-right: 2px solid #000000;
+}
+
+body.tema-monocromacia .info h1,
+body.tema-monocromacia .info h2,
+body.tema-monocromacia .info #nomeUsuario,
+body.tema-monocromacia .login h1,
+body.tema-monocromacia .login>p,
+body.tema-monocromacia .login>span,
+body.tema-monocromacia .extras,
+body.tema-monocromacia .extras label {
+    color: #000000 !important;
+}
+
+body.tema-monocromacia .login {
+    border: 2px solid #000000 !important;
+    box-shadow: none;
+}
+
+body.tema-monocromacia .input input {
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: 2px solid #000000 !important;
+}
+
+body.tema-monocromacia .input input::placeholder {
+    color: #000000 !important;
+}
+
+body.tema-monocromacia .input .fa-user,
+body.tema-monocromacia .input .fa-lock,
+body.tema-monocromacia .input .fa-envelope,
+body.tema-monocromacia .input .fa-calendar-days,
+body.tema-monocromacia #olho {
+    color: #000000 !important;
+}body.tema-monocromacia .info span{
+    background-color: #000000;
+    border-radius: 5px;
+}
+
+body.tema-monocromacia .extras a,
+body.tema-monocromacia .login>span a {
+    color: #000000 !important;
+    text-decoration: underline;
+}
+
+body.tema-monocromacia .login button#logar,
+body.tema-monocromacia .login button#cadastrar {
+    background: #000000 !important;
+    border-color: #000000 !important;
+    color: #ffffff !important;
+}
+
+
+@media (max-width: 900px) {
+    main {
+        grid-template-columns: 1fr;
+    }
+
+    .info {
+        min-height: 15rem;
+        padding: 2rem 1.5rem;
+    }
+
+    .info>div {
+        text-align: center;
+    }
+
+    .info h1 {
+        font-size: clamp(2rem, 8vw, 3rem);
+    }
+
+    .login {
+        width: min(92%, 38rem);
+        margin: 2rem auto;
+    }
+}
+
+@media (max-width: 600px) {
+    .info {
+        min-height: 12rem;
+        padding: 1.75rem 1rem;
+    }
+
+    .info h2 {
+        font-size: 1rem;
+    }
+
+    .info h1 {
+        font-size: 2rem;
+    }
+
+    .login {
+        width: calc(100% - 1.25rem);
+        margin: 0.75rem auto;
+        padding: 1.75rem 1.1rem;
+        border-radius: 0.8rem;
+    }
+
+    .login h1 {
+        font-size: 1.7rem;
+    }
+
+    .login>p {
+        margin-bottom: 1.5rem;
+    }
+
+    #NomeIdade,
+    .NomeIdade {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .extras {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.7rem;
+    }
+
+    .overlay {
+        padding: 1rem 0.4rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .input input,
+    #olho,
+    .login button#logar,
+    .login button#cadastrar {
+        transition: none;
+    }
 }
