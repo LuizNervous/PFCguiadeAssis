@@ -1,4 +1,4 @@
-const dbp=require('../config/db');
+const { dbp } = require('../config/db');
 
 
 async function exigirAdmin(req, res, next) {
@@ -17,4 +17,4 @@ async function exigirAdmin(req, res, next) {
     }
 }
 
-module.exports= exigirAdmin ;
+module.exports = exigirAdmin;
