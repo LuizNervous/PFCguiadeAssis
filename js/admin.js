@@ -1,5 +1,3 @@
-// Depende de global.js (API_URL, escaparHtml, criarAlerta, urlImagemPonto), carregado antes.
-
 const admToken = localStorage.getItem("token");
 const admVerificando = document.getElementById("admVerificando");
 const admPainel = document.getElementById("admPainel");
@@ -13,9 +11,6 @@ let admCategorias = [];
 let admPreviewUrl = null; // URL temporária da imagem escolhida (precisa ser liberada)
 let admIdExcluir = null;
 
-/* ==========================================
-   1. PORTEIRO (quem decide é o backend)
-   ========================================== */
 function admMostrarProibido() {
   document.title = "403 Forbidden";
   document.querySelector("main").innerHTML =
@@ -64,7 +59,7 @@ async function admFetch(caminho, opcoes = {}) {
     localStorage.removeItem("token");
     localStorage.removeItem("usuario");
     admMostrarProibido();
-    return null; // quem chamou deve parar
+    return null; 
   }
   return resposta;
 }

@@ -17,12 +17,10 @@
   font-size: 48px;
 }
 
-
 .topicos a::after {
   background: #e99f15;
 }
 
-/* Blocos de texto de História */
 .bloco {
   background-color: #ffffff;
   color: #1F2937;
@@ -61,10 +59,8 @@ body.Escuro .bloco {
   gap: 80px;
   flex-wrap: wrap;
   margin-top: 50px;
-
   margin-bottom: 50px;
 }
-
 
 .card {
   width: 400px;
@@ -85,77 +81,194 @@ body.Escuro .bloco {
   justify-content: center;
   margin-top: 50px;
   box-sizing: border-box;
-
-}
-
-.historia h2 {
-  margin-bottom: 10px;
-}
-
-.card2 {
-  margin: 20px;
-  max-height: 1000px;
-  padding: 10px;
-  border-radius: 12px;
-  overflow: hidden;
-  text-align: center;
-  background-color: #f3f3f3;
-  box-shadow: 0px 0 25px rgba(0, 0, 0, 0.15);
 }
 
 .card2 p {
   max-width: 65ch;
-  /* Aproximadamente 65 caracteres por linha */
   margin: 0 auto;
 }
 
-.prefeito-item {
-  background-color: #ececec;
-  border-radius: 5px;
-  border-left: 3px solid #eea301;
-  margin: 10px;
-  padding: 5px;
+.card2 {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 2.5rem;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  font-family: 'Inter', sans-serif;
+  position: relative;
+  overflow: hidden;
+  height: min-content;
 }
-.periodo{
-  color: #ff8800;
+
+.card2::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: linear-gradient(90deg, #c25e00, #ff9113, #ffcf99);
 }
 
 .card2 h2 {
-  margin-top: 10px;
+  margin-top: 0;
+  margin-bottom: 2rem;
+  color: #1e293b;
+  font-size: 1.8rem;
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  position: relative;
 }
 
-/* modo escuro */
+.lista-prefeitos {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: max-content;
 
+}
+
+.prefeito-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 20px;
+  background: #f8fafc;
+  border-radius: 10px;
+  border-left: 4px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.prefeito-item:hover {
+  transform: translateX(8px);
+  background: #ffffff;
+  border-left: 4px solid #e47328;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.prefeito-item .nome {
+  font-weight: 600;
+  color: #334155;
+  font-size: 1.05rem;
+  margin-right: 100px;
+}
+
+.prefeito-item .periodo {
+  font-size: 0.85rem;
+  color: #0369a1;
+  background: #e0f2fe;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-weight: 500;
+  white-space: nowrap;
+  text-align: right;
+  box-shadow: inset 0 0 0 1px rgba(3, 105, 161, 0.1);
+}
+
+@media (max-width: 550px) {
+  .card2 {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+
+  .prefeito-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .prefeito-item .periodo {
+    align-self: flex-start;
+  }
+}
+
+/* Temas  */
 
 body.Escuro .card2 {
   background: rgba(27, 27, 27, 0.95);
   border-bottom: 1px solid #333333;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
 
+body.Escuro .card2 h2,
+body.Escuro .prefeito-item .nome {
+  color: #f1f5f9;
 }
 
 body.Escuro .prefeito-item {
   background: rgba(54, 54, 54, 0.95);
   border-bottom: 1px solid #333333;
+  border-left: 4px solid transparent;
+}
+
+body.Escuro .prefeito-item:hover {
+  background: rgba(64, 64, 64, 0.95);
+  border-left: 4px solid #60a5fa;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+body.Escuro .prefeito-item .periodo {
+  background: rgba(255, 255, 255, 0.1);
+  color: #93c5fd;
+  box-shadow: inset 0 0 0 1px rgba(147, 197, 253, 0.3);
 }
 
 body.tema-contraste .card2 {
-  border: 1px solid #ffd700;
   background-color: #000000 !important;
+  border: 1px solid #ffd700;
+  box-shadow: none;
+}
+
+body.tema-contraste .card2 h2,
+body.tema-contraste .prefeito-item .nome,
+body.tema-contraste .prefeito-item .periodo {
   color: #ffd700 !important;
 }
 
 body.tema-contraste .prefeito-item {
   background: rgba(5, 5, 5, 0.95);
   border: 1px solid #ffd700;
+  border-left: 1px solid #ffd700;
 }
 
+body.tema-contraste .prefeito-item:hover {
+  background: #1a1a1a;
+  border-left: 4px solid #ffd700;
+  transform: translateX(4px);
+
+}
+
+body.tema-contraste .prefeito-item .periodo {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px #ffd700;
+}
 body.tema-dicromacia .card2 {
-  border: 1px solid #ffd700;
   background-color: #001f3f !important;
+  border: 1px solid #ffd700;
+  box-shadow: none;
+}
+
+body.tema-dicromacia .card2 h2,
+body.tema-dicromacia .prefeito-item .nome,
+body.tema-dicromacia .prefeito-item .periodo {
   color: #ffd700 !important;
 }
 
 body.tema-dicromacia .prefeito-item {
   background-color: #001f3f !important;
   border: 1px solid #ffd700;
+}
+
+body.tema-dicromacia .prefeito-item:hover {
+  background-color: #003366 !important;
+  border-left: 4px solid #ffd700;
+  transform: translateX(4px);
+}
+
+body.tema-dicromacia .prefeito-item .periodo {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px #ffd700;
 }
