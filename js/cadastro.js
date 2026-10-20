@@ -73,13 +73,16 @@ document.getElementById("FormCadastro").addEventListener("submit", async (e) => 
     const senha = senhaInput.value;
     const email = document.getElementById("email").value;
     const data_nascimento = campoData.value;
-    document.getElementById("cadastrar").textContent="Cadastrando..."
+    document.getElementById("cadastrar").textContent = "Cadastrando..."
 
     if (!validarSenha(senha)) {
+        document.getElementById("cadastrar").textContent = "Cadastrar";
         return;
     }
     if (!validarIdadePermitida(data_nascimento)) {
         criarAlerta("Cadastro inválido! Idade Inválida!", "alertRuim", 5000);
+        document.getElementById("cadastrar").textContent = "Cadastrar";
+
         return;
     }
 
@@ -101,12 +104,14 @@ document.getElementById("FormCadastro").addEventListener("submit", async (e) => 
                 window.location.href = "../servicos/index.html"
             }, 3500)
 
-        }else {
+        } else {
             criarAlerta(dados.mensagem || 'Erro ao realizar o cadastro', "alertRuim", 5000)
+            document.getElementById("cadastrar").textContent = "Cadastrar"
         }
     }
     catch (err) {
         console.error('Erro na requisição de cadastro', err);
         criarAlerta("Erro na conexão com o servidor. Tente novamente mais tarde.", "alertRuim", 5000);
+        document.getElementById("cadastrar").textContent = "Cadastrar"
     }
 })
