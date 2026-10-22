@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
-const { limitadorGeral, limitadorRigoroso } = require('./middlewares/limitadores');
+const { limitadorGeral, limitadorRigoroso,limitadorVerificacao  } = require('./middlewares/limitadores');
 
 const app = express();
 const origensPermitidas = new Set(
@@ -31,6 +31,8 @@ app.use(helmet());
 app.use('/api/cadastro', limitadorRigoroso);
 app.use('/api/login', limitadorRigoroso);
 app.use('/api/', limitadorGeral);
+app.use('/api/verificar-email', limitadorVerificacao);
+app.use('/api/reenviar-codigo', limitadorVerificacao);
 
 app.use('/api', require('./routes/pontos.routes'));
 app.use('/api', require('./routes/auth.routes'));

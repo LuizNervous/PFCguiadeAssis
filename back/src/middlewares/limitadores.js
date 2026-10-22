@@ -21,5 +21,12 @@ const limitadorFotoPerfil = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
 });
+const limitadorVerificacao = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 20,
+  message: { mensagem: 'Muitas tentativas. Tente novamente mais tarde.' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
 
-module.exports = { limitadorGeral, limitadorRigoroso, limitadorFotoPerfil };
+module.exports = { limitadorGeral, limitadorRigoroso, limitadorFotoPerfil, limitadorVerificacao };

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro - Guia Assis</title>
+
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/header.css">
+  <link rel="stylesheet" href="../css/login.css">
+  <link rel="shortcut icon" href="../imagens/icone.png" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body>
+  <div id="header"></div>
+
+  <div class="overlay">
+    <section class="login">
+      <h1>Verifique seu e-mail</h1>
+      <p>Enviamos um código de 6 dígitos para <strong id="emailConfirmacao"></strong>. Ele vale por 15 minutos.</p>
+
+      <form id="FormCodigo">
+        <div class="input">
+          <i class="fa-solid fa-lock"></i>
+          <input id="codigo" type="text" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="one-time-code" placeholder="Código de 6 dígitos" required>
+        </div>
+        <div class="extras">
+          <a href="#" id="reenviar">Reenviar código</a>
+        </div>
+        <button type="submit" id="cadastrar">Verificar e entrar</button>
+      </form>
+
+      <span>Digitou o e-mail errado? <a href="cadastro.html">Voltar ao cadastro</a></span>
+    </section>
+  </div>
+
+  <div id="footer"></div>
+
+  <script src="../js/global.js"></script>
+  <script src="../js/verificar-email.js"></script>
+  <script src="../js/header.js"></script>
+  <script src="../componentes/componentes.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      new window.VLibras.Widget('https://vlibras.gov.br/app');
+    });
+  </script>
+</body>

@@ -1,4 +1,3 @@
-
 body {
     min-height: 100vh;
     background: #f4f7fb;
@@ -11,7 +10,6 @@ main {
     flex: 1;
     min-height: 0;
 }
-
 
 .info {
     position: relative;
@@ -118,6 +116,14 @@ footer {
     margin-bottom: 1rem;
 }
 
+.input-grupo {
+    margin-bottom: 1rem;
+}
+
+.input-grupo .input {
+    margin-bottom: 0;
+}
+
 .input input {
     display: block;
     width: 100%;
@@ -163,7 +169,8 @@ footer {
     pointer-events: none;
 }
 
-#olho {
+#olho,
+.toggle-senha {
     position: absolute;
     right: 1rem;
     top: 50%;
@@ -175,11 +182,13 @@ footer {
     transition: color 0.18s ease;
 }
 
-#olho:hover {
+#olho:hover,
+.toggle-senha:hover {
     color: #1261a0;
 }
 
-#olho:focus-visible {
+#olho:focus-visible,
+.toggle-senha:focus-visible {
     outline: 2px solid #1261a0;
     outline-offset: 3px;
     border-radius: 0.2rem;
@@ -188,23 +197,10 @@ footer {
 .extras {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
+    justify-content: flex-end;
     margin: 0.25rem 0 1.5rem;
     color: #526174;
     font-size: 0.9rem;
-}
-
-.extras label {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-}
-
-.extras input[type="checkbox"] {
-    width: 1rem;
-    height: 1rem;
-    accent-color: #1261a0;
 }
 
 .extras a,
@@ -217,6 +213,105 @@ footer {
 .extras a:hover,
 .login>span a:hover {
     text-decoration: underline;
+}
+
+.input input.input-valido {
+    border-color: #16a34a;
+}
+
+.input input.input-invalido {
+    border-color: #dc2626;
+}
+
+.erro-campo,
+.feedback-confirmacao {
+    display: block;
+    font-size: 0.82rem;
+    margin-top: 0.35rem;
+    min-height: 0;
+    transition: color 0.2s ease;
+}
+
+.erro-campo {
+    color: #dc2626;
+}
+
+.feedback-confirmacao.sucesso {
+    color: #16a34a;
+    font-weight: 500;
+}
+
+.feedback-confirmacao.erro {
+    color: #dc2626;
+    font-weight: 500;
+}
+
+.painel-senha {
+    margin-top: 0.6rem;
+    padding: 0.85rem 1rem;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.65rem;
+    font-size: 0.85rem;
+}
+
+.forca-cabecalho {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.4rem;
+    color: #475569;
+}
+
+.barra-forca-container {
+    width: 100%;
+    height: 6px;
+    background: #e2e8f0;
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 0.75rem;
+}
+
+.barra-forca {
+    width: 0%;
+    height: 100%;
+    border-radius: 999px;
+    background: #dc2626;
+    transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.lista-requisitos {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.45rem 0.75rem;
+}
+
+.lista-requisitos li {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: #64748b;
+    font-size: 0.8rem;
+    transition: color 0.2s ease;
+}
+
+.lista-requisitos li i {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.lista-requisitos li.cumprido {
+    color: #15803d;
+    font-weight: 500;
+}
+
+.lista-requisitos li.cumprido i {
+    color: #16a34a;
+    transform: scale(1.1);
 }
 
 .login button#logar,
@@ -254,6 +349,13 @@ footer {
     outline-offset: 2px;
 }
 
+.login button#logar:disabled,
+.login button#cadastrar:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
 .login>span {
     display: block;
     margin-top: 1.5rem;
@@ -263,11 +365,9 @@ footer {
     line-height: 1.5;
 }
 
-
 input[type="date"] {
     color-scheme: light;
 }
-
 
 .overlay {
     flex: 1;
@@ -285,7 +385,7 @@ input[type="date"] {
     max-width: 40rem;
 }
 
-
+/* === TEMA ESCURO === */
 body.Escuro {
     background: #101722;
     color: #edf2f7;
@@ -305,7 +405,6 @@ body.Escuro .info #nomeUsuario {
     color: #ffffff;
 }
 
-body.Escuro .login,
 body.Escuro .overlay {
     background: #101722;
 }
@@ -346,11 +445,13 @@ body.Escuro .input .fa-user,
 body.Escuro .input .fa-lock,
 body.Escuro .input .fa-envelope,
 body.Escuro .input .fa-calendar-days,
-body.Escuro #olho {
+body.Escuro #olho,
+body.Escuro .toggle-senha {
     color: #9eacbd;
 }
 
-body.Escuro #olho:hover {
+body.Escuro #olho:hover,
+body.Escuro .toggle-senha:hover {
     color: #8fc4e9;
 }
 
@@ -371,6 +472,26 @@ body.Escuro .login button#cadastrar:hover {
     border-color: #3b86bb;
 }
 
+body.Escuro .painel-senha {
+    background: #111a26;
+    border-color: #2e3b4d;
+}
+
+body.Escuro .forca-cabecalho,
+body.Escuro .lista-requisitos li {
+    color: #9eacbd;
+}
+
+body.Escuro .lista-requisitos li.cumprido,
+body.Escuro .lista-requisitos li.cumprido i {
+    color: #4ade80;
+}
+
+body.Escuro .barra-forca-container {
+    background: #2e3b4d;
+}
+
+/* === TEMA ALTO CONTRASTE === */
 body.tema-contraste .info,
 body.tema-contraste .login,
 body.tema-contraste .overlay {
@@ -388,8 +509,7 @@ body.tema-contraste .info #nomeUsuario,
 body.tema-contraste .login h1,
 body.tema-contraste .login>p,
 body.tema-contraste .login>span,
-body.tema-contraste .extras,
-body.tema-contraste .extras label {
+body.tema-contraste .extras {
     color: #ffff00 !important;
 }
 
@@ -414,8 +534,17 @@ body.tema-contraste .input .fa-user,
 body.tema-contraste .input .fa-lock,
 body.tema-contraste .input .fa-envelope,
 body.tema-contraste .input .fa-calendar-days,
-body.tema-contraste #olho {
+body.tema-contraste #olho,
+body.tema-contraste .toggle-senha,
+body.tema-contraste .forca-cabecalho,
+body.tema-contraste .lista-requisitos li,
+body.tema-contraste .lista-requisitos li i {
     color: #ffff00 !important;
+}
+
+body.tema-contraste .painel-senha {
+    background: #000000 !important;
+    border: 2px solid #ffff00 !important;
 }
 
 body.tema-contraste .input input:focus {
@@ -441,14 +570,16 @@ body.tema-contraste .login button#cadastrar:hover {
     border-color: #ffffff !important;
 }
 
+/* === TEMA DICROMACIA === */
 body.tema-dicromacia .info,
 body.tema-dicromacia .login,
 body.tema-dicromacia .overlay {
     background: #001f3f !important;
     color: #ffd700 !important;
 }
-body.tema-dicromacia .info span{
-color: #54c0ff;
+
+body.tema-dicromacia .info span {
+    color: #54c0ff;
 }
 
 body.tema-dicromacia .info {
@@ -461,8 +592,7 @@ body.tema-dicromacia .info #nomeUsuario,
 body.tema-dicromacia .login h1,
 body.tema-dicromacia .login>p,
 body.tema-dicromacia .login>span,
-body.tema-dicromacia .extras,
-body.tema-dicromacia .extras label {
+body.tema-dicromacia .extras {
     color: #ffd700 !important;
 }
 
@@ -486,7 +616,8 @@ body.tema-dicromacia .input .fa-user,
 body.tema-dicromacia .input .fa-lock,
 body.tema-dicromacia .input .fa-envelope,
 body.tema-dicromacia .input .fa-calendar-days,
-body.tema-dicromacia #olho {
+body.tema-dicromacia #olho,
+body.tema-dicromacia .toggle-senha {
     color: #ffd700 !important;
 }
 
@@ -513,7 +644,7 @@ body.tema-dicromacia .login button#cadastrar:hover {
     border-color: #ffffff !important;
 }
 
-
+/* === TEMA MONOCROMACIA === */
 body.tema-monocromacia .info,
 body.tema-monocromacia .login,
 body.tema-monocromacia .overlay {
@@ -531,8 +662,7 @@ body.tema-monocromacia .info #nomeUsuario,
 body.tema-monocromacia .login h1,
 body.tema-monocromacia .login>p,
 body.tema-monocromacia .login>span,
-body.tema-monocromacia .extras,
-body.tema-monocromacia .extras label {
+body.tema-monocromacia .extras {
     color: #000000 !important;
 }
 
@@ -555,9 +685,12 @@ body.tema-monocromacia .input .fa-user,
 body.tema-monocromacia .input .fa-lock,
 body.tema-monocromacia .input .fa-envelope,
 body.tema-monocromacia .input .fa-calendar-days,
-body.tema-monocromacia #olho {
+body.tema-monocromacia #olho,
+body.tema-monocromacia .toggle-senha {
     color: #000000 !important;
-}body.tema-monocromacia .info span{
+}
+
+body.tema-monocromacia .info span {
     background-color: #000000;
     border-radius: 5px;
 }
@@ -574,7 +707,6 @@ body.tema-monocromacia .login button#cadastrar {
     border-color: #000000 !important;
     color: #ffffff !important;
 }
-
 
 @media (max-width: 900px) {
     main {
@@ -614,6 +746,16 @@ body.tema-monocromacia .login button#cadastrar {
         font-size: 2rem;
     }
 
+    #NomeIdade,
+    .NomeIdade {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .lista-requisitos {
+        grid-template-columns: 1fr;
+    }
+
     .login {
         width: calc(100% - 1.25rem);
         margin: 0.75rem auto;
@@ -629,18 +771,6 @@ body.tema-monocromacia .login button#cadastrar {
         margin-bottom: 1.5rem;
     }
 
-    #NomeIdade,
-    .NomeIdade {
-        grid-template-columns: 1fr;
-        gap: 0;
-    }
-
-    .extras {
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 0.7rem;
-    }
-
     .overlay {
         padding: 1rem 0.4rem;
     }
@@ -649,6 +779,7 @@ body.tema-monocromacia .login button#cadastrar {
 @media (prefers-reduced-motion: reduce) {
     .input input,
     #olho,
+    .toggle-senha,
     .login button#logar,
     .login button#cadastrar {
         transition: none;

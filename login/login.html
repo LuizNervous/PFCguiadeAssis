@@ -12,13 +12,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="shortcut icon" href="../imagens/icone.png" type="image/x-icon">
 </head>
-
 <body>
-
     <div id="header">
-
     </div>
-
     <main>
         <section class="info">
             <div>
@@ -26,59 +22,28 @@
                 <h1 id="nomeUsuario"></h1>
                 <h2>para o <span>Guia Assis</span></h2>
             </div>
-
         </section>
-
         <section class="login">
-
             <h1>Login</h1>
-
             <p>Entre para continuar.</p>
-
             <form id="FormLogin">
-
                 <div class="input">
-
                     <i class="fa-solid fa-user"></i>
-
                     <input id="email" type="email" placeholder="E-mail" required>
-
                 </div>
-
                 <div class="input">
-
                     <i class="fa-solid fa-lock"></i>
-
                     <input type="password" id="senha" placeholder="Senha" required>
-
                     <i class="fa-solid fa-eye" id="olho"></i>
-
                 </div>
-
                 <div class="extras">
-
-                    <label>
-
-                        <input type="checkbox">
-
-                        Lembrar de mim
-
-                    </label>
-
-                    <a href="#">Esqueci minha senha</a>
-
+                <a href="#">Esqueci minha senha</a>
                 </div>
-
-                <button type="submit" id="logar">
-
-                    Entrar
-                </button>
+                <button type="submit" id="logar">Entrar</button>
             </form>
             <span>
                 Ainda não possui conta?
-                <a href="cadastro.html">
-                    Criar conta
-                </a>
+                <a href="cadastro.html">  Criar conta</a>
             </span>
         </section>
 
@@ -98,7 +63,6 @@
     </div>
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
-        // O script aguarda o carregamento completo para executar sem erros
         window.addEventListener('DOMContentLoaded', () => {
             new window.VLibras.Widget('https://vlibras.gov.br/app');
         });
