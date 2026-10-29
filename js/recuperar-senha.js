@@ -17,7 +17,7 @@ const codigoInput = document.getElementById("codigo");
 const senhaInput = document.getElementById("senha");
 const confirmarSenhaInput = document.getElementById("confirmar-senha");
 
-const btnEnviarCodigo = document.getElementById("logar");
+const btnEnviarCodigo = document.getElementById("btn-enviar-codigo");
 const btnRedefinir = document.getElementById("cadastrar");
 
 const barraForca = document.getElementById("barra-forca");

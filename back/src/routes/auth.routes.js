@@ -301,14 +301,14 @@ router.post('/login', async (req, res) => {
 router.post('/esqueci-senha', async (req, res) => {
     const { email } = req.body ?? {};
 
-    if (!ehTexto || !email.trim()) {
+    if (!ehTexto(email) || !email.trim()) {
         return res.status(400).json({ mensagem: "Informe um e-mail válido." });
     }
     const emailLimpo = email.trim().toLowerCase();
 
     try {
         const [usuarios] = await dbp.query(
-            'SELECT id,nome,email FROM usuarios WHERE email =?', [email]
+            'SELECT id,nome,email FROM usuarios WHERE email =?', [emailLimpo]
         );
         const usuario = usuarios[0];
         if (usuario) {
@@ -368,7 +368,7 @@ router.post('/redefinir-senha', async (req, res) => {
         const token = tokens[0];
         if (!token) return res.status(400).json(invalido);
 
-        const [tentativa] = await dbp.query('UPDATE token_verificacao SET tentativas + 1 WHERE id =? AND tentativas < ?', [token.id, MAX_TENTATIVAS]);
+        const [tentativa] = await dbp.query('UPDATE tokens_verificacao SET tentativas = tentativas + 1 WHERE id =? AND tentativas < ?', [token.id, MAX_TENTATIVAS]);
         if (tentativa.affectedRows === 0) {
             return res.status(429).json({ mensagem: "Muitas tentativas incorretas. Solicite um novo código. " });
         }
@@ -384,7 +384,7 @@ router.post('/redefinir-senha', async (req, res) => {
         const salt=await bcrypt.genSalt(10);
         const senhaHash=await bcrypt.hash(novaSenha, salt);
 
-        await dbp('UPDATE tokens_verificação SET usado_em = NOW() WHERE id=?', [token.id]);
+        await dbp('UPDATE tokens_verificacao SET usado_em = NOW() WHERE id=?', [token.id]);
         await dbp('UPDATE usuarios SET senha=?, email_verificado=1 WHERE id=?', [senhaHash, usuario.id]);
 
         return res.json({mensagem:'Senha redefinida com sucesso! Faça o login com a nova senha.'})
