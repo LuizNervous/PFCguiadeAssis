@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recuperar Senha - Guia Assis</title>
+
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/header.css">
+  <link rel="stylesheet" href="../css/login.css">
+  <link rel="shortcut icon" href="../imagens/icone.png" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body>
+  <div id="header"></div>
+
+  <div class="overlay">
+    <section class="login">
+
+      <div id="etapa-email">
+        <h1>Recuperar senha</h1>
+        <p>Informe o seu e-mail cadastrado para receber um código de verificação de 6 dígitos.</p>
+
+        <form id="FormSolicitarCodigo" novalidate>
+          <div class="input-grupo">
+            <div class="input">
+              <i class="fa-solid fa-envelope"></i>
+              <input id="email-recuperacao" type="email" placeholder="Digite seu e-mail" autocomplete="email" required>
+            </div>
+          </div>
+
+          <button type="submit" id="logar">
+            Enviar código
+          </button>
+        </form>
+      </div>
+
+      <div id="etapa-redefinir" class="oculto">
+        <h1>Redefinir senha</h1>
+        <p>Enviamos um código de 6 dígitos para <strong id="email-exibido"></strong>. <a href="#" id="trocar-email">Trocar e-mail</a></p>
+
+        <form id="FormRedefinirSenha" novalidate>
+          <div class="input-grupo">
+            <div class="input">
+              <i class="fa-solid fa-key"></i>
+              <input id="codigo" type="text" inputmode="numeric" maxlength="6" placeholder="Código de 6 dígitos" required>
+            </div>
+          </div>
+
+          <div class="input-grupo">
+            <div class="input">
+              <i class="fa-solid fa-lock"></i>
+              <input type="password" id="senha" placeholder="Nova senha" autocomplete="new-password" required>
+              <i class="fa-solid fa-eye toggle-senha" data-target="senha" tabindex="0" role="button" aria-label="Mostrar ou ocultar senha"></i>
+            </div>
+
+            <div class="painel-senha" id="painel-senha">
+              <div class="forca-cabecalho">
+                <span>Força da nova senha:</span>
+                <strong id="texto-forca">Digite sua senha</strong>
+              </div>
+              <div class="barra-forca-container">
+                <div class="barra-forca" id="barra-forca"></div>
+              </div>
+
+              <ul class="lista-requisitos">
+                <li id="req-tamanho">
+                  <i class="fa-solid fa-circle-xmark"></i>
+                  <span>Mínimo de 6 caracteres</span>
+                </li>
+                <li id="req-maiuscula">
+                  <i class="fa-solid fa-circle-xmark"></i>
+                  <span>Pelo menos 1 letra maiúscula (A-Z)</span>
+                </li>
+                <li id="req-numero">
+                  <i class="fa-solid fa-circle-xmark"></i>
+                  <span>Pelo menos 1 número (0-9)</span>
+                </li>
+                <li id="req-especial">
+                  <i class="fa-solid fa-circle-xmark"></i>
+                  <span>Pelo menos 1 caractere especial (!@#$%...)</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="input-grupo">
+            <div class="input">
+              <i class="fa-solid fa-lock"></i>
+              <input type="password" id="confirmar-senha" placeholder="Confirmar nova senha" autocomplete="new-password" required>
+              <i class="fa-solid fa-eye toggle-senha" data-target="confirmar-senha" tabindex="0" role="button" aria-label="Mostrar ou ocultar confirmação de senha"></i>
+            </div>
+            <small class="feedback-confirmacao" id="feedback-confirmacao"></small>
+          </div>
+
+          <div class="extras">
+            <a href="#" id="reenviar-codigo">Reenviar código</a>
+          </div>
+
+          <button type="submit" id="cadastrar">
+            Redefinir senha
+          </button>
+        </form>
+      </div>
+
+      <span>
+        Lembrou a sua senha?
+        <a href="login.html">Voltar para o login</a>
+      </span>
+
+    </section>
+  </div>
+
+  <div id="footer"></div>
+
+  <script src="../js/global.js"></script>
+  <script src="../js/recuperar-senha.js"></script>
+  <script src="../js/header.js"></script>
+  <script src="../componentes/componentes.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      new window.VLibras.Widget('https://vlibras.gov.br/app');
+    });
+  </script>
+</body>
+
+</html>

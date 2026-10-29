@@ -369,6 +369,37 @@ input[type="date"] {
     color-scheme: light;
 }
 
+.oculto {
+    display: none !important;
+}
+
+.input .fa-key {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    z-index: 1;
+    color: #64748b;
+    font-size: 1rem;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+body.Escuro .input .fa-key {
+    color: #9eacbd;
+}
+
+body.tema-contraste .input .fa-key {
+    color: #ffff00 !important;
+}
+
+body.tema-dicromacia .input .fa-key {
+    color: #ffd700 !important;
+}
+
+body.tema-monocromacia .input .fa-key {
+    color: #000000 !important;
+}
+
 .overlay {
     flex: 1;
     display: flex;

@@ -18,7 +18,7 @@ router.put('/', autenticar, async (req, res) => {
   }
 
   if (!nome || !email) {
-    return res.status(400).json({ mensagem: "Nome e e-mail são obrigátorios ." })
+    return res.status(400).json({ mensagem: "Nome é obrigátorio ." })
   }
   const emailValido = await validarDominioEmail(email);
   if (!emailValido) {

@@ -76,3 +76,12 @@ document.getElementById("FormLogin").addEventListener("submit", async (e) => {
         btn.textContent = "Entrar";
     }
 });
+const linkEsqueci = document.getElementById("link-esqueci");
+if (linkEsqueci && emailInput) {
+    linkEsqueci.addEventListener("click", () => {
+        const emailDigitado = emailInput.value.trim().toLowerCase();
+        if (emailDigitado) {
+            sessionStorage.setItem("emailRecuperacao", emailDigitado);
+        }
+    });
+}

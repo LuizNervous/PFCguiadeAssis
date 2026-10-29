@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { dbp } = require('../config/db');
 const { gerarCodigo, hashCodigo, conferirCodigo } = require('../utils/codigos');
-const { emailCodigoCadastro } = require('../services/email');
+const { emailCodigoCadastro, emailRecuperacaoSenha } = require('../services/email');
 const { ehTexto, validarDataNascimento, validarDominioEmail } = require('../utils/validacoes');
 
 const router = express.Router();
@@ -39,6 +39,33 @@ async function emitirCodigoCadastro(usuario) {
         throw erro;
     }
 }
+
+async function emitirCodigoRecuperacao(usuario) {
+    const [recentes] = await dbp.query(
+        `SELECT if FROM token_verificacao
+         Where id_usuario=? AND tipo= recuperacao
+         AND criado_em > DATE_SUB(NOW(), INTERVAL 60 SECOND)`,
+        [usuario.id]);
+    if (recentes.length > 0) return false;
+
+    await dbp.query(
+        `DELETE FROM tokens_verificacao WHERE id_usuario = ? AND tipo = 'recuperacao'`,
+        [usuario.id]
+    );
+    const codigo = gerarCodigo();
+    const [resultadoToken] = await dbp.query(
+        `INSERT INTO tokens_verificacao (id_usuario, tipo, token_hash, expira_em)
+        VALUES (?, 'recuperacao', ?, DATE_ADD(NOW(), INTERVAL 15 MINUTE))`,
+        [usuario.id, hashCodigo(codigo)]
+    );
+    try {
+        await emailRecuperacaoSenha(usuario.email, usuario.nome, codigo);
+        return true;
+    } catch (erro) {
+        await dbp.query('DELETE FROM tokens_verificacao WHERE id=?', [resultadoToken.insertId]);
+        throw erro;
+    }
+};
 
 router.post('/cadastro', async (req, res) => {
     const { nome, data_nascimento, email, senha } = req.body ?? {};
@@ -269,6 +296,101 @@ router.post('/login', async (req, res) => {
     } catch (erro) {
         console.error('Erro no login:', erro);
         return res.status(500).json({ mensagem: 'Erro interno no servidor' });
+    }
+});
+router.post('/esqueci-senha', async (req, res) => {
+    const { email } = req.body ?? {};
+
+    if (!ehTexto || !email.trim()) {
+        return res.status(400).json({ mensagem: "Informe um e-mail válido." });
+    }
+    const emailLimpo = email.trim().toLowerCase();
+
+    try {
+        const [usuarios] = await dbp.query(
+            'SELECT id,nome,email FROM usuarios WHERE email =?', [email]
+        );
+        const usuario = usuarios[0];
+        if (usuario) {
+            await emitirCodigoRecuperacao(usuario);
+        }
+    } catch (erro) {
+        console.error("Erro ao processar recuperação de senha:", erro.message);
+        return res.status(500).json({ mensagem: 'Não foi possivel enviar o código agora. Tente novamente em instantes' })
+    }
+    return res.json({
+        mensagem: 'Se o e-mail estiver cadastrado, enviamos um código de 6 dígitos para ele.'
+    });
+});
+router.post('/redefinir-senha', async (req, res) => {
+    const { email, codigo, novaSenha } = req.body ?? {};
+
+    if (![email, codigo, novaSenha].every(ehTexto)) {
+        return res.status(400).json({ mensagem: 'Dados inválidos.' });
+    }
+
+    const emailLimpo = email.trim().toLowerCase();
+    const codigoLimpo = codigo.trim();
+
+    if (!/^\d{6}$/.test(codigoLimpo)) {
+        return res.status(400).json({ mensagem: 'Informe o código numérico de 6 dígitos.' });
+    }
+
+    if (novaSenha.length < 6) {
+        return res.status(400).json({ mensagem: 'A nova senha precisa ter no mínimo 6 caracteres!' });
+    }
+    if (novaSenha.length > 72) {
+        return res.status(400).json({ mensagem: 'A nova senha pode ter no máximo 72 caracteres!' });
+    }
+    if (!/[A-Z]/.test(novaSenha)) {
+        return res.status(400).json({ mensagem: 'A nova senha precisa ter pelo menos 1 letra maiúscula!' });
+    }
+    if (!/[0-9]/.test(novaSenha)) {
+        return res.status(400).json({ mensagem: 'A nova senha precisa ter pelo menos 1 número!' });
+    }
+    if (!/[^a-zA-Z0-9]/.test(novaSenha)) {
+        return res.status(400).json({ mensagem: 'A nova senha precisa ter um caractere especial!' });
+    }
+    const invalido = { mensagem: "Código incorreto ou expirado." }
+
+    try {
+        const [usuarios] = await dbp.query(
+            'SELECT id, senha FROM usuarios WHERE email=?', [emailLimpo]
+        );
+        const usuario = usuarios[0]
+        if (!usuario) {
+            return res.status(400).json(invalido);
+        }
+        const [tokens] = await dbp.query(
+            `SELECT id, token_hash FROM tokens_verificacao
+             WHERE id_usuario=? AND tipo= 'recuperacao' AND usado_em IS NULL AND expira_em > NOW()
+             ORDER BY id DESC LIMIT 1`, [usuario.id]);
+        const token = token[0];
+        if (!token) return res.status(400).json(invalido);
+
+        const [tentativa] = await dbp.query('UPDATE token_verificacao SET tentativas + 1 WHERE id =? AND tentativas < ?', [token.id, MAX_TENTATIVAS]);
+        if (tentativa.affectedRows === 0) {
+            return res.status(429).json({ mensagem: "Muitas tentativas incorretas. Solicite um novo código. " });
+        }
+
+        if (!conferirCodigo(codigoLimpo, token.token_hash)) {
+            return res.status(400).json(invalido);
+        }
+
+        const mesmaSenha = await bcrypt.compare(novaSenha, usuario.senha);
+        if (mesmaSenha) {
+            return res.status(400).json({ mensagem: "A nova senha não pode ser igual à senha anterior." });
+        }
+        const salt=await bcrypt.genSalt(10);
+        const senhaHash=await bcrypt.hash(novaSenha, salt);
+
+        await dbp('UPDATE tokens_verificação SET usado_em = NOW() WHERE id=?', [token.id]);
+        await dbp('UPDATE usuarios SET senha=?, email_verificado=1 WHERE id=?', [senhaHash, usuario.id]);
+
+        return res.json({mensagem:'Senha redefinida com sucesso! Faça o login com a nova senha.'})
+    } catch (erro) {
+        console.error('Erro ao redefinir a senha: ', erro);
+        return res.status(500).json({mensagem:"Erro interno no servidor"});
     }
 });
 

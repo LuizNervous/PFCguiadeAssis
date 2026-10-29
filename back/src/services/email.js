@@ -47,5 +47,17 @@ function emailCodigoCadastro(para, nome, codigo) {
       <p>Ele vale por 15 minutos. Se você não criou uma conta no Guia Assis, ignore este e-mail.</p>`
   });
 }
+function emailRecuperacaoSenha(para, nome, codigo) {
+  return enviarEmail({
+    para,
+    assunto: 'Código de recuperação de senha - Guia Assis',
+    html: `
+      <p>Olá, ${escaparHtml(nome)}!</p>
+     <p>Recebemos uma solicitação para redefinir a senha da sua conta no Guia Assis.</p>
+      <p>Seu código de recuperação é:</p>
+      <p style="font-size:32px;font-weight:bold;letter-spacing:6px">${escaparHtml(codigo)}</p>
+      <p>Este código vale por 15 minutos. Se você não solicitou a troca de senha, ignore este e-mail com segurança.</p>`
+  });
+}
 
-module.exports = { enviarEmail, emailCodigoCadastro };
+module.exports = { enviarEmail, emailCodigoCadastro, emailRecuperacaoSenha };
