@@ -19,12 +19,29 @@
   <div class="overlay">
     <section class="login">
 
-      <div id="etapa-email">
-        <h1>Recuperar senha</h1>
-        <p>Informe o seu e-mail cadastrado para receber um código de verificação de 6 dígitos.</p>
+      <!-- Indicador visual de etapas -->
+      <div class="passos-recuperacao">
+        <div class="passo-item ativo" id="indicador-passo-1">
+          <span class="passo-numero">1</span>
+          <span class="passo-texto">E-mail</span>
+        </div>
+        <div class="passo-linha" id="linha-passos"></div>
+        <div class="passo-item" id="indicador-passo-2">
+          <span class="passo-numero">2</span>
+          <span class="passo-texto">Nova senha</span>
+        </div>
+      </div>
+
+      <!-- ETAPA 1: Solicitar o código por e-mail -->
+      <div id="etapa-email" class="etapa-container">
+        <div class="cabecalho-etapa">
+          <h1>Recuperar senha</h1>
+          <p>Informe o seu e-mail cadastrado e enviaremos um código de 6 dígitos para você criar uma nova senha.</p>
+        </div>
 
         <form id="FormSolicitarCodigo" novalidate>
           <div class="input-grupo">
+            <label for="email-recuperacao" class="label-campo">E-mail da conta</label>
             <div class="input">
               <i class="fa-solid fa-envelope"></i>
               <input id="email-recuperacao" type="email" placeholder="Digite seu e-mail" autocomplete="email" required>
@@ -32,27 +49,42 @@
           </div>
 
           <button type="submit" id="logar">
-            Enviar código
+            Enviar código de verificação
           </button>
         </form>
       </div>
 
-      <div id="etapa-redefinir" class="oculto">
-        <h1>Redefinir senha</h1>
-        <p>Enviamos um código de 6 dígitos para <strong id="email-exibido"></strong>. <a href="#" id="trocar-email">Trocar e-mail</a></p>
+      <!-- ETAPA 2: Digitar código + Nova senha (Oculta inicialmente) -->
+      <div id="etapa-redefinir" class="etapa-container oculto">
+        <div class="cabecalho-etapa">
+          <h1>Redefinir senha</h1>
+          <p>Digite abaixo o código de 6 dígitos enviado para:</p>
+
+          <div class="badge-email-enviado">
+            <span id="email-exibido"></span>
+            <a href="#" id="trocar-email">
+              <i class="fa-solid fa-pen"></i> Trocar e-mail
+            </a>
+          </div>
+        </div>
 
         <form id="FormRedefinirSenha" novalidate>
           <div class="input-grupo">
+            <div class="cabecalho-label">
+              <label for="codigo" class="label-campo">Código de verificação</label>
+              <a href="#" id="reenviar-codigo" class="link-reenviar">Reenviar código</a>
+            </div>
             <div class="input">
               <i class="fa-solid fa-key"></i>
-              <input id="codigo" type="text" inputmode="numeric" maxlength="6" placeholder="Código de 6 dígitos" required>
+              <input id="codigo" class="input-codigo" type="text" inputmode="numeric" maxlength="6" placeholder="000000" required>
             </div>
           </div>
 
           <div class="input-grupo">
+            <label for="senha" class="label-campo">Nova senha</label>
             <div class="input">
               <i class="fa-solid fa-lock"></i>
-              <input type="password" id="senha" placeholder="Nova senha" autocomplete="new-password" required>
+              <input type="password" id="senha" placeholder="Crie uma nova senha forte" autocomplete="new-password" required>
               <i class="fa-solid fa-eye toggle-senha" data-target="senha" tabindex="0" role="button" aria-label="Mostrar ou ocultar senha"></i>
             </div>
 
@@ -87,20 +119,17 @@
           </div>
 
           <div class="input-grupo">
+            <label for="confirmar-senha" class="label-campo">Confirmar nova senha</label>
             <div class="input">
               <i class="fa-solid fa-lock"></i>
-              <input type="password" id="confirmar-senha" placeholder="Confirmar nova senha" autocomplete="new-password" required>
+              <input type="password" id="confirmar-senha" placeholder="Repita a nova senha" autocomplete="new-password" required>
               <i class="fa-solid fa-eye toggle-senha" data-target="confirmar-senha" tabindex="0" role="button" aria-label="Mostrar ou ocultar confirmação de senha"></i>
             </div>
             <small class="feedback-confirmacao" id="feedback-confirmacao"></small>
           </div>
 
-          <div class="extras">
-            <a href="#" id="reenviar-codigo">Reenviar código</a>
-          </div>
-
           <button type="submit" id="cadastrar">
-            Redefinir senha
+            Salvar nova senha
           </button>
         </form>
       </div>
@@ -119,6 +148,14 @@
   <script src="../js/recuperar-senha.js"></script>
   <script src="../js/header.js"></script>
   <script src="../componentes/componentes.js"></script>
+
+  <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
   <script>
     window.addEventListener('DOMContentLoaded', () => {
       new window.VLibras.Widget('https://vlibras.gov.br/app');

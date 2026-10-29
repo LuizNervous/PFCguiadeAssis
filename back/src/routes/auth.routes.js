@@ -365,7 +365,7 @@ router.post('/redefinir-senha', async (req, res) => {
             `SELECT id, token_hash FROM tokens_verificacao
              WHERE id_usuario=? AND tipo= 'recuperacao' AND usado_em IS NULL AND expira_em > NOW()
              ORDER BY id DESC LIMIT 1`, [usuario.id]);
-        const token = token[0];
+        const token = tokens[0];
         if (!token) return res.status(400).json(invalido);
 
         const [tentativa] = await dbp.query('UPDATE token_verificacao SET tentativas + 1 WHERE id =? AND tentativas < ?', [token.id, MAX_TENTATIVAS]);

@@ -1,6 +1,10 @@
 const etapaEmail = document.getElementById("etapa-email");
 const etapaRedefinir = document.getElementById("etapa-redefinir");
 
+const indicadorPasso1 = document.getElementById("indicador-passo-1");
+const indicadorPasso2 = document.getElementById("indicador-passo-2");
+const linhaPassos = document.getElementById("linha-passos");
+
 const formSolicitar = document.getElementById("FormSolicitarCodigo");
 const formRedefinir = document.getElementById("FormRedefinirSenha");
 
@@ -28,26 +32,28 @@ let emailAtual = sessionStorage.getItem("emailRecuperacao") || "";
 let aguardandoReenvio = false;
 let intervaloRelogio = null;
 
-if (emailAtual) {
+if (emailAtual && emailInput) {
     emailInput.value = emailAtual;
 }
 
-codigoInput.addEventListener("input", () => {
-    codigoInput.value = codigoInput.value.replace(/\D/g, "").slice(0, 6);
-});
+if (codigoInput) {
+    codigoInput.addEventListener("input", () => {
+        codigoInput.value = codigoInput.value.replace(/\D/g, "").slice(0, 6);
+    });
+}
 
 function iniciarContagemReenvio() {
     clearInterval(intervaloRelogio);
     aguardandoReenvio = true;
     let segundos = 60;
-    linkReenviar.textContent = `Reenviar código (${segundos}s)`;
+    if (linkReenviar) linkReenviar.textContent = `Reenviar código (${segundos}s)`;
 
     intervaloRelogio = setInterval(() => {
         segundos--;
-        linkReenviar.textContent = `Reenviar código (${segundos}s)`;
+        if (linkReenviar) linkReenviar.textContent = `Reenviar código (${segundos}s)`;
         if (segundos <= 0) {
             clearInterval(intervaloRelogio);
-            linkReenviar.textContent = "Reenviar código";
+            if (linkReenviar) linkReenviar.textContent = "Reenviar código";
             aguardandoReenvio = false;
         }
     }, 1000);
@@ -56,19 +62,42 @@ function iniciarContagemReenvio() {
 function mostrarEtapaRedefinicao(email) {
     emailAtual = email;
     sessionStorage.setItem("emailRecuperacao", email);
-    emailExibido.textContent = email;
+    if (emailExibido) emailExibido.textContent = email;
+
     etapaEmail.classList.add("oculto");
     etapaRedefinir.classList.remove("oculto");
+
+    if (indicadorPasso1 && indicadorPasso2 && linhaPassos) {
+        indicadorPasso1.classList.remove("ativo");
+        indicadorPasso1.classList.add("concluido");
+        const num1 = indicadorPasso1.querySelector(".passo-numero");
+        if (num1) num1.innerHTML = '<i class="fa-solid fa-check"></i>';
+        linhaPassos.classList.add("ativa");
+        indicadorPasso2.classList.add("ativo");
+    }
+
     iniciarContagemReenvio();
-    codigoInput.focus();
+    if (codigoInput) codigoInput.focus();
 }
 
-linkTrocarEmail.addEventListener("click", (e) => {
-    e.preventDefault();
-    etapaRedefinir.classList.add("oculto");
-    etapaEmail.classList.remove("oculto");
-    emailInput.focus();
-});
+if (linkTrocarEmail) {
+    linkTrocarEmail.addEventListener("click", (e) => {
+        e.preventDefault();
+        etapaRedefinir.classList.add("oculto");
+        etapaEmail.classList.remove("oculto");
+
+        if (indicadorPasso1 && indicadorPasso2 && linhaPassos) {
+            indicadorPasso1.classList.add("ativo");
+            indicadorPasso1.classList.remove("concluido");
+            const num1 = indicadorPasso1.querySelector(".passo-numero");
+            if (num1) num1.textContent = "1";
+            linhaPassos.classList.remove("ativa");
+            indicadorPasso2.classList.remove("ativo");
+        }
+
+        if (emailInput) emailInput.focus();
+    });
+}
 
 function avaliarRequisitosSenha(senha) {
     return {
@@ -80,6 +109,7 @@ function avaliarRequisitosSenha(senha) {
 }
 
 function atualizarItemRequisito(elementoLi, cumprido) {
+    if (!elementoLi) return;
     const icone = elementoLi.querySelector("i");
     if (cumprido) {
         elementoLi.classList.add("cumprido");
@@ -157,14 +187,18 @@ function verificarConfirmacaoSenha() {
     }
 }
 
-senhaInput.addEventListener("input", () => {
-    atualizarPainelSenha();
-    if (confirmarSenhaInput.value) {
-        verificarConfirmacaoSenha();
-    }
-});
+if (senhaInput) {
+    senhaInput.addEventListener("input", () => {
+        atualizarPainelSenha();
+        if (confirmarSenhaInput && confirmarSenhaInput.value) {
+            verificarConfirmacaoSenha();
+        }
+    });
+}
 
-confirmarSenhaInput.addEventListener("input", verificarConfirmacaoSenha);
+if (confirmarSenhaInput) {
+    confirmarSenhaInput.addEventListener("input", verificarConfirmacaoSenha);
+}
 
 document.querySelectorAll(".toggle-senha").forEach((iconeOlho) => {
     const alternar = () => {
@@ -191,129 +225,138 @@ document.querySelectorAll(".toggle-senha").forEach((iconeOlho) => {
     });
 });
 
-formSolicitar.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const email = emailInput.value.trim().toLowerCase();
-    const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// ETAPA 1: Enviar solicitação de código
+if (formSolicitar) {
+    formSolicitar.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const email = emailInput.value.trim().toLowerCase();
+        const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!regexEmail.test(email)) {
-        criarAlerta("Por favor, digite um endereço de e-mail válido.", "alertRuim", 4000);
-        emailInput.focus();
-        return;
-    }
-
-    btnEnviarCodigo.disabled = true;
-    btnEnviarCodigo.textContent = "Enviando...";
-
-    try {
-        const resposta = await fetch(`${API_URL}/esqueci-senha`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email })
-        });
-        const dados = await resposta.json();
-
-        if (resposta.ok) {
-            criarAlerta(dados.mensagem, "alertBom", 4500);
-            mostrarEtapaRedefinicao(email);
-        } else {
-            criarAlerta(dados.mensagem || "Não foi possível enviar o código.", "alertRuim", 5000);
-        }
-    } catch (erro) {
-        console.error("Erro ao solicitar código:", erro);
-        criarAlerta("Erro de conexão com o servidor.", "alertRuim", 5000);
-    }
-
-    btnEnviarCodigo.disabled = false;
-    btnEnviarCodigo.textContent = "Enviar código";
-});
-
-linkReenviar.addEventListener("click", async (e) => {
-    e.preventDefault();
-    if (aguardandoReenvio || !emailAtual) return;
-
-    aguardandoReenvio = true;
-    linkReenviar.textContent = "Enviando...";
-
-    try {
-        const resposta = await fetch(`${API_URL}/esqueci-senha`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email: emailAtual })
-        });
-        const dados = await resposta.json();
-        criarAlerta(dados.mensagem, resposta.ok ? "alertBom" : "alertRuim", 4500);
-
-        if (resposta.ok) {
-            iniciarContagemReenvio();
-        } else {
-            linkReenviar.textContent = "Reenviar código";
-            aguardandoReenvio = false;
-        }
-    } catch (erro) {
-        console.error("Erro ao reenviar código:", erro);
-        criarAlerta("Erro de conexão com o servidor.", "alertRuim", 5000);
-        linkReenviar.textContent = "Reenviar código";
-        aguardandoReenvio = false;
-    }
-});
-
-formRedefinir.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const codigo = codigoInput.value.trim();
-    const novaSenha = senhaInput.value;
-    const confirmarSenha = confirmarSenhaInput.value;
-
-    if (!/^\d{6}$/.test(codigo)) {
-        criarAlerta("Digite o código numérico de 6 dígitos enviado para o seu e-mail.", "alertRuim", 4000);
-        codigoInput.focus();
-        return;
-    }
-
-    const reqs = avaliarRequisitosSenha(novaSenha);
-    if (!reqs.tamanho || !reqs.maiuscula || !reqs.numero || !reqs.especial) {
-        criarAlerta("A nova senha precisa cumprir todos os requisitos da lista!", "alertRuim", 5000);
-        senhaInput.focus();
-        return;
-    }
-
-    if (novaSenha !== confirmarSenha) {
-        criarAlerta("As senhas digitadas não coincidem!", "alertRuim", 4000);
-        confirmarSenhaInput.focus();
-        return;
-    }
-
-    btnRedefinir.disabled = true;
-    btnRedefinir.textContent = "Redefinindo...";
-
-    try {
-        const resposta = await fetch(`${API_URL}/redefinir-senha`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                email: emailAtual,
-                codigo,
-                novaSenha
-            })
-        });
-        const dados = await resposta.json();
-
-        if (resposta.ok) {
-            sessionStorage.removeItem("emailRecuperacao");
-            criarAlerta(dados.mensagem || "Senha alterada com sucesso!", "alertBom", 3500);
-            setTimeout(() => {
-                window.location.href = "login.html";
-            }, 2000);
+        if (!regexEmail.test(email)) {
+            criarAlerta("Por favor, digite um endereço de e-mail válido.", "alertRuim", 4000);
+            emailInput.focus();
             return;
         }
 
-        criarAlerta(dados.mensagem || "Erro ao redefinir a senha.", "alertRuim", 5000);
-    } catch (erro) {
-        console.error("Erro ao redefinir senha:", erro);
-        criarAlerta("Erro de conexão com o servidor.", "alertRuim", 5000);
-    }
+        btnEnviarCodigo.disabled = true;
+        btnEnviarCodigo.textContent = "Enviando...";
 
-    btnRedefinir.disabled = false;
-    btnRedefinir.textContent = "Redefinir senha";
-});
+        try {
+            const resposta = await fetch(`${API_URL}/esqueci-senha`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email })
+            });
+            const dados = await resposta.json();
+
+            if (resposta.ok) {
+                criarAlerta(dados.mensagem, "alertBom", 4500);
+                mostrarEtapaRedefinicao(email);
+            } else {
+                criarAlerta(dados.mensagem || "Não foi possível enviar o código.", "alertRuim", 5000);
+            }
+        } catch (erro) {
+            console.error("Erro ao solicitar código:", erro);
+            criarAlerta("Erro de conexão com o servidor.", "alertRuim", 5000);
+        }
+
+        btnEnviarCodigo.disabled = false;
+        btnEnviarCodigo.textContent = "Enviar código de verificação";
+    });
+}
+
+// Reenviar código na Etapa 2
+if (linkReenviar) {
+    linkReenviar.addEventListener("click", async (e) => {
+        e.preventDefault();
+        if (aguardandoReenvio || !emailAtual) return;
+
+        aguardandoReenvio = true;
+        linkReenviar.textContent = "Enviando...";
+
+        try {
+            const resposta = await fetch(`${API_URL}/esqueci-senha`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email: emailAtual })
+            });
+            const dados = await resposta.json();
+            criarAlerta(dados.mensagem, resposta.ok ? "alertBom" : "alertRuim", 4500);
+
+            if (resposta.ok) {
+                iniciarContagemReenvio();
+            } else {
+                linkReenviar.textContent = "Reenviar código";
+                aguardandoReenvio = false;
+            }
+        } catch (erro) {
+            console.error("Erro ao reenviar código:", erro);
+            criarAlerta("Erro de conexão com o servidor.", "alertRuim", 5000);
+            linkReenviar.textContent = "Reenviar código";
+            aguardandoReenvio = false;
+        }
+    });
+}
+
+// ETAPA 2: Confirmar código e salvar nova senha
+if (formRedefinir) {
+    formRedefinir.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const codigo = codigoInput.value.trim();
+        const novaSenha = senhaInput.value;
+        const confirmarSenha = confirmarSenhaInput.value;
+
+        if (!/^\d{6}$/.test(codigo)) {
+            criarAlerta("Digite o código numérico de 6 dígitos enviado para o seu e-mail.", "alertRuim", 4000);
+            codigoInput.focus();
+            return;
+        }
+
+        const reqs = avaliarRequisitosSenha(novaSenha);
+        if (!reqs.tamanho || !reqs.maiuscula || !reqs.numero || !reqs.especial) {
+            criarAlerta("A nova senha precisa cumprir todos os requisitos da lista!", "alertRuim", 5000);
+            senhaInput.focus();
+            return;
+        }
+
+        if (novaSenha !== confirmarSenha) {
+            criarAlerta("As senhas digitadas não coincidem!", "alertRuim", 4000);
+            confirmarSenhaInput.focus();
+            return;
+        }
+
+        btnRedefinir.disabled = true;
+        btnRedefinir.textContent = "Salvando...";
+
+        try {
+            const resposta = await fetch(`${API_URL}/redefinir-senha`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    email: emailAtual,
+                    codigo,
+                    novaSenha
+                })
+            });
+            const dados = await resposta.json();
+
+            if (resposta.ok) {
+                sessionStorage.removeItem("emailRecuperacao");
+                criarAlerta(dados.mensagem || "Senha alterada com sucesso!", "alertBom", 3500);
+                setTimeout(() => {
+                    window.location.href = "login.html";
+                }, 2000);
+                return;
+            }
+
+            criarAlerta(dados.mensagem || "Erro ao redefinir a senha.", "alertRuim", 5000);
+        } catch (erro) {
+            console.error("Erro ao redefinir senha:", erro);
+            criarAlerta("Erro de conexão com o servidor.", "alertRuim", 5000);
+        }
+
+        btnRedefinir.disabled = false;
+        btnRedefinir.textContent = "Salvar nova senha";
+    });
+}

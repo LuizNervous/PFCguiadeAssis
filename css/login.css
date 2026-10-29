@@ -313,7 +313,33 @@ footer {
     color: #16a34a;
     transform: scale(1.1);
 }
+.login button#btn-enviar-codigo {
+    width: 100%;
+    min-height: 3.15rem;
+    padding: 0.8rem 1.25rem;
+    border: 1px solid #1261a0;
+    border-radius: 0.65rem;
+    background: #1261a0;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.2;
+    cursor: pointer;
+    box-shadow: none;
+    transition: background-color 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+}
 
+.login button#btn-enviar-codigo:hover {
+    background: #0b466f;
+    border-color: #0b466f;
+    transform: translateY(-1px);
+}
+
+.login button#btn-enviar-codigo:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
 .login button#logar,
 .login button#cadastrar {
     width: 100%;
@@ -815,4 +841,209 @@ body.tema-monocromacia .login button#cadastrar {
     .login button#cadastrar {
         transition: none;
     }
+}
+
+
+/* recuperar senha css */
+.passos-recuperacao {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 1.75rem;
+}
+
+.passo-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #94a3b8;
+    font-size: 0.88rem;
+    font-weight: 600;
+    transition: color 0.25s ease;
+}
+
+.passo-numero {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    background: #e2e8f0;
+    color: #64748b;
+    font-size: 0.85rem;
+    font-weight: 700;
+    transition: all 0.25s ease;
+}
+
+.passo-item.ativo {
+    color: #1261a0;
+}
+
+.passo-item.ativo .passo-numero {
+    background: #1261a0;
+    color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(18, 97, 160, 0.15);
+}
+
+.passo-item.concluido {
+    color: #16a34a;
+}
+
+.passo-item.concluido .passo-numero {
+    background: #16a34a;
+    color: #ffffff;
+}
+
+.passo-linha {
+    flex: 1;
+    max-width: 3.5rem;
+    height: 2px;
+    background: #e2e8f0;
+    border-radius: 999px;
+    transition: background-color 0.25s ease;
+}
+
+.passo-linha.ativa {
+    background: #16a34a;
+}
+
+.cabecalho-etapa {
+    margin-bottom: 1.5rem;
+}
+
+.cabecalho-etapa p {
+    margin: 0.55rem 0 0;
+    color: #64748b;
+    font-size: 0.96rem;
+    line-height: 1.55;
+}
+
+.badge-email-enviado {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.85rem;
+    padding: 0.65rem 0.9rem;
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.6rem;
+    font-size: 0.9rem;
+}
+
+.badge-email-enviado #email-exibido {
+    font-weight: 700;
+    color: #1e293b;
+    word-break: break-all;
+}
+
+.badge-email-enviado #trocar-email {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: #1261a0;
+    font-size: 0.84rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.badge-email-enviado #trocar-email:hover {
+    text-decoration: underline;
+}
+
+.label-campo {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #334155;
+}
+
+.cabecalho-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.4rem;
+}
+
+.cabecalho-label .label-campo {
+    margin-bottom: 0;
+}
+
+.link-reenviar {
+    color: #1261a0;
+    font-size: 0.84rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.link-reenviar:hover {
+    text-decoration: underline;
+}
+
+.input input.input-codigo {
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: 0.35rem;
+}
+
+.input input.input-codigo::placeholder {
+    font-weight: 400;
+    letter-spacing: 0.25rem;
+    opacity: 0.45;
+}
+
+/* Adaptação para Modo Escuro */
+body.Escuro .cabecalho-etapa p {
+    color: #aebaca;
+}
+
+body.Escuro .label-campo {
+    color: #dbeafe;
+}
+
+body.Escuro .passo-numero {
+    background: #2e3b4d;
+    color: #9eacbd;
+}
+
+body.Escuro .passo-linha {
+    background: #2e3b4d;
+}
+
+body.Escuro .passo-item.ativo {
+    color: #8fc4e9;
+}
+
+body.Escuro .passo-item.ativo .passo-numero {
+    background: #2b75aa;
+    color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(143, 196, 233, 0.15);
+}
+
+body.Escuro .badge-email-enviado {
+    background: #111a26;
+    border-color: #2e3b4d;
+}
+
+body.Escuro .badge-email-enviado #email-exibido {
+    color: #f8fafc;
+}
+
+body.Escuro .badge-email-enviado #trocar-email,
+body.Escuro .link-reenviar {
+    color: #8fc4e9;
+}
+
+body.Escuro .login button#btn-enviar-codigo {
+    background: #2b75aa;
+    border-color: #2b75aa;
+}
+
+body.Escuro .login button#btn-enviar-codigo:hover {
+    background: #3b86bb;
+    border-color: #3b86bb;
 }
