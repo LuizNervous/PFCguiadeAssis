@@ -42,8 +42,8 @@ async function emitirCodigoCadastro(usuario) {
 
 async function emitirCodigoRecuperacao(usuario) {
     const [recentes] = await dbp.query(
-        `SELECT if FROM token_verificacao
-         Where id_usuario=? AND tipo= recuperacao
+        `SELECT if FROM tokens_verificacao
+         WHERE id_usuario=? AND tipo= 'recuperacao'
          AND criado_em > DATE_SUB(NOW(), INTERVAL 60 SECOND)`,
         [usuario.id]);
     if (recentes.length > 0) return false;
