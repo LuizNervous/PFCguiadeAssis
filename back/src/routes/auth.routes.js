@@ -384,8 +384,8 @@ router.post('/redefinir-senha', async (req, res) => {
         const salt=await bcrypt.genSalt(10);
         const senhaHash=await bcrypt.hash(novaSenha, salt);
 
-        await dbp('UPDATE tokens_verificacao SET usado_em = NOW() WHERE id=?', [token.id]);
-        await dbp('UPDATE usuarios SET senha=?, email_verificado=1 WHERE id=?', [senhaHash, usuario.id]);
+        await dbp.query('UPDATE tokens_verificacao SET usado_em = NOW() WHERE id=?', [token.id]);
+        await dbp.query('UPDATE usuarios SET senha=?, email_verificado=1 WHERE id=?', [senhaHash, usuario.id]);
 
         return res.json({mensagem:'Senha redefinida com sucesso! Faça o login com a nova senha.'})
     } catch (erro) {
