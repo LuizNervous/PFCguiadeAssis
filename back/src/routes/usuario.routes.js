@@ -9,41 +9,36 @@ const { PASTAS, PRESETS, ImagemInvalidaError, prepararImagem, enviarImagem, apag
 const router = express.Router();
 
 
-router.put('/', autenticar, async (req, res) => {
-  const { nome, email } = req.body ?? {};
-  const usuarioId = req.usuario.id
+router.put('/', autenticar, (req, res) => {
+  const { nome } = req.body ?? {};
+  const usuarioId = req.usuario.id;
 
-  if (!ehTexto(nome) || !ehTexto(email)) {
-    return res.status(400).json({ mensagem: 'Nome e e-mail devem ser texto.' });
+  if (!ehTexto(nome)) {
+    return res.status(400).json({ mensagem: 'O nome deve ser um texto válido.' });
   }
 
-  if (!nome || !email) {
-    return res.status(400).json({ mensagem: "Nome é obrigátorio ." })
-  }
-  const emailValido = await validarDominioEmail(email);
-  if (!emailValido) {
-    return res.status(400).json({ mensagem: "Escreva um e-mail válido." })
+  // Remove espaços extras no início, fim e espaços duplos no meio
+  const nomeLimpo = nome.trim().replace(/\s+/g, ' ');
+
+  if (!nomeLimpo) {
+    return res.status(400).json({ mensagem: 'O nome é obrigatório.' });
   }
 
-  const checkEmailQuery = 'SELECT id FROM usuarios WHERE email=? AND id != ?'
-  db.query(checkEmailQuery, [email, usuarioId], (err, results) => {
+  if (nomeLimpo.length < 3 || !nomeLimpo.includes(' ')) {
+    return res.status(400).json({ mensagem: 'Por favor, digite seu nome e sobrenome.' });
+  }
+
+  const updateQuery = 'UPDATE usuarios SET nome = ? WHERE id = ?';
+  db.query(updateQuery, [nomeLimpo, usuarioId], (err) => {
     if (err) {
-      return res.status(500).json({ mensagem: 'Erro no servidor' });
+      return res.status(500).json({ mensagem: 'Erro ao atualizar os dados.' });
     }
-    if (results.length > 0) {
-      return res.status(400).json({ mensagem: 'Este e-mail ja sendo usado por outra conta' })
-    }
-    const updateQuery = 'UPDATE usuarios SET nome =?, email =? WHERE id= ?'
-    db.query(updateQuery, [nome, email, usuarioId], (err) => {
-      if (err) {
-        return res.status(500).json({ mensagem: "Erro ao atualizar os dados." })
-      }
-      return res.json({
-        mensagem: "Atualizado com sucesso . ",
-        usuario: { id: usuarioId, nome, email }
-      })
-    })
-  })
+
+    return res.json({
+      mensagem: 'Nome atualizado com sucesso!',
+      usuario: { id: usuarioId, nome: nomeLimpo }
+    });
+  });
 });
 
 router.get("/", autenticar, async (req, res) => {

@@ -11,14 +11,13 @@ else {
   document.getElementById("emailUsuario").textContent = usuario.email;
 
   document.getElementById("nomeEditar").value = usuario.nome;
-  document.getElementById("emailEditar").value = usuario.email;
+
 }
 
 document.getElementById("formMudarDados").addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const nome = document.getElementById("nomeEditar").value.trim();
-  const email = document.getElementById("emailEditar").value.trim();
 
   try {
     const resposta = await fetch(`${API_URL}/usuario`, {
@@ -27,13 +26,12 @@ document.getElementById("formMudarDados").addEventListener("submit", async (e) =
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`
       },
-      body: JSON.stringify({ nome, email })
+      body: JSON.stringify({ nome })
     })
     const dados = await resposta.json();
     if (resposta.ok) {
       localStorage.setItem("usuario", JSON.stringify(dados.usuario));
       document.getElementById("nomeUsuario").textContent = dados.usuario.nome;
-      document.getElementById("emailUsuario").textContent = dados.usuario.email;
       criarAlerta("Dados atualizados com sucesso!", 'alertBom', 3000);
 
     } else if (resposta.status === 401) {
