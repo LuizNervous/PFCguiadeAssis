@@ -28,5 +28,13 @@ const limitadorVerificacao = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
 });
+const limitadorGoogle = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 10, 
+  message: { mensagem: 'Muitas tentativas de login Google. Tente novamente mais tarde.'},
+  standardHeaders: true,
+  legacyHeaders: false,
 
-module.exports = { limitadorGeral, limitadorRigoroso, limitadorFotoPerfil, limitadorVerificacao };
+});
+
+module.exports = { limitadorGeral, limitadorRigoroso, limitadorFotoPerfil, limitadorVerificacao, limitadorGoogle };

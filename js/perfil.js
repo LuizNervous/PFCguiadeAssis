@@ -1,43 +1,40 @@
+const usuarioSalvo = localStorage.getItem('usuario');
+const token = localStorage.getItem('token');
 
-const nomeGoogle = localStorage.getItem("nomeUsuario");
-const emailGoogle = localStorage.getItem("emailUsuario");
-const fotoGoogle = localStorage.getItem("fotoUsuario");
-
-const usuarioSalvo = localStorage.getItem("usuario");
-const token = localStorage.getItem("token");
-
-const isGoogleUser = !!nomeGoogle;
-
-
-if (!token && !isGoogleUser) {
-  window.location.href = "../login/login.html";
-} else if (isGoogleUser) {
-  
-  document.getElementById("nomeUsuario").textContent = nomeGoogle;
-  document.getElementById("emailUsuario").textContent = emailGoogle || "Conta Google";
-  document.getElementById("nomeEditar").value = nomeGoogle;
-} else {
-  
-  const usuario = JSON.parse(usuarioSalvo);
-  document.getElementById("nomeUsuario").textContent = usuario.nome;
-  document.getElementById("emailUsuario").textContent = usuario.email;
-  document.getElementById("nomeEditar").value = usuario.nome;
+if (!token || !usuarioSalvo) {
+  window.location.replace('../login/login.html');
+  throw new Error('Usuário não autenticado.');
 }
 
+let usuario;
+
+try {
+  usuario = JSON.parse(usuarioSalvo);
+} catch {
+  localStorage.removeItem('usuario');
+  localStorage.removeItem('token');
+
+  window.location.replace('../login/login.html');
+  throw new Error('Sessão inválida.');
+}
+
+if (!usuario || !usuario.id) {
+  localStorage.removeItem('usuario');
+  localStorage.removeItem('token');
+
+  window.location.replace('../login/login.html');
+  throw new Error('Dados de usuário inválidos.');
+}
+const isGoogleUser = Boolean(usuario.isGoogle);
+
+document.getElementById('nomeUsuario').textContent = usuario.nome;
+document.getElementById('emailUsuario').textContent = usuario.email;
+document.getElementById('nomeEditar').value = usuario.nome;
 
 document.getElementById("formMudarDados").addEventListener("submit", async (e) => {
   e.preventDefault();
   const nome = document.getElementById("nomeEditar").value.trim();
 
- 
-  if (isGoogleUser) {
-    localStorage.setItem("nomeUsuario", nome);
-    document.getElementById("nomeUsuario").textContent = nome;
-    criarAlerta("Nome atualizado com sucesso!", 'alertBom', 3000);
-    return;
-  }
-
-  
   try {
     const resposta = await fetch(`${API_URL}/usuario`, {
       method: "PUT",
@@ -94,32 +91,31 @@ function sessaoExpirou() {
   criarAlerta("Sua sessão expirou. Faça login novamente.", "alertRuim", 5000);
   setTimeout(() => { window.location.href = "../login/login.html"; }, 2500);
 }
-
 async function carregarFoto() {
-  if (isGoogleUser) {
-    mostrarFoto(fotoGoogle);
-    return;
-  }
   try {
     const resposta = await fetch(`${API_URL}/usuario`, {
       headers: { "Authorization": `Bearer ${token}` }
     });
     if (resposta.status === 401) return sessaoExpirou();
-    if (!resposta.ok) return;
+    if (!resposta.ok) {
+      // Se falhar, tenta usar a foto salva no login (se houver)
+      mostrarFoto(usuario.foto_url);
+      return;
+    }
     const dados = await resposta.json();
-    mostrarFoto(dados.usuario.foto_url);
+    mostrarFoto(dados.usuario?.foto_url || usuario.foto_url);
   } catch (erro) {
     console.error("Erro ao carregar a foto de perfil: ", erro);
+    mostrarFoto(usuario.foto_url);
   }
 }
 
-
 if (isGoogleUser) {
-  mostrarFoto(fotoGoogle);
-  
   if (btnTrocarFoto) btnTrocarFoto.style.display = "none";
   if (btnRemoverFoto) btnRemoverFoto.style.display = "none";
-} else if (token) {
+}
+
+if (token) {
   carregarFoto();
 }
 
@@ -196,13 +192,13 @@ const btnSair = document.getElementById("logOut");
 
 btnSair.addEventListener("click", () => {
   if (!confirm("Deseja sair de sua conta?")) return;
-  
-  
+
+
   localStorage.removeItem("usuario");
   localStorage.removeItem("token");
   localStorage.removeItem("nomeUsuario");
   localStorage.removeItem("emailUsuario");
   localStorage.removeItem("fotoUsuario");
-  
+
   window.location.href = "../index.html";
 });

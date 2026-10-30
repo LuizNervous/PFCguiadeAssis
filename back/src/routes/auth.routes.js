@@ -5,10 +5,15 @@ const { dbp } = require('../config/db');
 const { gerarCodigo, hashCodigo, conferirCodigo } = require('../utils/codigos');
 const { emailCodigoCadastro, emailRecuperacaoSenha } = require('../services/email');
 const { ehTexto, validarDataNascimento, validarDominioEmail } = require('../utils/validacoes');
+const { OAuth2Client } = require('google-auth-library');
 
 const router = express.Router();
 const segredo = process.env.JWT_SECRET;
 const MAX_TENTATIVAS = 5;
+
+const googleClient = new OAuth2Client(
+    process.env.GOOGLE_CLIENT_ID
+);
 
 async function emitirCodigoCadastro(usuario) {
     const [recentes] = await dbp.query(
@@ -264,7 +269,9 @@ router.post('/login', async (req, res) => {
         if (!usuario) {
             return res.status(401).json({ mensagem: 'E-mail ou senha incorretos!' });
         }
-
+        if (!usuario.senha) {
+            return res.status(401).json({ mensagem: 'E-mail ou senha incorretos!' });
+        }
         const senhaValida = await bcrypt.compare(senha, usuario.senha);
         if (!senhaValida) {
             return res.status(401).json({ mensagem: 'E-mail ou senha incorretos!' });
@@ -377,21 +384,207 @@ router.post('/redefinir-senha', async (req, res) => {
             return res.status(400).json(invalido);
         }
 
-        const mesmaSenha = await bcrypt.compare(novaSenha, usuario.senha);
+        const mesmaSenha = usuario.senha? await bcrypt.compare(novaSenha, usuario.senha) : false;
         if (mesmaSenha) {
             return res.status(400).json({ mensagem: "A nova senha não pode ser igual à senha anterior." });
         }
-        const salt=await bcrypt.genSalt(10);
-        const senhaHash=await bcrypt.hash(novaSenha, salt);
+        const salt = await bcrypt.genSalt(10);
+        const senhaHash = await bcrypt.hash(novaSenha, salt);
 
         await dbp.query('UPDATE tokens_verificacao SET usado_em = NOW() WHERE id=?', [token.id]);
         await dbp.query('UPDATE usuarios SET senha=?, email_verificado=1 WHERE id=?', [senhaHash, usuario.id]);
 
-        return res.json({mensagem:'Senha redefinida com sucesso! Faça o login com a nova senha.'})
+        return res.json({ mensagem: 'Senha redefinida com sucesso! Faça o login com a nova senha.' })
     } catch (erro) {
         console.error('Erro ao redefinir a senha: ', erro);
-        return res.status(500).json({mensagem:"Erro interno no servidor"});
+        return res.status(500).json({ mensagem: "Erro interno no servidor" });
     }
 });
+
+router.post('/google', async (req, res) => {
+    const credential = req.body?.credential;
+
+    if (
+        typeof credential !== 'string' ||
+        credential.length === 0 ||
+        credential.length > 10000
+    ) {
+        return res.status(400).json({ mensagem: 'Credencial Google inválida.' });
+    }
+
+    if (!process.env.GOOGLE_CLIENT_ID || !segredo) {
+        console.error('Configuração de autenticação ausente.');
+        return res.status(500).json({ mensagem: 'Serviço de autenticação indisponível.' });
+    }
+
+    const origin = req.get('origin');
+    const origensPermitidas = new Set(
+        (process.env.CORS_ORIGINS || '')
+            .split(',')
+            .map(origem => origem.trim())
+            .filter(Boolean)
+    );
+
+    if (origin && origensPermitidas.size > 0 && !origensPermitidas.has(origin)) {
+        return res.status(403).json({ mensagem: 'Origem não autorizada.' });
+    }
+
+    let payload;
+    try {
+        const ticket = await googleClient.verifyIdToken({
+            idToken: credential,
+            audience: process.env.GOOGLE_CLIENT_ID
+        });
+        payload = ticket.getPayload();
+
+        if (!payload || !payload.sub || !payload.email || payload.email_verified !== true) {
+            return res.status(401).json({ mensagem: 'Conta Google não verificada.' });
+        }
+    } catch (erro) {
+        return res.status(401).json({ mensagem: 'Token Google inválido ou expirado.' });
+    }
+
+    const googleSub = payload.sub;
+    const email = payload.email.trim().toLowerCase();
+    const nome = (
+        typeof payload.name === 'string' && payload.name.trim()
+            ? payload.name.trim()
+            : email.split('@')[0]
+    ).slice(0, 150);
+
+    const fotoGoogle = (
+        typeof payload.picture === 'string' && payload.picture.startsWith('https://')
+            ? payload.picture.trim()
+            : null
+    );
+
+    let conexao;
+    try {
+        conexao = await dbp.getConnection();
+        await conexao.beginTransaction();
+
+        const [contasGoogle] = await conexao.query(
+            `SELECT id, nome, email, google_sub, foto_url
+             FROM usuarios
+             WHERE google_sub = ?
+             LIMIT 1
+             FOR UPDATE`,
+            [googleSub]
+        );
+
+        let usuario = contasGoogle[0];
+
+        if (!usuario) {
+            const [contasEmail] = await conexao.query(
+                `SELECT id, nome, email, email_verificado, google_sub, foto_url
+                 FROM usuarios
+                 WHERE email = ?
+                 LIMIT 1
+                 FOR UPDATE`,
+                [email]
+            );
+
+            const contaExistente = contasEmail[0];
+
+            if (contaExistente) {
+                if (contaExistente.google_sub && contaExistente.google_sub !== googleSub) {
+                    await conexao.rollback();
+                    return res.status(409).json({
+                        mensagem: 'Este e-mail já está associado a outra conta Google.'
+                    });
+                }
+
+                if (Number(contaExistente.email_verificado) !== 1) {
+                    await conexao.query(
+                        `UPDATE usuarios
+                         SET nome = ?, senha = NULL, email_verificado = 1, google_sub = ?,
+                             foto_url = COALESCE(foto_url, ?)
+                         WHERE id = ?`,
+                        [nome, googleSub, fotoGoogle, contaExistente.id]
+                    );
+
+                    await conexao.query(
+                        `DELETE FROM tokens_verificacao WHERE id_usuario = ? AND tipo = 'cadastro'`,
+                        [contaExistente.id]
+                    );
+
+                    usuario = {
+                        id: contaExistente.id,
+                        nome,
+                        email: contaExistente.email,
+                        google_sub: googleSub,
+                        foto_url: contaExistente.foto_url || fotoGoogle
+                    };
+                } else {
+                    if (!contaExistente.google_sub) {
+                        await conexao.query(
+                            `UPDATE usuarios
+                             SET google_sub = ?, foto_url = COALESCE(foto_url, ?)
+                             WHERE id = ? AND google_sub IS NULL`,
+                            [googleSub, fotoGoogle, contaExistente.id]
+                        );
+                    }
+
+                    usuario = {
+                        id: contaExistente.id,
+                        nome: contaExistente.nome,
+                        email: contaExistente.email,
+                        google_sub: googleSub,
+                        foto_url: contaExistente.foto_url || fotoGoogle
+                    };
+                }
+            } else {
+                const [resultado] = await conexao.query(
+                    `INSERT INTO usuarios
+                        (nome, data_nascimento, email, senha, email_verificado, google_sub, foto_url)
+                     VALUES (?, NULL, ?, NULL, 1, ?, ?)`,
+                    [nome, email, googleSub, fotoGoogle]
+                );
+
+                usuario = {
+                    id: resultado.insertId,
+                    nome,
+                    email,
+                    google_sub: googleSub,
+                    foto_url: fotoGoogle
+                };
+            }
+        }
+
+        await conexao.commit();
+
+        const token = jwt.sign(
+            { id: usuario.id },
+            segredo,
+            { algorithm: 'HS256', expiresIn: '2h' }
+        );
+
+        return res.json({
+            mensagem: 'Login com Google realizado com sucesso!',
+            token,
+            usuario: {
+                id: usuario.id,
+                nome: usuario.nome,
+                email: usuario.email,
+                isGoogle: true,
+                foto_url: usuario.foto_url || null
+            }
+        });
+
+    } catch (erro) {
+        if (conexao) await conexao.rollback().catch(() => {});
+
+        if (erro.code === 'ER_DUP_ENTRY') {
+            return res.status(409).json({
+                mensagem: 'A conta foi criada ou vinculada em outra requisição. Tente entrar novamente.'
+            });
+        }
+        console.error('Erro no login Google:', erro.message);
+        return res.status(500).json({ mensagem: 'Erro interno ao autenticar com Google.' });
+    } finally {
+        if (conexao) conexao.release();
+    }
+});
+
 
 module.exports = router;

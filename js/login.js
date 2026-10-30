@@ -86,23 +86,46 @@ if (linkEsqueci && emailInput) {
     });
 }
 
-function handleCredentialResponse(response) {
-    const payload = parseJwt(response.credential);
-    
-    // Salvando os dados na "gaveta" do navegador
-    localStorage.setItem("nomeUsuario", payload.name);
-    localStorage.setItem("emailUsuario", payload.email);
-    localStorage.setItem("fotoUsuario", payload.picture); // <-- Aqui salva a foto
+async function handleCredentialResponse(response) {
+    if (!response || !response.credential) {
+        criarAlerta('O Google não retornou uma credencial válida.','alertRuim', 5000);
+        return;
+    }
 
-    // Redireciona para a página inicial
-    window.location.href = "../index.html"; 
+    try {
+        const resposta = await fetch(`${API_URL}/google`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                credential: response.credential
+            })
+        });
+
+        const dados = await resposta.json();
+
+        if (!resposta.ok) {
+            criarAlerta(dados.mensagem || 'Não foi possível entrar com Google.','alertRuim', 5000
+            );
+            return;
+        }
+
+        localStorage.setItem('usuario', JSON.stringify(dados.usuario));
+
+        localStorage.setItem('token', dados.token);
+
+        criarAlerta( `Bem-vindo, ${dados.usuario.nome}!`,'alertBom',3000);
+
+        setTimeout(() => {
+            window.location.href = '../servicos/index.html';
+        }, 2000);
+
+    } catch (erro) {
+        console.error('Erro no login Google:', erro);
+
+        criarAlerta('Erro de conexão com o servidor.','alertRuim', 5000);
+    }
 }
 
-function parseJwt(token) {
-    var base64Url = token.split('.')[1];
-    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-        return '%' + ('0' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
-    return JSON.parse(jsonPayload);
-}
+window.handleCredentialResponse = handleCredentialResponse;

@@ -203,6 +203,33 @@ footer {
     font-size: 0.9rem;
 }
 
+.divisor {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 16px 0;
+    color: #6b7280;
+    font-size: 0.9rem;
+}
+
+.divisor::before,
+.divisor::after {
+    content: "";
+    flex: 1;
+    border-bottom: 1px solid #d1d5db;
+}
+
+.divisor span {
+    padding: 0 12px;
+    margin: 0;
+}
+
+.g_id_signin {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
 .extras a,
 .login>span a {
     color: #1261a0;
@@ -313,6 +340,7 @@ footer {
     color: #16a34a;
     transform: scale(1.1);
 }
+
 .login button#btn-enviar-codigo {
     width: 100%;
     min-height: 3.15rem;
@@ -340,6 +368,7 @@ footer {
     cursor: not-allowed;
     transform: none;
 }
+
 .login button#logar,
 .login button#cadastrar {
     width: 100%;
@@ -834,6 +863,7 @@ body.tema-monocromacia .login button#cadastrar {
 }
 
 @media (prefers-reduced-motion: reduce) {
+
     .input input,
     #olho,
     .toggle-senha,

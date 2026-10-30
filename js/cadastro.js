@@ -260,3 +260,40 @@ formCadastro.addEventListener("submit", async (e) => {
         definirEstadoBotao(false);
     }
 });
+
+async function handleCredentialResponse(response) {
+    if (!response || !response.credential) {
+        criarAlerta('O Google não retornou uma credencial válida.', 'alertRuim', 5000);
+        return;
+    }
+
+    try {
+        const resposta = await fetch(`${API_URL}/google`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ credential: response.credential })
+        });
+
+        const dados = await resposta.json();
+
+        if (!resposta.ok) {
+            criarAlerta(dados.mensagem || 'Não foi possível cadastrar com Google.', 'alertRuim', 5000);
+            return;
+        }
+
+        localStorage.setItem('usuario', JSON.stringify(dados.usuario));
+        localStorage.setItem('token', dados.token);
+
+        criarAlerta(`Bem-vindo, ${dados.usuario.nome}!`, 'alertBom', 3000);
+
+        setTimeout(() => {
+            window.location.href = '../servicos/index.html';
+        }, 2000);
+
+    } catch (erro) {
+        console.error('Erro no cadastro Google:', erro);
+        criarAlerta('Erro de conexão com o servidor.', 'alertRuim', 5000);
+    }
+}
+
+window.handleCredentialResponse = handleCredentialResponse;
