@@ -87,24 +87,17 @@ if (linkEsqueci && emailInput) {
 }
 
 function handleCredentialResponse(response) {
-    console.log("Login feito com sucesso! Token:", response.credential);
-
-    // Decodifica o token para extrair as informações do utilizador
     const payload = parseJwt(response.credential);
     
-    console.log("Nome:", payload.name);
-    console.log("E-mail:", payload.email);
-
-    // Guarda os dados no localStorage para usar noutras páginas do site
+    // Salvando os dados na "gaveta" do navegador
     localStorage.setItem("nomeUsuario", payload.name);
     localStorage.setItem("emailUsuario", payload.email);
-    localStorage.setItem("fotoUsuario", payload.picture);
+    localStorage.setItem("fotoUsuario", payload.picture); // <-- Aqui salva a foto
 
-    // Redireciona para a página principal do teu projeto (ajusta o caminho se necessário)
+    // Redireciona para a página inicial
     window.location.href = "../index.html"; 
 }
 
-// Função auxiliar para ler o token JWT
 function parseJwt(token) {
     var base64Url = token.split('.')[1];
     var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');

@@ -102,3 +102,39 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+    const nomeUsuario = localStorage.getItem("nomeUsuario");
+    const fotoUsuario = localStorage.getItem("fotoUsuario");
+
+    if (nomeUsuario) {
+        console.log("Usuário logado:", nomeUsuario);
+
+        const linkAlternador = document.getElementById("linkAlternador");
+        const fotoImg = document.getElementById("FotoUsuario");
+
+        // Se encontrou a imagem do usuário no header
+        if (fotoImg && fotoUsuario) {
+            fotoImg.src = fotoUsuario; // Troca o ícone padrão pela foto do Google
+            fotoImg.style.borderRadius = "50%"; // Deixa a foto redondinha
+            fotoImg.style.width = "35px";
+            fotoImg.style.height = "35px";
+            fotoImg.style.objectFit = "cover";
+        }
+
+        // Se o usuário clicar na foto logada, podemos mandar para o perfil (ou criar uma lógica de logout)
+        if (linkAlternador) {
+            linkAlternador.title = `Logado como: ${nomeUsuario} (Clique para gerenciar)`;
+            
+            // Opcional: Se quiser que ao clicar abra a página de perfil ou dê opção de sair
+            linkAlternador.href = "#";
+            linkAlternador.addEventListener("click", (e) => {
+                e.preventDefault();
+                if (confirm(`${nomeUsuario}, deseja sair da sua conta?`)) {
+                    localStorage.clear(); // Limpa a sessão
+                    window.location.reload(); // Recarrega a página
+                }
+            });
+        }
+    }
+});
