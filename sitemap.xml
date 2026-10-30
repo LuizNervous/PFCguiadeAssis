@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <url>
+       <loc>https://site-guia-assis.vercel.app/</loc>
+       <lastmod>2026-10-30T14:40:00+00:00</lastmod>
+       <priority>1.0000</priority>
+  </url>
+  <url>
+       <loc>https://site-guia-assis.vercel.app/mapa/index.html</loc>
+       <lastmod>2026-10-30T14:40:00+00:00</lastmod>
+       <priority>0.8000</priority>
+  </url>
+  <url>
+       <loc>https://site-guia-assis.vercel.app/index.html</loc>
+       <lastmod>2026-10-30T14:40:00+00:00</lastmod>
+       <priority>0.5120</priority>
+  </url>
+  <url>
+       <loc>https://site-guia-assis.vercel.app/servicos/index.html</loc>
+       <lastmod>2026-10-30T14:40:00+00:00</lastmod>
+       <priority>0.5120</priority>
+  </url>
+  <url>
+       <loc>https://site-guia-assis.vercel.app/historia/index.html</loc>
+       <lastmod>2026-10-30T14:40:00+00:00</lastmod>
+       <priority>0.5120</priority>
+  </url>
+  <url>
+       <loc>https://site-guia-assis.vercel.app/login/login.html</loc>
+       <lastmod>2026-10-30T14:40:00+00:00</lastmod>
+       <priority>0.5120</priority>
+  </url>
+  <url>
+       <loc>https://site-guia-assis.vercel.app/login/recuperar-senha.html</loc>
+       <lastmod>2026-10-30T14:40:00+00:00</lastmod>
+       <priority>0.4096</priority>
+  </url>
+  <url>
+       <loc>https://site-guia-assis.vercel.app/login/cadastro.html</loc>
+       <lastmod>2026-10-30T14:40:00+00:00</lastmod>
+       <priority>0.4096</priority>
+  </url>
+</urlset>
