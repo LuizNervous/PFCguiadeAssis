@@ -34,17 +34,8 @@ function inicializarHeader() {
     }
 
     if (linkAlternador) {
-      linkAlternador.title = `Logado como: ${nomeGoogle} (Clique para sair)`;
-      linkAlternador.href = "#";
-      
-      // Ao clicar na foto, pergunta se deseja sair da conta
-      linkAlternador.addEventListener("click", (e) => {
-        e.preventDefault();
-        if (confirm(`${nomeGoogle}, deseja sair da sua conta?`)) {
-          localStorage.clear();
-          window.location.reload();
-        }
-      });
+      linkAlternador.title = `Logado como: ${nomeGoogle} (Ver perfil)`;
+      linkAlternador.href = "/login/perfil.html"; // Redireciona direto para o perfil ao clicar
     }
 
   } else if (token && usuario) {
