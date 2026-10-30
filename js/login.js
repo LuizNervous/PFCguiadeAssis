@@ -88,4 +88,28 @@ if (linkEsqueci && emailInput) {
 
 function handleCredentialResponse(response) {
     console.log("Login feito com sucesso! Token:", response.credential);
+
+    // Decodifica o token para extrair as informações do utilizador
+    const payload = parseJwt(response.credential);
+    
+    console.log("Nome:", payload.name);
+    console.log("E-mail:", payload.email);
+
+    // Guarda os dados no localStorage para usar noutras páginas do site
+    localStorage.setItem("nomeUsuario", payload.name);
+    localStorage.setItem("emailUsuario", payload.email);
+    localStorage.setItem("fotoUsuario", payload.picture);
+
+    // Redireciona para a página principal do teu projeto (ajusta o caminho se necessário)
+    window.location.href = "../index.html"; 
+}
+
+// Função auxiliar para ler o token JWT
+function parseJwt(token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('0' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+    return JSON.parse(jsonPayload);
 }

@@ -86,3 +86,19 @@ function mudarTema(tema) {
   const temaSalvo = localStorage.getItem("tema");
   if (temaSalvo) mudarTema(temaSalvo);
 }
+
+// Executa assim que o menu carregar
+document.addEventListener("DOMContentLoaded", () => {
+    const nomeUsuario = localStorage.getItem("nomeUsuario");
+
+    if (nomeUsuario) {
+        console.log("Sessão ativa para:", nomeUsuario);
+        
+        // Se você tiver um elemento de login no header (ex: um botão de login),
+        // substitua 'seu-id-do-login' pelo ID ou classe do seu botão no HTML do header:
+        const elementoLogin = document.getElementById("seu-id-do-login");
+        if (elementoLogin) {
+            elementoLogin.innerText = `Olá, ${nomeUsuario}`;
+        }
+    }
+});
