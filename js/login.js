@@ -85,3 +85,7 @@ if (linkEsqueci && emailInput) {
         }
     });
 }
+
+function handleCredentialResponse(response) {
+    console.log("Login feito com sucesso! Token:", response.credential);
+}
