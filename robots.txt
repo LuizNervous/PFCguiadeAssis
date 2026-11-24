@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /login/perfil.html
+
+Sitemap: https://site-guia-assis.vercel.app/sitemap.xml
