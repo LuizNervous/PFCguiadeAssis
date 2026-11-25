@@ -40,6 +40,9 @@ function renderizarPontos(ponto) {
           <p class="nota-media">⭐ <strong>${mediaNota}</strong> (${ponto.total_avaliacoes || 0} avaliações)</p>
           <p class="endereco">📍 ${escaparHtml(ponto.endereco)}</p>
           <p class="descricao">${escaparHtml(ponto.descricao)}</p>
+          <div class="acao-favorito">
+            ${Favoritos.botaoHtml(ponto.id, ponto.nome, 'texto')}
+          </div>
         </div>
     </div>
   `

@@ -828,3 +828,140 @@ body {
   font-size: 12px;
   color: #64748b;
 }
+
+
+/* ==========================================
+   BOTÃO DE FAVORITOS (LOCAIS SALVOS)
+   Gerado por js/favoritos.js em todas as páginas
+   ========================================== */
+.btn-fav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+  transition: transform 0.18s ease, background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.btn-fav:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.btn-fav .fav-icone {
+  flex-shrink: 0;
+  transition: fill 0.18s ease;
+}
+
+.btn-fav.salvo .fav-icone {
+  fill: currentColor;
+}
+
+.btn-fav .fav-label-on,
+.btn-fav.salvo .fav-label-off {
+  display: none;
+}
+
+.btn-fav.salvo .fav-label-on {
+  display: inline;
+}
+
+/* Variante redonda, sobre a imagem do card */
+.btn-fav-flutuante {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 3;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(15, 23, 42, 0.72);
+  color: #ffffff;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.btn-fav-flutuante:hover {
+  transform: scale(1.08);
+}
+
+.btn-fav-flutuante:active {
+  transform: scale(0.95);
+}
+
+.btn-fav-flutuante.salvo {
+  background: #2563eb;
+  border-color: #2563eb;
+}
+
+/* Variante com texto (modal, página de detalhes, mapa).
+   Seletor duplo para vencer regras genéricas como ".links button". */
+.btn-fav.btn-fav-texto {
+  width: auto;
+  height: auto;
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  color: #1f2937;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.btn-fav.btn-fav-texto:hover {
+  transform: translateY(-1px);
+  border-color: #2563eb;
+  color: #2563eb;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+}
+
+.btn-fav.btn-fav-texto.salvo {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: #ffffff;
+}
+
+.btn-fav:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, 0.45);
+  outline-offset: 2px;
+}
+
+body.Escuro .btn-fav.btn-fav-texto {
+  background: #222325;
+  border-color: #3a3a3c;
+  color: #f5f5f5;
+}
+
+body.Escuro .btn-fav.btn-fav-texto.salvo {
+  background: #3b82f6;
+  border-color: #3b82f6;
+  color: #ffffff;
+}
+
+body.tema-contraste .btn-fav,
+body.tema-contraste .btn-fav.btn-fav-texto {
+  background: #000000 !important;
+  color: #ffff00 !important;
+  border: 2px solid #ffff00 !important;
+}
+
+body.tema-contraste .btn-fav.salvo {
+  background: #ffff00 !important;
+  color: #000000 !important;
+}
+
+body.tema-dicromacia .btn-fav,
+body.tema-dicromacia .btn-fav.btn-fav-texto {
+  background: #003366 !important;
+  color: #ffd700 !important;
+  border: 1px solid #ffd700 !important;
+}
+
+body.tema-dicromacia .btn-fav.salvo {
+  background: #ffd700 !important;
+  color: #00152b !important;
+}

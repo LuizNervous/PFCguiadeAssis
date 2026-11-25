@@ -588,3 +588,6 @@ body.tema-monocromacia {
         padding: 16px;
     }
 }
+.links {
+  flex-wrap: wrap;
+}

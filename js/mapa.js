@@ -73,6 +73,7 @@ function renderizarCards(categoria) {
                 <div class="links">
                     <a href="${googleGPS}" target="_blank"><button id="maps">Abrir no Google Maps</button></a>
                     <a href="${wazeGPS}" target="_blank"><button id="waze">Abrir no Waze</button></a>
+                    ${Favoritos.botaoHtml(ponto.id, ponto.nome, 'texto')}
                 </div>
              </div>`;
     });

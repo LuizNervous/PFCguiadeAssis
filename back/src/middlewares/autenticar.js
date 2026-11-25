@@ -17,7 +17,7 @@ function autenticar(req, res, next) {
     const token = partes[1];
 
     try {
-        const usuario = jwt.verify(token, segredo);
+        const usuario = jwt.verify(token, segredo, { algorithms: ['HS256'] });
         req.usuario = usuario;
         next();
     } catch (erro) {

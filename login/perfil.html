@@ -2,11 +2,10 @@
 <html lang="pt-BR">
 
 <head>
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
-  <title>Meu perfil</title>
+  <title>Meu Perfil | Guia Assis</title>
   <link rel="stylesheet" href="../css/global.css">
   <link rel="stylesheet" href="../css/header.css">
   <link rel="stylesheet" href="../css/perfil.css">
@@ -14,42 +13,454 @@
 </head>
 
 <body>
-  <div id="header">
+  <div id="header"></div>
 
-  </div>
-  <main>
-    <section class="informacoes">
-      <img id="fotoPerfil" src="/imagens/IUsuario.png" alt="Sua foto de perfil">
-      <div class="acoes-foto">
-        <button type="button" id="trocarFoto">Trocar foto</button>
-        <button type="button" id="removerFoto" hidden>Remover foto</button>
+  <main class="perfil-container">
+    <!-- Barra Lateral Esquerda -->
+    <aside class="perfil-sidebar" aria-label="Resumo do perfil">
+      <div class="perfil-avatar-bloco">
+        <div class="perfil-avatar-wrap">
+          <img id="fotoPerfil" src="/imagens/IUsuario.png" alt="Sua foto de perfil">
+          <button type="button" id="trocarFoto" class="btn-avatar-editar" title="Alterar foto de perfil" aria-label="Alterar foto de perfil">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+              <circle cx="12" cy="13" r="4"></circle>
+            </svg>
+          </button>
+        </div>
+
+        <button type="button" id="removerFoto" class="btn-link-perigo" hidden>Remover foto</button>
         <input type="file" id="inputFoto" accept="image/jpeg,image/png,image/webp" hidden>
       </div>
 
-      <h2>Meus dados : </h2>
-      <div class="dados">
-        <p><strong>Nome:</strong> <span id="nomeUsuario"></span></p>
-        <p><strong>E-mail:</strong> <span id="emailUsuario"></span></p>
+      <div class="perfil-identidade">
+        <h1 id="nomeUsuario">Carregando...</h1>
+
+        <div class="perfil-badges">
+          <span class="badge-chip badge-membro">Membro</span>
+          <span class="badge-chip badge-google" id="badgeGoogle" hidden>Google</span>
+          <span class="badge-chip badge-admin" id="badgeAdmin" hidden>Admin</span>
+        </div>
       </div>
 
+      <ul class="perfil-meta-lista">
+        <li>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+          </svg>
+          <span id="emailUsuario" class="meta-valor"></span>
+        </li>
+      </ul>
 
-    </section>
-    <section class="mudancas">
-      <h2>Editar meus dados (depois vamos adicionar mais funcionalidades de edição)</h2>
-      <form id="formMudarDados">
-        <div class="input">
-          <input type="text" id="nomeEditar" placeholder="Nome completo" required>
+      <div class="perfil-sidebar-acoes">
+        <button type="button" id="btnIrEditar" class="btn-secundario">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 20h9"></path>
+            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+          </svg>
+          Editar perfil
+        </button>
+
+        <a id="btnPainelAdmin" href="/addPoint/index.html" class="btn-admin-atalho" hidden>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect width="7" height="9" x="3" y="3" rx="1"></rect>
+            <rect width="7" height="5" x="14" y="3" rx="1"></rect>
+            <rect width="7" height="9" x="14" y="12" rx="1"></rect>
+            <rect width="7" height="5" x="3" y="16" rx="1"></rect>
+          </svg>
+          Painel Admin
+        </a>
+
+        <button type="button" id="logOut" class="btn-sair-sutil">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" x2="9" y1="12" y2="12"></line>
+          </svg>
+          Sair da conta
+        </button>
+      </div>
+    </aside>
+
+    <!-- Área Principal Direita -->
+    <section class="perfil-principal" aria-label="Conteúdo do perfil">
+      <nav class="perfil-tabs" role="tablist" aria-label="Seções do perfil">
+        <button type="button" class="tab-btn ativo" role="tab" id="tab-visao-geral" data-tab="visao-geral" aria-selected="true" aria-controls="painel-visao-geral">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect width="7" height="7" x="3" y="3" rx="1"></rect>
+            <rect width="7" height="7" x="14" y="3" rx="1"></rect>
+            <rect width="7" height="7" x="14" y="14" rx="1"></rect>
+            <rect width="7" height="7" x="3" y="14" rx="1"></rect>
+          </svg>
+          Visão Geral
+        </button>
+
+        <button type="button" class="tab-btn" role="tab" id="tab-favoritos" data-tab="favoritos" aria-selected="false" aria-controls="painel-favoritos">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
+          </svg>
+          Locais Salvos
+          <span class="tab-badge" id="contadorFavoritosTab">0</span>
+        </button>
+
+        <button type="button" class="tab-btn" role="tab" id="tab-avaliacoes" data-tab="avaliacoes" aria-selected="false" aria-controls="painel-avaliacoes">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+          </svg>
+          Minhas Avaliações
+          <span class="tab-badge" id="contadorAvaliacoesTab">0</span>
+        </button>
+
+        <button type="button" class="tab-btn" role="tab" id="tab-configuracoes" data-tab="configuracoes" aria-selected="false" aria-controls="painel-configuracoes">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
+            <circle cx="12" cy="12" r="3"></circle>
+          </svg>
+          Configurações
+        </button>
+      </nav>
+
+      <!-- Painel 1: Visão Geral -->
+      <div class="tab-painel" id="painel-visao-geral" role="tabpanel" aria-labelledby="tab-visao-geral">
+        <div class="grid-metricas">
+          <article class="card-metrica">
+            <span class="metrica-label">Locais no Guia</span>
+            <strong class="metrica-valor" id="statTotalPontos">—</strong>
+            <span class="metrica-sub" id="statTotalCategorias">Carregando categorias...</span>
+          </article>
+
+          <article class="card-metrica">
+            <span class="metrica-label">Locais Salvos</span>
+            <strong class="metrica-valor" id="statTotalFavoritos">0</strong>
+            <span class="metrica-sub">Favoritos na sua conta</span>
+          </article>
+
+          <article class="card-metrica">
+            <span class="metrica-label">Avaliações Feitas</span>
+            <strong class="metrica-valor" id="statTotalAvaliacoes">0</strong>
+            <span class="metrica-sub">Suas opiniões sobre a cidade</span>
+          </article>
         </div>
-        <button type="submit">Salvar alterações</button>
-      </form>
-      <button id="logOut">Sair</button>
+
+        <div class="bloco-secao">
+          <div class="secao-topo">
+            <div>
+              <h2>Explorar Guia Assis</h2>
+              <p class="secao-subtitulo">Atalhos rápidos para navegar pela cidade</p>
+            </div>
+          </div>
+
+          <div class="grid-atalhos">
+            <a href="../mapa/index.html" class="card-atalho">
+              <div class="atalho-icone azul">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"></polygon>
+                  <line x1="9" x2="9" y1="3" y2="18"></line>
+                  <line x1="15" x2="15" y1="6" y2="21"></line>
+                </svg>
+              </div>
+              <div class="atalho-texto">
+                <h3>Mapa Interativo</h3>
+                <p>Filtre restaurantes, farmácias e pontos de interesse</p>
+              </div>
+              <span class="atalho-seta" aria-hidden="true">→</span>
+            </a>
+
+            <a href="../servicos/index.html" class="card-atalho">
+              <div class="atalho-icone verde">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                </svg>
+              </div>
+              <div class="atalho-texto">
+                <h3>Guia de Serviços</h3>
+                <p>Veja avaliações reais e contribua com sua opinião</p>
+              </div>
+              <span class="atalho-seta" aria-hidden="true">→</span>
+            </a>
+
+            <a href="../historia/index.html" class="card-atalho">
+              <div class="atalho-icone roxo">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path>
+                </svg>
+              </div>
+              <div class="atalho-texto">
+                <h3>História da Cidade</h3>
+                <p>Conheça a origem e evolução de Assis Chateaubriand</p>
+              </div>
+              <span class="atalho-seta" aria-hidden="true">→</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="bloco-secao">
+          <div class="secao-topo">
+            <div>
+              <h2>Destaques bem avaliados</h2>
+              <p class="secao-subtitulo">Locais populares no Guia Assis para salvar ou avaliar</p>
+            </div>
+            <a href="../servicos/index.html" class="link-ver-todos">Ver todos →</a>
+          </div>
+
+          <div id="destaquesLocais" class="grid-locais">
+            <div class="card-skeleton"></div>
+            <div class="card-skeleton"></div>
+            <div class="card-skeleton"></div>
+            <div class="card-skeleton"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Painel 2: Locais Salvos -->
+      <div class="tab-painel" id="painel-favoritos" role="tabpanel" aria-labelledby="tab-favoritos" hidden>
+        <div class="secao-topo secao-topo-filtros">
+          <div>
+            <h2>Locais Salvos</h2>
+            <p class="secao-subtitulo">Seus pontos favoritos de Assis Chateaubriand em um só lugar</p>
+          </div>
+          <div class="favoritos-controles">
+            <input type="search" id="buscaFavoritos" class="input-busca" placeholder="Filtrar salvos..." aria-label="Filtrar locais salvos">
+            <a href="../servicos/index.html" class="btn-secundario-link">Explorar guia</a>
+          </div>
+        </div>
+
+        <div id="listaFavoritos" class="grid-locais">
+          <div class="card-skeleton"></div>
+          <div class="card-skeleton"></div>
+        </div>
+
+        <div id="vazioFavoritos" class="estado-vazio" hidden>
+          <div class="estado-vazio-icone" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
+            </svg>
+          </div>
+          <h3>Nenhum local salvo ainda</h3>
+          <p>Toque no ícone de salvar nos cards do Guia de Serviços, do Mapa ou dos destaques da Visão Geral para montar sua lista pessoal da cidade.</p>
+          <a href="../servicos/index.html" class="btn-primario-link">Explorar locais</a>
+        </div>
+      </div>
+
+      <!-- Painel 3: Minhas Avaliações -->
+      <div class="tab-painel" id="painel-avaliacoes" role="tabpanel" aria-labelledby="tab-avaliacoes" hidden>
+        <div class="secao-topo">
+          <div>
+            <h2>Minhas Avaliações</h2>
+            <p class="secao-subtitulo">Veja, edite ou exclua as avaliações que você fez nos locais da cidade</p>
+          </div>
+        </div>
+
+        <div id="listaAvaliacoes" class="lista-avaliacoes">
+          <div class="card-skeleton card-skeleton-baixo"></div>
+          <div class="card-skeleton card-skeleton-baixo"></div>
+        </div>
+
+        <div id="vazioAvaliacoes" class="estado-vazio" hidden>
+          <div class="estado-vazio-icone" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+            </svg>
+          </div>
+          <h3>Você ainda não avaliou nenhum local</h3>
+          <p>Abra um local no Guia de Serviços e deixe sua nota para ajudar outros moradores e visitantes.</p>
+          <a href="../servicos/index.html" class="btn-primario-link">Avaliar um local</a>
+        </div>
+      </div>
+
+      <!-- Painel 4: Configurações -->
+      <div class="tab-painel" id="painel-configuracoes" role="tabpanel" aria-labelledby="tab-configuracoes" hidden>
+        <div class="config-stack">
+          <!-- Card 1: Dados Pessoais -->
+          <article class="card-config">
+            <div class="card-config-header">
+              <h2>Dados Pessoais</h2>
+              <p>Atualize seu nome de exibição vinculado à sua conta no Guia Assis.</p>
+            </div>
+
+            <form id="formMudarDados" class="form-grid" novalidate>
+              <div class="campo-grupo">
+                <label for="nomeEditar">Nome completo</label>
+                <input type="text" id="nomeEditar" placeholder="Digite seu nome e sobrenome" required>
+                <small class="campo-ajuda">Informe pelo menos nome e sobrenome.</small>
+              </div>
+
+              <div class="campo-grupo">
+                <label for="emailEditar">E-mail da conta</label>
+                <input type="email" id="emailEditar" disabled>
+                <small class="campo-ajuda">O e-mail é utilizado para identificação e não pode ser alterado aqui.</small>
+              </div>
+
+              <div class="form-rodape">
+                <button type="submit" id="btnSalvarDados" class="btn-primario">Salvar alterações</button>
+              </div>
+            </form>
+          </article>
+
+          <!-- Card 2: Foto de Perfil -->
+          <article class="card-config">
+            <div class="card-config-header">
+              <h2>Foto de Perfil</h2>
+              <p>Formatos aceitos: JPEG, PNG ou WebP com até 5 MB.</p>
+            </div>
+
+            <div id="controlesFotoConfig" class="config-foto-acoes">
+              <button type="button" id="trocarFotoConfig" class="btn-secundario">Enviar nova foto</button>
+              <button type="button" id="removerFotoConfig" class="btn-perigo-outline" hidden>Remover foto atual</button>
+            </div>
+
+            <p id="avisoFotoGoogle" class="aviso-google" hidden>
+              Sua conta está conectada via Google. A foto de perfil é sincronizada diretamente com sua conta Google.
+            </p>
+          </article>
+
+          <!-- Card 3: Segurança e Sessão -->
+          <article class="card-config">
+            <div class="card-config-header">
+              <h2>Segurança e Sessão</h2>
+              <p id="infoMetodoLogin">Autenticado com e-mail e senha.</p>
+            </div>
+
+            <div class="config-seguranca-acoes">
+              <a id="linkRedefinirSenha" href="../login/recuperar-senha.html" class="btn-secundario-link">Alterar ou redefinir senha</a>
+              <button type="button" id="logOutConfig" class="btn-perigo-outline">Encerrar sessão</button>
+            </div>
+          </article>
+
+          <!-- Card 4: Zona de Perigo -->
+          <article class="card-config card-zona-perigo" aria-labelledby="tituloZonaPerigo">
+            <div class="card-config-header">
+              <h2 id="tituloZonaPerigo">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"></path>
+                  <line x1="12" x2="12" y1="9" y2="13"></line>
+                  <line x1="12" x2="12.01" y1="17" y2="17"></line>
+                </svg>
+                Zona de perigo
+              </h2>
+              <p>Excluir sua conta é uma ação <strong>permanente e irreversível</strong>. Ao excluir, você perde:</p>
+            </div>
+
+            <ul class="lista-perda">
+              <li>Seus dados pessoais (nome e e-mail)</li>
+              <li>Sua foto de perfil</li>
+              <li>Todos os seus locais salvos</li>
+              <li>Todas as suas avaliações, que somem também das páginas dos locais</li>
+            </ul>
+
+            <div>
+              <button type="button" id="btnAbrirExclusaoConta" class="btn-perigo-solido">Excluir minha conta</button>
+            </div>
+          </article>
+        </div>
+      </div>
     </section>
   </main>
-  <div id="footer">
 
-  </div>
+  <!-- Modal: Editar Avaliação -->
+  <dialog id="modalEditarAvaliacao" class="perfil-dialog" aria-labelledby="tituloEditarAvaliacao">
+    <form id="formEditarAvaliacao" class="dialog-conteudo" novalidate>
+      <div class="dialog-topo">
+        <div>
+          <h2 id="tituloEditarAvaliacao">Editar avaliação</h2>
+          <p id="editarAvaliacaoLocal" class="dialog-subtitulo"></p>
+        </div>
+        <button type="button" class="dialog-fechar" data-fechar-dialog aria-label="Fechar">&times;</button>
+      </div>
+
+      <div class="campo-grupo">
+        <span class="campo-rotulo" id="rotuloEditarNota">Sua nota</span>
+        <div id="editarEstrelas" class="seletor-estrelas" role="radiogroup" aria-labelledby="rotuloEditarNota">
+          <button type="button" class="estrela-btn" role="radio" data-nota="1" aria-label="1 estrela" aria-checked="false">★</button>
+          <button type="button" class="estrela-btn" role="radio" data-nota="2" aria-label="2 estrelas" aria-checked="false">★</button>
+          <button type="button" class="estrela-btn" role="radio" data-nota="3" aria-label="3 estrelas" aria-checked="false">★</button>
+          <button type="button" class="estrela-btn" role="radio" data-nota="4" aria-label="4 estrelas" aria-checked="false">★</button>
+          <button type="button" class="estrela-btn" role="radio" data-nota="5" aria-label="5 estrelas" aria-checked="false">★</button>
+        </div>
+        <small id="editarNotaTexto" class="campo-ajuda">Selecione de 1 a 5 estrelas</small>
+      </div>
+
+      <div class="campo-grupo">
+        <span class="campo-rotulo">O que você achou? (opcional)</span>
+        <div id="editarTags" class="seletor-tags">
+          <button type="button" class="tag-toggle" data-tag="Atendimento Ruim" aria-pressed="false">Atendimento Ruim</button>
+          <button type="button" class="tag-toggle" data-tag="Lugar confortável" aria-pressed="false">Lugar confortável</button>
+          <button type="button" class="tag-toggle" data-tag="Preço elevado" aria-pressed="false">Preço elevado</button>
+          <button type="button" class="tag-toggle" data-tag="Custo benefício" aria-pressed="false">Custo benefício</button>
+          <button type="button" class="tag-toggle" data-tag="Bom atendimento" aria-pressed="false">Bom atendimento</button>
+        </div>
+      </div>
+
+      <div class="dialog-rodape">
+        <button type="button" class="btn-secundario" data-fechar-dialog>Cancelar</button>
+        <button type="submit" id="btnSalvarEdicaoAvaliacao" class="btn-primario">Salvar avaliação</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Modal: Excluir Conta -->
+  <dialog id="modalExcluirConta" class="perfil-dialog perfil-dialog-perigo" aria-labelledby="tituloExcluirConta" aria-describedby="avisoExcluirConta">
+    <form id="formExcluirConta" class="dialog-conteudo" novalidate>
+      <div class="dialog-topo">
+        <div class="dialog-titulo-perigo">
+          <span class="icone-perigo" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"></path>
+              <line x1="12" x2="12" y1="9" y2="13"></line>
+              <line x1="12" x2="12.01" y1="17" y2="17"></line>
+            </svg>
+          </span>
+          <h2 id="tituloExcluirConta">Excluir conta permanentemente</h2>
+        </div>
+        <button type="button" class="dialog-fechar" data-fechar-dialog aria-label="Fechar">&times;</button>
+      </div>
+
+      <div id="avisoExcluirConta" class="alerta-perigo">
+        <strong>Atenção: esta ação NÃO pode ser desfeita.</strong>
+        <p>Ao confirmar, sua conta será apagada para sempre e você perderá:</p>
+        <ul>
+          <li>Seus dados pessoais (nome e e-mail)</li>
+          <li>Sua foto de perfil</li>
+          <li><span id="exclusaoTotalFavoritos">0</span> local(is) salvo(s)</li>
+          <li><span id="exclusaoTotalAvaliacoes">0</span> avaliação(ões), que também somem das páginas dos locais</li>
+        </ul>
+        <p>Não será possível recuperar nada. Para voltar a usar o Guia Assis, você terá que criar uma conta nova do zero.</p>
+      </div>
+
+      <label class="checkbox-confirmacao">
+        <input type="checkbox" id="checkConfirmarExclusao">
+        <span>Entendo que vou perder todos os meus dados permanentemente e que não será possível recuperar minha conta.</span>
+      </label>
+
+      <div class="campo-grupo">
+        <label for="inputConfirmacaoExclusao">Digite <strong>EXCLUIR</strong> para confirmar</label>
+        <input type="text" id="inputConfirmacaoExclusao" autocomplete="off" spellcheck="false" placeholder="EXCLUIR">
+      </div>
+
+      <div class="campo-grupo" id="grupoSenhaExclusao">
+        <label for="inputSenhaExclusao">Sua senha atual</label>
+        <input type="password" id="inputSenhaExclusao" autocomplete="current-password" placeholder="Digite sua senha">
+      </div>
+
+      <div class="campo-grupo" id="grupoEmailExclusao" hidden>
+        <label for="inputEmailExclusao">Digite o e-mail da sua conta</label>
+        <input type="email" id="inputEmailExclusao" autocomplete="off" placeholder="seuemail@exemplo.com">
+        <small class="campo-ajuda">Sua conta usa login com Google, então confirmamos pelo e-mail.</small>
+      </div>
+
+      <div class="dialog-rodape">
+        <button type="button" class="btn-secundario" data-fechar-dialog autofocus>Cancelar, manter minha conta</button>
+        <button type="submit" id="btnConfirmarExclusaoConta" class="btn-perigo-solido" disabled>Excluir minha conta para sempre</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="footer"></div>
+  <button id="topBtn" title="Voltar ao topo">⬆</button>
 
   <script src="../js/global.js"></script>
+  <script src="../js/favoritos.js"></script>
   <script src="../js/header.js"></script>
   <script src="../componentes/componentes.js"></script>
   <script src="../js/perfil.js"></script>
@@ -66,7 +477,6 @@
       new window.VLibras.Widget('https://vlibras.gov.br/app');
     });
   </script>
-
 </body>
 
 </html>

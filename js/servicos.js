@@ -2,84 +2,102 @@ let pontos = [];
 let pontosFiltrados = [];
 
 const icones = {
-    "turismo": "fa-camera",
-    "gastronomia": "fa-utensils",
-    "posto": "fa-gas-pump",
-    "farmacia": "fa-prescription-bottle-medical",
-    "hospital": "fa-hospital",
-    "posto de saúde": "fa-kit-medical",
-    "mobilidade": "fa-bus"
+  turismo: "fa-camera",
+  gastronomia: "fa-utensils",
+  posto: "fa-gas-pump",
+  farmacia: "fa-prescription-bottle-medical",
+  hospital: "fa-hospital",
+  "posto de saúde": "fa-kit-medical",
+  mobilidade: "fa-bus",
 };
 
 const cores = {
-    "turismo": "azul",
-    "gastronomia": "laranja",
-    "posto": "verde",
-    "farmacia": "roxo",
-    "hospital": "vermelho",
-    "posto de saúde": "vermelho",
-    "mobilidade": "azul"
+  turismo: "azul",
+  gastronomia: "laranja",
+  posto: "verde",
+  farmacia: "roxo",
+  hospital: "vermelho",
+  "posto de saúde": "vermelho",
+  mobilidade: "azul",
 };
 
 // 1. CARREGAR DADOS DA API
 async function carregarServicos() {
-    try {
-        const resposta = await fetch(`${API_URL}/pontos`);
-        if (!resposta.ok) throw new Error("Falha na resposta da API");
-        pontos = await resposta.json();
-        pontosFiltrados = [...pontos];
-        renderizarCards(pontosFiltrados);
-    } catch (erro) {
-        console.error("Erro ao carregar a API:", erro);
-        const container = document.getElementById("containerCards");
-        if (container) {
-            container.innerHTML = "<h2 style='text-align:center; width:100%'>Erro ao carregar os serviços.</h2>";
-        }
+  try {
+    const resposta = await fetch(`${API_URL}/pontos`);
+    if (!resposta.ok) throw new Error("Falha na resposta da API");
+    pontos = await resposta.json();
+    pontosFiltrados = [...pontos];
+    renderizarCards(pontosFiltrados);
+  } catch (erro) {
+    console.error("Erro ao carregar a API:", erro);
+    const container = document.getElementById("containerCards");
+    if (container) {
+      container.innerHTML =
+        "<h2 style='text-align:center; width:100%'>Erro ao carregar os serviços.</h2>";
     }
+  }
 }
 
 // 2. RENDERIZAR CARDS NA TELA
 function renderizarCards(lista) {
-    const container = document.getElementById("containerCards");
-    if (!container) return;
+  const container = document.getElementById("containerCards");
+  if (!container) return;
 
-    if (lista.length === 0) {
-        container.innerHTML = `
+  if (lista.length === 0) {
+    container.innerHTML = `
             <h2 style="grid-column:1/-1;text-align:center; padding: 40px 0;">
                 Nenhum serviço encontrado.
             </h2>
         `;
-        return;
-    }
-    let htmlGerado = "";
+    return;
+  }
+  let htmlGerado = "";
 
-    lista.forEach(ponto => {
-        const categoria = ponto.categoria_nome ? ponto.categoria_nome.toLowerCase() : "";
-        const icone = icones[categoria] || "fa-location-dot";
-        const cor = cores[categoria] || "azul";
-        const imagemSrc = escaparHtml(urlImagemPonto(ponto.imagem));
+  lista.forEach((ponto) => {
+    const categoria = ponto.categoria_nome
+      ? ponto.categoria_nome.toLowerCase()
+      : "";
+    const icone = icones[categoria] || "fa-location-dot";
+    const cor = cores[categoria] || "azul";
+    const imagemSrc = escaparHtml(urlImagemPonto(ponto.imagem));
 
-        const descricaoTexto = ponto.descricao || "";
-        const descricaoCurta = descricaoTexto.length > 100 ? `${descricaoTexto.substring(0, 100)}...` : descricaoTexto;
+    const descricaoTexto = ponto.descricao || "";
+    const descricaoCurta =
+      descricaoTexto.length > 100
+        ? `${descricaoTexto.substring(0, 100)}...`
+        : descricaoTexto;
 
-        const mediaNotaNum = Number(ponto.media_nota) || 0;
-        const notaArredondada = Math.round(mediaNotaNum);
-        const estrelasHtml = '★'.repeat(notaArredondada) + '☆'.repeat(5 - notaArredondada);
-        const totalAvaliacoes = ponto.total_avaliacoes || 0;
+    const mediaNotaNum = Number(ponto.media_nota) || 0;
+    const notaArredondada = Math.round(mediaNotaNum);
+    const estrelasHtml =
+      "★".repeat(notaArredondada) + "☆".repeat(5 - notaArredondada);
+    const totalAvaliacoes = ponto.total_avaliacoes || 0;
 
-        const listaTags = ponto.tags
-            ? [...new Set(ponto.tags.split(', ').map(t => t.trim()).filter(t => t !== ''))].slice(0, 3)
-            : [];
+    const listaTags = ponto.tags
+      ? [
+          ...new Set(
+            ponto.tags
+              .split(", ")
+              .map((t) => t.trim())
+              .filter((t) => t !== ""),
+          ),
+        ].slice(0, 3)
+      : [];
 
-        // CORRIGIDO: Checa se a lista de tags possui itens
-        const tagsHTML = listaTags.length > 0
-            ? listaTags.map(tag => `<span class="tag-badge">${escaparHtml(tag)}</span>`).join('')
-            : '<span class="tag-badge-vazio">Sem observações</span>';
+    // CORRIGIDO: Checa se a lista de tags possui itens
+    const tagsHTML =
+      listaTags.length > 0
+        ? listaTags
+            .map((tag) => `<span class="tag-badge">${escaparHtml(tag)}</span>`)
+            .join("")
+        : '<span class="tag-badge-vazio">Sem observações</span>';
 
-        htmlGerado += `
+    htmlGerado += `
         <div class="card">
             <div class="card-imagem-container">
-                <img class="card-imagem" src="${imagemSrc}" alt="${escaparHtml(ponto.nome || 'Serviço')}">
+                <img class="card-imagem" src="${imagemSrc}" alt="${escaparHtml(ponto.nome || "Serviço")}">
+                ${Favoritos.botaoHtml(ponto.id, ponto.nome)}
                 <div class="card-icone ${cor}">
                     <i class="fa-solid ${icone}"></i>
                 </div>
@@ -87,10 +105,10 @@ function renderizarCards(lista) {
 
             <div class="card-body">
                 <span class="categoria-card ${cor}">
-                    ${escaparHtml(ponto.categoria_nome || 'Geral')}
+                    ${escaparHtml(ponto.categoria_nome || "Geral")}
                 </span>
 
-                <h3>${escaparHtml(ponto.nome || 'Sem nome')}</h3>
+                <h3>${escaparHtml(ponto.nome || "Sem nome")}</h3>
         
                 <div class="card-avaliacao">
                     <span class="estrelas">${estrelasHtml}</span>
@@ -102,7 +120,7 @@ function renderizarCards(lista) {
                 </div>
                 
                 <p class="endereco-card">
-                    <i class="fa-solid fa-location-dot"></i> ${escaparHtml(ponto.endereco || 'Endereço não informado')}
+                    <i class="fa-solid fa-location-dot"></i> ${escaparHtml(ponto.endereco || "Endereço não informado")}
                 </p>
 
                 <p class="descricao-card">
@@ -115,80 +133,102 @@ function renderizarCards(lista) {
             </div>
         </div>
         `;
-    });
-    container.innerHTML = htmlGerado;
+  });
+  container.innerHTML = htmlGerado;
 }
 
 // 3. REMOVER ACENTOS E APLICAR FILTROS
 function removerAcentos(texto) {
-    if (!texto) return "";
-    return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  if (!texto) return "";
+  return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
 function aplicarFiltros() {
-    const campoPesquisa = document.querySelector(".pesquisa");
-    const textoOriginal = campoPesquisa ? campoPesquisa.value.toLowerCase().trim() : "";
-    const texto = removerAcentos(textoOriginal);
+  const campoPesquisa = document.querySelector(".pesquisa");
+  const textoOriginal = campoPesquisa
+    ? campoPesquisa.value.toLowerCase().trim()
+    : "";
+  const texto = removerAcentos(textoOriginal);
 
-    const categoriaAtiva = document.querySelector(".filtros .ativo");
-    const categoria = categoriaAtiva ? removerAcentos(categoriaAtiva.dataset.categoria.toLowerCase().trim()) : "todos";
+  const categoriaAtiva = document.querySelector(".filtros .ativo");
+  const categoria = categoriaAtiva
+    ? removerAcentos(categoriaAtiva.dataset.categoria.toLowerCase().trim())
+    : "todos";
 
-    pontosFiltrados = pontos.filter(ponto => {
-        const nomeStr = removerAcentos((ponto.nome || "").toLowerCase());
-        const descStr = removerAcentos((ponto.descricao || "").toLowerCase());
-        const endStr = removerAcentos((ponto.endereco || "").toLowerCase());
-        const catStr = removerAcentos((ponto.categoria_nome || "").toLowerCase().trim());
+  pontosFiltrados = pontos.filter((ponto) => {
+    const nomeStr = removerAcentos((ponto.nome || "").toLowerCase());
+    const descStr = removerAcentos((ponto.descricao || "").toLowerCase());
+    const endStr = removerAcentos((ponto.endereco || "").toLowerCase());
+    const catStr = removerAcentos(
+      (ponto.categoria_nome || "").toLowerCase().trim(),
+    );
 
-        const combinaTexto = nomeStr.includes(texto) ||
-            descStr.includes(texto) ||
-            endStr.includes(texto) ||
-            catStr.includes(texto);
+    const combinaTexto =
+      nomeStr.includes(texto) ||
+      descStr.includes(texto) ||
+      endStr.includes(texto) ||
+      catStr.includes(texto);
+    const combinaCategoria =
+      categoria === "todos"
+        ? true
+        : categoria === "favoritos"
+          ? Favoritos.estaSalvo(ponto.id)
+          : catStr === categoria;
 
-        const combinaCategoria = (categoria === "todos") || catStr === categoria;
+    return combinaTexto && combinaCategoria;
+  });
 
-        return combinaTexto && combinaCategoria;
-    });
-
-    renderizarCards(pontosFiltrados);
+  renderizarCards(pontosFiltrados);
 }
 
 // 4. LÓGICA DO MODAL
 function abrirModal(id) {
-    const ponto = pontos.find(item => item.id == id);
-    if (!ponto) return;
+  const ponto = pontos.find((item) => item.id == id);
+  if (!ponto) return;
 
-    const categoria = (ponto.categoria_nome || "").toLowerCase();
-    const icone = icones[categoria] || "fa-location-dot";
-    const cor = cores[categoria] || "azul";
-    const imagemSrc = escaparHtml(urlImagemPonto(ponto.imagem));
+  const categoria = (ponto.categoria_nome || "").toLowerCase();
+  const icone = icones[categoria] || "fa-location-dot";
+  const cor = cores[categoria] || "azul";
+  const imagemSrc = escaparHtml(urlImagemPonto(ponto.imagem));
 
-    const mediaNotaNum = Number(ponto.media_nota) || 0;
-    const notaArredondada = Math.round(mediaNotaNum);
-    const estrelasHtml = '★'.repeat(notaArredondada) + '☆'.repeat(5 - notaArredondada);
-    const totalAvaliacoes = ponto.total_avaliacoes || 0;
+  const mediaNotaNum = Number(ponto.media_nota) || 0;
+  const notaArredondada = Math.round(mediaNotaNum);
+  const estrelasHtml =
+    "★".repeat(notaArredondada) + "☆".repeat(5 - notaArredondada);
+  const totalAvaliacoes = ponto.total_avaliacoes || 0;
 
-    const listaTags = ponto.tags
-        ? [...new Set(ponto.tags.split(', ').map(t => t.trim()).filter(t => t !== ''))].slice(0, 3)
-        : [];
+  const listaTags = ponto.tags
+    ? [
+        ...new Set(
+          ponto.tags
+            .split(", ")
+            .map((t) => t.trim())
+            .filter((t) => t !== ""),
+        ),
+      ].slice(0, 3)
+    : [];
 
-    const tagsHTML = listaTags.length > 0
-        ? listaTags.map(tag => `<span class="tag-badge">${escaparHtml(tag)}</span>`).join('')
-        : '<span class="tag-badge-vazio">Sem observações</span>';
+  const tagsHTML =
+    listaTags.length > 0
+      ? listaTags
+          .map((tag) => `<span class="tag-badge">${escaparHtml(tag)}</span>`)
+          .join("")
+      : '<span class="tag-badge-vazio">Sem observações</span>';
 
-    const modal = document.getElementById("modal");
-    const conteudo = document.getElementById("modalContent");
+  const modal = document.getElementById("modal");
+  const conteudo = document.getElementById("modalContent");
 
-    if (!modal || !conteudo) return;
+  if (!modal || !conteudo) return;
 
-    conteudo.innerHTML = `
+  conteudo.innerHTML = `
     <span class="fechar" onclick="fecharModal()">&times;</span>
-    <img src="${imagemSrc}" alt="${escaparHtml(ponto.nome || '')}" class="modal-imagem">
+    <img src="${imagemSrc}" alt="${escaparHtml(ponto.nome || "")}" class="modal-imagem">
     
     <div class="modal-body">
         <span class="categoria-card ${cor}" style="margin-bottom: 15px;">
-            <i class="fa-solid ${icone}"></i> ${escaparHtml(ponto.categoria_nome || 'Geral')}
+            <i class="fa-solid ${icone}"></i> ${escaparHtml(ponto.categoria_nome || "Geral")}
         </span>
-        <h2>${escaparHtml(ponto.nome || 'Sem nome')}</h2>
+        <h2>${escaparHtml(ponto.nome || "Sem nome")}</h2>
 
         <div class="card-avaliacao" style="margin: 10px 0;">
             <span class="estrelas" style="color: #f39c12; font-size: 1.2rem;">${estrelasHtml}</span>
@@ -199,14 +239,18 @@ function abrirModal(id) {
             ${tagsHTML}
         </div>
         
-        <p style="margin-bottom: 20px; line-height: 1.5;">${escaparHtml(ponto.descricao || '')}</p>
+        <p style="margin-bottom: 20px; line-height: 1.5;">${escaparHtml(ponto.descricao || "")}</p>
         
         <div class="info-box">
-            <p><strong>📍 Endereço:</strong> ${escaparHtml(ponto.endereco || 'Não informado')}</p>
+            <p><strong>📍 Endereço:</strong> ${escaparHtml(ponto.endereco || "Não informado")}</p>
+        </div>
+
+        <div style="margin-bottom: 12px;">
+            ${Favoritos.botaoHtml(ponto.id, ponto.nome, "texto")}
         </div>
         
         <div style="display:flex; gap:9px;">
-            <button class="btn-mapa" onclick="window.location='../mapa/index.html?categoria=${encodeURIComponent((ponto.categoria_nome || '').toLowerCase())}&nome=${encodeURIComponent(ponto.nome || '')}'">
+            <button class="btn-mapa" onclick="window.location='../mapa/index.html?categoria=${encodeURIComponent((ponto.categoria_nome || "").toLowerCase())}&nome=${encodeURIComponent(ponto.nome || "")}'">
                  Ver no mapa
             </button>
             <button class="btn-mapa2" onclick="window.location.href='../servicos/avalia.html?id=${ponto.id}'">
@@ -217,36 +261,55 @@ function abrirModal(id) {
     </div>
     `;
 
-    modal.style.display = "flex";
+  modal.style.display = "flex";
 }
 
 function fecharModal() {
-    const modal = document.getElementById("modal");
-    if (modal) modal.style.display = "none";
+  const modal = document.getElementById("modal");
+  if (modal) modal.style.display = "none";
 }
 
 window.addEventListener("click", (e) => {
-    const modal = document.getElementById("modal");
-    if (e.target === modal) {
-        fecharModal();
-    }
+  const modal = document.getElementById("modal");
+  if (e.target === modal) {
+    fecharModal();
+  }
 });
 
 // 5. EVENTOS INICIAIS
 document.addEventListener("DOMContentLoaded", () => {
-    carregarServicos();
+  carregarServicos();
 
-    const campoPesquisa = document.querySelector(".pesquisa");
-    if (campoPesquisa) {
-        campoPesquisa.addEventListener("input", aplicarFiltros);
+  const campoPesquisa = document.querySelector(".pesquisa");
+  if (campoPesquisa) {
+    campoPesquisa.addEventListener("input", aplicarFiltros);
+  }
+
+  const btnFav = document.getElementById("btnFiltroFavoritos");
+  if (btnFav && Favoritos.estaLogado()) {
+    btnFav.hidden = false;
+  }
+
+  Favoritos.carregar().then(() => {
+    const ativo = document.querySelector(".filtros .ativo");
+    if (ativo?.dataset.categoria === "favoritos") {
+      aplicarFiltros();
     }
+  });
 
-    const botoesFiltro = document.querySelectorAll(".filtros button");
-    botoesFiltro.forEach(botao => {
-        botao.addEventListener("click", () => {
-            botoesFiltro.forEach(btn => btn.classList.remove("ativo"));
-            botao.classList.add("ativo");
-            aplicarFiltros();
-        });
+  document.addEventListener("favoritos:alterado", () => {
+    const ativo = document.querySelector(".filtros .ativo");
+    if (ativo?.dataset.categoria === "favoritos") {
+      aplicarFiltros();
+    }
+  });
+
+  const botoesFiltro = document.querySelectorAll(".filtros button");
+  botoesFiltro.forEach((botao) => {
+    botao.addEventListener("click", () => {
+      botoesFiltro.forEach((btn) => btn.classList.remove("ativo"));
+      botao.classList.add("ativo");
+      aplicarFiltros();
     });
+  });
 });

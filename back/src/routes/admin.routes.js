@@ -155,6 +155,7 @@ router.delete('/pontos/:id', async (req, res) => {
     conexao = await dbp.getConnection();
     await conexao.beginTransaction();
     await conexao.query('DELETE FROM avaliacoes WHERE id_ponto = ?', [id]);
+    await conexao.query('DELETE FROM favoritos WHERE id_ponto = ?', [id]);
     await conexao.query('DELETE FROM pontos WHERE id= ?', [id]);
     await conexao.commit();
 
