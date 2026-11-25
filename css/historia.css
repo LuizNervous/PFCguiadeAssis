@@ -272,3 +272,13 @@ body.tema-dicromacia .prefeito-item .periodo {
   background: transparent;
   box-shadow: inset 0 0 0 1px #ffd700;
 }
+
+/* Conteúdo histórico adaptável a telas estreitas */
+@media (max-width: 600px) {
+  .cards { flex-direction: column; align-items: stretch; padding-inline: 12px; gap: 14px; }
+  .card, .card2 { width: 100%; max-width: 100%; min-width: 0; }
+  .bloco { padding: 18px 14px; }
+  .texto { line-height: 1.6; }
+  .lista-prefeitos { overflow-x: auto; }
+  .prefeito-item { min-width: 0; }
+}
