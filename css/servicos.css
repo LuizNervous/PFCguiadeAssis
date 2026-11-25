@@ -493,3 +493,12 @@ body.tema-monocromacia {
     background-color: #ffffff !important;
     color: #000000 !important;
 }
+
+/* Ajustes mobile: cards, busca e modal */
+@media (max-width: 600px) {
+  .cards { grid-template-columns: minmax(0, 1fr); padding-inline: 12px; }
+  .card { width: 100%; min-width: 0; }
+  .pesquisa, .filtros { width: 100%; max-width: 100%; }
+  .modal-content { padding: 16px; }
+  .modal-imagem { max-width: 100%; height: auto; object-fit: contain; }
+}
