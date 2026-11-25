@@ -37,4 +37,41 @@ const limitadorGoogle = rateLimit({
 
 });
 
-module.exports = { limitadorGeral, limitadorRigoroso, limitadorFotoPerfil, limitadorVerificacao, limitadorGoogle };
+const limitadorFavoritos = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 60,
+  keyGenerator: (req) => String(req.usuario.id),
+  message: { mensagem: 'Você alterou seus favoritos muitas vezes. Aguarde alguns minutos.' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+const limitadorExclusaoConta = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  limit: 5,
+  keyGenerator: (req) => String(req.usuario.id),
+  message: { mensagem: 'Muitas tentativas de excluir a conta. Tente novamente mais tarde.' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// Limita criação, edição e exclusão de avaliações por usuário autenticado.
+const limitadorAvaliacoes = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 30,
+  keyGenerator: (req) => String(req.usuario.id),
+  message: { mensagem: 'Muitas alterações de avaliações em pouco tempo. Aguarde alguns minutos.' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+module.exports = {
+  limitadorGeral,
+  limitadorRigoroso,
+  limitadorFotoPerfil,
+  limitadorVerificacao,
+  limitadorGoogle,
+  limitadorFavoritos,
+  limitadorExclusaoConta,
+  limitadorAvaliacoes
+};

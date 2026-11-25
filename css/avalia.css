@@ -435,3 +435,9 @@ html.Escuro .btn-enviar {
         height: 200px;
     }
 }
+
+
+/* Botão de favoritos na página de detalhes */
+.acao-favorito {
+  margin-top: 16px;
+}
