@@ -965,3 +965,108 @@ body.tema-dicromacia .btn-fav.salvo {
   background: #ffd700 !important;
   color: #00152b !important;
 }
+
+
+
+/* =========================================
+   RESPONSIVIDADE GLOBAL - CELULARES E TABLETS
+   ========================================= */
+img, video, iframe { max-width: 100%; }
+button, input, select, textarea { max-width: 100%; }
+main { width: 100%; min-width: 0; }
+header { min-width: 0; }
+.topicos { flex-wrap: wrap; justify-content: center; }
+.escondido { max-width: 100vw; }
+footer .conteiner { gap: 24px; }
+footer { overflow-wrap: anywhere; }
+@media (max-width: 900px) {
+  header { padding: 14px 22px; flex-wrap: wrap; }
+  header .return { flex: 1 1 220px; min-width: 0; }
+  .topicos { flex: 1 1 100%; gap: 14px 20px; justify-content: center; padding: 8px 0 2px; }
+  .topicos a { font-size: 0.96rem; }
+  .container-alerts { max-width: calc(100vw - 32px); }
+}
+@media (max-width: 600px) {
+  header { padding: 12px 14px; gap: 8px; }
+  .return { gap: 8px; }
+  .return img { width: 42px; }
+  .logo h3 { font-size: 1rem; }
+  .logo p { font-size: .82rem; }
+  .topicos { display: flex; width: 100%; gap: 8px; justify-content: space-between; flex-wrap: wrap; }
+  .topicos li { flex: 1 1 auto; text-align: center; }
+  .topicos a { display: inline-block; padding: 7px 4px; font-size: .83rem; }
+  .centralizar { gap: 12px; }
+  #botaoMenu, #botaoMenu img { width: 27px; height: auto; }
+  #FotoUsuario { width: 38px; }
+  .escondido { width: min(100vw, 390px); padding: 16px; }
+  #botoesCores { grid-template-columns: 1fr; }
+  #botoesCores button { width: 100%; }
+  main { margin: 18px auto; padding-left: 12px; padding-right: 12px; }
+  footer { padding: 16px 12px; }
+  footer .conteiner { flex-direction: column; align-items: center; gap: 18px; }
+  footer .name-time, footer .linksFast { width: 100%; align-items: center; text-align: center; }
+  .container-alerts { left: 50%; width: calc(100% - 24px); bottom: 12px; }
+  #topBtn { width: 42px; height: 42px; right: 12px; bottom: 12px; }
+  /* Home */
+  .hero { height: min(72vh, 620px); min-height: 420px; }
+  .hero-texto { width: 100%; padding: 18px 14px; }
+  .hero-texto h1 { font-size: clamp(30px, 9vw, 48px); line-height: 1.1; }
+  .hero-texto h2 { font-size: clamp(18px, 5vw, 26px); margin-bottom: 12px; }
+  .hero-texto p { font-size: 16px; line-height: 1.5; }
+  .hero button, .botao button { padding: 13px 22px; font-size: 16px; }
+  .blocos-home { padding: 0 12px; gap: 14px; }
+  .blocos-home .bloco { flex: 1 1 100%; max-width: none; padding: 18px; }
+  #chatbot { width: 100%; height: min(70vh, 620px); min-height: 420px; border-radius: 14px; margin: 8px auto 24px; }
+  .pergunte { width: 100%; }
+  /* Page title banners */
+  .info { padding: 34px 18px; }
+  .info h1 { font-size: clamp(28px, 8vw, 40px); }
+  .info p, .info .texto { line-height: 1.55; }
+  /* Map */
+  .container-mapa { height: auto; min-height: 0; flex-direction: column; gap: 14px; padding: 0 12px; margin: 14px auto; }
+  .painel-filtros { width: 100%; padding: 16px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .painel-filtros h3 { grid-column: 1 / -1; margin-bottom: 4px; }
+  .btn-filtro { padding: 11px 10px; font-size: 13px; }
+  #mapa { width: 100%; min-height: 52vh; height: 52vh; border-radius: 14px; }
+  .ponto-card { flex-direction: column; align-items: stretch; padding: 14px; gap: 14px; margin: 0 12px 18px; }
+  .ponto-card img { width: 100%; height: clamp(160px, 48vw, 240px); }
+  .introducao { min-width: 0; }
+  .links { gap: 8px; flex-wrap: wrap; }
+  .links button { min-width: 0; padding: 12px 10px; }
+  .leaflet-popup-content, .popup-ponto { width: min(300px, calc(100vw - 56px)) !important; }
+  /* Services and history card layouts */
+  .cards { grid-template-columns: 1fr !important; gap: 14px; }
+  .card { min-width: 0; width: 100%; }
+  .card-imagem-container { height: 190px; }
+  .modal { padding: 10px; }
+  .modal-content { width: min(100%, 560px); max-height: calc(100vh - 20px); overflow-y: auto; }
+  .historia, .texto { max-width: 100%; overflow-wrap: anywhere; }
+  .lista-prefeitos { width: 100%; }
+  .prefeito-item { flex-wrap: wrap; gap: 8px; }
+  /* Login */
+  .login { width: min(100%, 460px); padding: 22px 16px; }
+  .input-grupo { width: 100%; }
+  .extras { flex-wrap: wrap; gap: 10px; }
+  .NomeIdade { flex-direction: column; }
+  .passos-recuperacao { flex-wrap: wrap; gap: 8px; }
+  /* Profile */
+  .perfil-container { grid-template-columns: 1fr !important; padding: 0 12px; gap: 14px; }
+  .perfil-sidebar, .perfil-principal { min-width: 0; width: 100%; }
+  .perfil-tabs { overflow-x: auto; max-width: 100%; }
+  .tab-btn { flex: 0 0 auto; }
+  .grid-metricas, .grid-atalhos, .grid-locais { grid-template-columns: 1fr !important; }
+  .card-config, .card-metrica, .card-atalho, .card-local, .card-avaliacao-perfil { min-width: 0; }
+  .card-local-linha, .avaliacao-cabecalho-linha { flex-wrap: wrap; }
+  .dialog-conteudo { padding: 16px; }
+  .dialog-rodape { flex-direction: column; align-items: stretch; }
+}
+@media (max-width: 380px) {
+  .topicos a { font-size: .77rem; }
+  .painel-filtros { grid-template-columns: 1fr; }
+  .hero-texto h1 { font-size: 30px; }
+  .hero-texto p { font-size: 14px; }
+  .links button { flex: 1 1 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+}
