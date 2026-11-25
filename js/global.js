@@ -1,4 +1,6 @@
+//const API_URL = "https://guia-assis.onrender.com/api";
 const API_URL = "http://localhost:10448/api";
+
 function escaparHtml(texto) {
   if (texto === null || texto === undefined) return "";
   return String(texto)
