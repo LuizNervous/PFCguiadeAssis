@@ -240,6 +240,14 @@ async function enviarAvaliacao() {
       const redirencionar = setTimeout(() => {
         window.location.href = "../login/login.html"
       }, 3400); return;
+    } else if (resposta.status === 403 && dados?.codigo === 'CONTA_BLOQUEADA') {
+      localStorage.removeItem("token");
+      localStorage.removeItem("usuario");
+      criarAlerta(dados.mensagem || "Sua conta foi bloqueada pelo administrador.", "alertRuim", 5000);
+      setTimeout(() => {
+        window.location.href = "../login/login.html";
+      }, 2500);
+      return;
     } else {
       criarAlerta(dados?.mensagem || "Erro ao registrar avaliação.", "alertRuim", 5000);
     }

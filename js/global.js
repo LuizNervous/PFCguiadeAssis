@@ -1,4 +1,5 @@
 const API_URL = "https://guia-assis.onrender.com/api";
+//const API_URL = "http://localhost:10448/api";
 
 function escaparHtml(texto) {
   if (texto === null || texto === undefined) return "";
@@ -22,12 +23,10 @@ function criarAlerta(mensagem, tipo, tempo) {
 
   container.appendChild(toast);
 
-  setTimeout(() => toast.remove(), tempo)
+  setTimeout(() => toast.remove(), tempo);
 }
 
 document.addEventListener("click", (e) => {
-
-
   if (e.target.closest("#topBtn")) {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
@@ -44,27 +43,37 @@ window.addEventListener("scroll", () => {
   }
 });
 function urlImagemPonto(imagem) {
-  if (!imagem) return '/imagens/placeholder.png';
-  return /^https?:\/\//.test(imagem) ? imagem : `/imagens/pontos/${imagem}` ; 
+  if (!imagem) return "/imagens/placeholder.png";
+  return /^https?:\/\//.test(imagem) ? imagem : `/imagens/pontos/${imagem}`;
 }
 
 let tradutorInicializado = false;
 
 function inicializarTradutor() {
   const elemento = document.getElementById("google_translate_element");
-  if (!elemento || typeof google === "undefined" || !google.translate || tradutorInicializado) return;
+  if (
+    !elemento ||
+    typeof google === "undefined" ||
+    !google.translate ||
+    tradutorInicializado
+  )
+    return;
 
-  new google.translate.TranslateElement({
-    pageLanguage: "pt",
-    autoDisplay: false
-  }, "google_translate_element");
+  new google.translate.TranslateElement(
+    {
+      pageLanguage: "pt",
+      autoDisplay: false,
+    },
+    "google_translate_element",
+  );
 
   tradutorInicializado = true;
 }
 
 function carregarGoogleTradutor() {
   const script = document.createElement("script");
-  script.src = "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+  script.src =
+    "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
   script.async = true;
   document.head.appendChild(script);
 }

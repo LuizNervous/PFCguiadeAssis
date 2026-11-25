@@ -62,6 +62,17 @@ const Favoritos = (() => {
           lista = [];
           return lista;
         }
+        if (resposta.status === 403) {
+          const dadosErro = await resposta.json().catch(() => ({}));
+          if (dadosErro.codigo === 'CONTA_BLOQUEADA') {
+            localStorage.removeItem('token');
+            localStorage.removeItem('usuario');
+            ids = new Set();
+            lista = [];
+            avisar(dadosErro.mensagem || 'Sua conta está bloqueada pelo administrador.', 'alertRuim', 5000);
+            return lista;
+          }
+        }
         if (!resposta.ok) throw new Error('Falha ao carregar favoritos');
 
         const dados = await resposta.json();
@@ -152,6 +163,18 @@ const Favoritos = (() => {
       }
 
       const dados = await resposta.json().catch(() => ({}));
+      if (resposta.status === 403 && dados.codigo === 'CONTA_BLOQUEADA') {
+        localStorage.removeItem('token');
+        localStorage.removeItem('usuario');
+        ids = new Set();
+        lista = [];
+        atualizarBotoes();
+        avisar(dados.mensagem || 'Sua conta está bloqueada pelo administrador.', 'alertRuim', 5000);
+        setTimeout(() => {
+          window.location.href = '/login/login.html';
+        }, 2500);
+        return null;
+      }
       if (!resposta.ok) {
         avisar(dados.mensagem || 'Não foi possível atualizar seus favoritos.', 'alertRuim', 4000);
         return null;

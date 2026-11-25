@@ -95,6 +95,27 @@ function sessaoExpirou() {
   }, 2200);
 }
 
+let redirecionandoBloqueio = false;
+function contaBloqueada(mensagem) {
+  if (redirecionandoBloqueio) return;
+  redirecionandoBloqueio = true;
+  limparSessaoLocal();
+  notificar(mensagem || 'Sua conta foi bloqueada pelo administrador.', 'alertRuim', 5000);
+  setTimeout(() => {
+    window.location.replace('../login/login.html');
+  }, 2200);
+}
+
+async function tratarRespostaBloqueada(resposta, dadosPreLidos = null) {
+  if (resposta.status !== 403) return false;
+  const dados = dadosPreLidos || await resposta.clone().json().catch(() => ({}));
+  if (dados?.codigo === 'CONTA_BLOQUEADA') {
+    contaBloqueada(dados.mensagem);
+    return true;
+  }
+  return false;
+}
+
 /* ==========================================
    SIDEBAR E CONFIGURAÇÕES
    ========================================== */
@@ -174,6 +195,7 @@ async function carregarPerfil() {
       sessaoExpirou();
       return;
     }
+    if (await tratarRespostaBloqueada(resposta)) return;
     if (!resposta.ok) return;
 
     const dados = await resposta.json();
@@ -230,6 +252,8 @@ inputFoto.addEventListener('change', async () => {
       notificar('Foto atualizada com sucesso!', 'alertBom', 3000);
     } else if (resposta.status === 401) {
       sessaoExpirou();
+    } else if (await tratarRespostaBloqueada(resposta, dados)) {
+      return;
     } else {
       notificar(dados.mensagem || 'Erro ao enviar a foto.', 'alertRuim', 5000);
     }
@@ -258,6 +282,8 @@ async function removerFotoPerfil() {
       notificar('Foto removida.', 'alertBom', 3000);
     } else if (resposta.status === 401) {
       sessaoExpirou();
+    } else if (await tratarRespostaBloqueada(resposta)) {
+      return;
     } else {
       notificar('Não foi possível remover a foto.', 'alertRuim', 5000);
     }
@@ -309,6 +335,8 @@ document.getElementById('formMudarDados').addEventListener('submit', async (e) =
       notificar('Dados atualizados com sucesso!', 'alertBom', 3000);
     } else if (resposta.status === 401) {
       sessaoExpirou();
+    } else if (await tratarRespostaBloqueada(resposta, dados)) {
+      return;
     } else {
       notificar(dados.mensagem || 'Erro ao atualizar os dados.', 'alertRuim', 5000);
     }
@@ -635,6 +663,7 @@ async function carregarMinhasAvaliacoes() {
       sessaoExpirou();
       return;
     }
+    if (await tratarRespostaBloqueada(resposta)) return;
     if (!resposta.ok) throw new Error('Falha ao buscar avaliações');
 
     const dados = await resposta.json();
@@ -750,6 +779,10 @@ formEditarAvaliacao.addEventListener('submit', async (e) => {
     }
 
     const dados = await resposta.json().catch(() => ({}));
+    if (await tratarRespostaBloqueada(resposta, dados)) {
+      modalEditarAvaliacao.close();
+      return;
+    }
     if (!resposta.ok) {
       notificar(dados.mensagem || 'Erro ao atualizar a avaliação.', 'alertRuim', 4000);
       return;
@@ -794,6 +827,9 @@ async function excluirAvaliacao(avaliacao, botao) {
     }
 
     const dados = await resposta.json().catch(() => ({}));
+    if (await tratarRespostaBloqueada(resposta, dados)) {
+      return;
+    }
     if (!resposta.ok) {
       notificar(dados.mensagem || 'Não foi possível excluir a avaliação.', 'alertRuim', 4000);
       botao.disabled = false;
@@ -902,6 +938,10 @@ formExcluirConta.addEventListener('submit', async (e) => {
     }
 
     const dados = await resposta.json().catch(() => ({}));
+    if (await tratarRespostaBloqueada(resposta, dados)) {
+      modalExcluirConta.close();
+      return;
+    }
     if (!resposta.ok) {
       notificar(dados.mensagem || 'Não foi possível excluir a conta.', 'alertRuim', 5000);
       btnConfirmarExclusaoConta.textContent = textoOriginal;

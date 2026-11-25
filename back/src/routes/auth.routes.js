@@ -123,9 +123,16 @@ router.post('/cadastro', async (req, res) => {
 
     try {
         const [existentes] = await dbp.query(
-            'SELECT id, email_verificado FROM usuarios WHERE email = ?',
+            'SELECT id, email_verificado, bloqueado FROM usuarios WHERE email = ?',
             [emailLimpo]
         );
+
+        if (existentes.length > 0 && Number(existentes[0].bloqueado) === 1) {
+            return res.status(403).json({
+                codigo: 'CONTA_BLOQUEADA',
+                mensagem: 'Esta conta está bloqueada e não pode ser recadastrada.'
+            });
+        }
 
         if (existentes.length > 0 && Number(existentes[0].email_verificado) === 1) {
             return res.status(409).json({ mensagem: 'Este e-mail já está cadastrado!' });
@@ -138,12 +145,12 @@ router.post('/cadastro', async (req, res) => {
         if (existentes.length > 0) {
             usuarioId = existentes[0].id;
             await dbp.query(
-                'UPDATE usuarios SET nome = ?, data_nascimento = ?, senha = ? WHERE id = ? AND email_verificado = 0',
+                'UPDATE usuarios SET nome = ?, data_nascimento = ?, senha = ? WHERE id = ? AND email_verificado = 0 AND bloqueado = 0',
                 [nomeLimpo, dataLimpa, senhaHash, usuarioId]
             );
         } else {
             const [resultado] = await dbp.query(
-                'INSERT INTO usuarios (nome, data_nascimento, email, senha, email_verificado) VALUES (?, ?, ?, ?, 0)',
+                'INSERT INTO usuarios (nome, data_nascimento, email, senha, email_verificado, eh_admin, bloqueado, token_version) VALUES (?, ?, ?, ?, 0, 0, 0, 1)',
                 [nomeLimpo, dataLimpa, emailLimpo, senhaHash]
             );
             usuarioId = resultado.insertId;
@@ -180,11 +187,18 @@ router.post('/verificar-email', async (req, res) => {
 
     try {
         const [usuarios] = await dbp.query(
-            'SELECT id, nome, email, email_verificado FROM usuarios WHERE email = ?',
+            'SELECT id, nome, email, email_verificado, bloqueado, token_version FROM usuarios WHERE email = ?',
             [emailLimpo]
         );
         const usuario = usuarios[0];
         if (!usuario) return res.status(400).json(invalido);
+
+        if (Number(usuario.bloqueado) === 1) {
+            return res.status(403).json({
+                codigo: 'CONTA_BLOQUEADA',
+                mensagem: 'Sua conta está bloqueada pelo administrador.'
+            });
+        }
 
         if (Number(usuario.email_verificado) === 1) {
             return res.status(400).json({ mensagem: 'Este e-mail já foi verificado. Faça login.' });
@@ -214,7 +228,11 @@ router.post('/verificar-email', async (req, res) => {
         await dbp.query('UPDATE tokens_verificacao SET usado_em = NOW() WHERE id = ?', [token.id]);
         await dbp.query('UPDATE usuarios SET email_verificado = 1 WHERE id = ?', [usuario.id]);
 
-        const jwtToken = jwt.sign({ id: usuario.id }, segredo, { expiresIn: '2h' });
+        const jwtToken = jwt.sign(
+            { id: usuario.id, tv: Number(usuario.token_version) || 1 },
+            segredo,
+            { algorithm: 'HS256', expiresIn: '2h' }
+        );
         return res.json({
             mensagem: 'E-mail verificado com sucesso!',
             token: jwtToken,
@@ -234,11 +252,11 @@ router.post('/reenviar-codigo', async (req, res) => {
 
     try {
         const [usuarios] = await dbp.query(
-            'SELECT id, nome, email, email_verificado FROM usuarios WHERE email = ?',
+            'SELECT id, nome, email, email_verificado, bloqueado FROM usuarios WHERE email = ?',
             [email.trim().toLowerCase()]
         );
         const usuario = usuarios[0];
-        if (usuario && Number(usuario.email_verificado) === 0) {
+        if (usuario && Number(usuario.email_verificado) === 0 && Number(usuario.bloqueado) !== 1) {
             await emitirCodigoCadastro(usuario);
         }
     } catch (erro) {
@@ -277,6 +295,13 @@ router.post('/login', async (req, res) => {
             return res.status(401).json({ mensagem: 'E-mail ou senha incorretos!' });
         }
 
+        if (Number(usuario.bloqueado) === 1) {
+            return res.status(403).json({
+                codigo: 'CONTA_BLOQUEADA',
+                mensagem: 'Sua conta foi bloqueada pelo administrador.'
+            });
+        }
+
         if (Number(usuario.email_verificado) !== 1) {
             try {
                 await emitirCodigoCadastro(usuario);
@@ -289,7 +314,11 @@ router.post('/login', async (req, res) => {
             });
         }
 
-        const token = jwt.sign({ id: usuario.id }, segredo, { expiresIn: '2h' });
+        const token = jwt.sign(
+            { id: usuario.id, tv: Number(usuario.token_version) || 1 },
+            segredo,
+            { algorithm: 'HS256', expiresIn: '2h' }
+        );
 
         return res.json({
             mensagem: 'Login efetuado com sucesso!',
@@ -315,10 +344,10 @@ router.post('/esqueci-senha', async (req, res) => {
 
     try {
         const [usuarios] = await dbp.query(
-            'SELECT id,nome,email FROM usuarios WHERE email =?', [emailLimpo]
+            'SELECT id, nome, email, bloqueado FROM usuarios WHERE email = ?', [emailLimpo]
         );
         const usuario = usuarios[0];
-        if (usuario) {
+        if (usuario && Number(usuario.bloqueado) !== 1) {
             await emitirCodigoRecuperacao(usuario);
         }
     } catch (erro) {
@@ -362,11 +391,17 @@ router.post('/redefinir-senha', async (req, res) => {
 
     try {
         const [usuarios] = await dbp.query(
-            'SELECT id, senha FROM usuarios WHERE email=?', [emailLimpo]
+            'SELECT id, senha, bloqueado FROM usuarios WHERE email = ?', [emailLimpo]
         );
-        const usuario = usuarios[0]
+        const usuario = usuarios[0];
         if (!usuario) {
             return res.status(400).json(invalido);
+        }
+        if (Number(usuario.bloqueado) === 1) {
+            return res.status(403).json({
+                codigo: 'CONTA_BLOQUEADA',
+                mensagem: 'Sua conta está bloqueada pelo administrador.'
+            });
         }
         const [tokens] = await dbp.query(
             `SELECT id, token_hash FROM tokens_verificacao
@@ -392,7 +427,7 @@ router.post('/redefinir-senha', async (req, res) => {
         const senhaHash = await bcrypt.hash(novaSenha, salt);
 
         await dbp.query('UPDATE tokens_verificacao SET usado_em = NOW() WHERE id=?', [token.id]);
-        await dbp.query('UPDATE usuarios SET senha=?, email_verificado=1 WHERE id=?', [senhaHash, usuario.id]);
+        await dbp.query('UPDATE usuarios SET senha=?, email_verificado=1, token_version = token_version + 1 WHERE id=?', [senhaHash, usuario.id]);
 
         return res.json({ mensagem: 'Senha redefinida com sucesso! Faça o login com a nova senha.' })
     } catch (erro) {
@@ -464,7 +499,7 @@ router.post('/google', async (req, res) => {
         await conexao.beginTransaction();
 
         const [contasGoogle] = await conexao.query(
-            `SELECT id, nome, email, google_sub, foto_url
+            `SELECT id, nome, email, google_sub, foto_url, bloqueado, token_version
              FROM usuarios
              WHERE google_sub = ?
              LIMIT 1
@@ -474,9 +509,17 @@ router.post('/google', async (req, res) => {
 
         let usuario = contasGoogle[0];
 
+        if (usuario && Number(usuario.bloqueado) === 1) {
+            await conexao.rollback();
+            return res.status(403).json({
+                codigo: 'CONTA_BLOQUEADA',
+                mensagem: 'Sua conta foi bloqueada pelo administrador.'
+            });
+        }
+
         if (!usuario) {
             const [contasEmail] = await conexao.query(
-                `SELECT id, nome, email, email_verificado, google_sub, foto_url
+                `SELECT id, nome, email, email_verificado, google_sub, foto_url, bloqueado, token_version
                  FROM usuarios
                  WHERE email = ?
                  LIMIT 1
@@ -487,6 +530,14 @@ router.post('/google', async (req, res) => {
             const contaExistente = contasEmail[0];
 
             if (contaExistente) {
+                if (Number(contaExistente.bloqueado) === 1) {
+                    await conexao.rollback();
+                    return res.status(403).json({
+                        codigo: 'CONTA_BLOQUEADA',
+                        mensagem: 'Sua conta foi bloqueada pelo administrador.'
+                    });
+                }
+
                 if (contaExistente.google_sub && contaExistente.google_sub !== googleSub) {
                     await conexao.rollback();
                     return res.status(409).json({
@@ -513,7 +564,8 @@ router.post('/google', async (req, res) => {
                         nome,
                         email: contaExistente.email,
                         google_sub: googleSub,
-                        foto_url: contaExistente.foto_url || fotoGoogle
+                        foto_url: contaExistente.foto_url || fotoGoogle,
+                        token_version: Number(contaExistente.token_version) || 1
                     };
                 } else {
                     if (!contaExistente.google_sub) {
@@ -530,14 +582,15 @@ router.post('/google', async (req, res) => {
                         nome: contaExistente.nome,
                         email: contaExistente.email,
                         google_sub: googleSub,
-                        foto_url: contaExistente.foto_url || fotoGoogle
+                        foto_url: contaExistente.foto_url || fotoGoogle,
+                        token_version: Number(contaExistente.token_version) || 1
                     };
                 }
             } else {
                 const [resultado] = await conexao.query(
                     `INSERT INTO usuarios
-                        (nome, data_nascimento, email, senha, email_verificado, google_sub, foto_url)
-                     VALUES (?, NULL, ?, NULL, 1, ?, ?)`,
+                        (nome, data_nascimento, email, senha, email_verificado, eh_admin, bloqueado, token_version, google_sub, foto_url)
+                     VALUES (?, NULL, ?, NULL, 1, 0, 0, 1, ?, ?)`,
                     [nome, email, googleSub, fotoGoogle]
                 );
 
@@ -546,7 +599,8 @@ router.post('/google', async (req, res) => {
                     nome,
                     email,
                     google_sub: googleSub,
-                    foto_url: fotoGoogle
+                    foto_url: fotoGoogle,
+                    token_version: 1
                 };
             }
         }
@@ -554,7 +608,7 @@ router.post('/google', async (req, res) => {
         await conexao.commit();
 
         const token = jwt.sign(
-            { id: usuario.id },
+            { id: usuario.id, tv: Number(usuario.token_version) || 1 },
             segredo,
             { algorithm: 'HS256', expiresIn: '2h' }
         );
