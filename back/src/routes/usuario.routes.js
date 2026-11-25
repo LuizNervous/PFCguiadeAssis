@@ -229,13 +229,26 @@ router.delete('/', autenticar, limitadorExclusaoConta, async (req, res) => {
     await conexao.beginTransaction();
 
     const [linhas] = await conexao.query(
-      'SELECT id, email, senha, foto_file_id FROM usuarios WHERE id = ? FOR UPDATE',
+      'SELECT id, email, senha, foto_file_id, eh_admin FROM usuarios WHERE id = ? FOR UPDATE',
       [usuarioId]
     );
     const usuario = linhas[0];
     if (!usuario) {
       await conexao.rollback();
       return res.status(401).json({ mensagem: 'Usuário não encontrado.' });
+    }
+
+    if (Number(usuario.eh_admin) === 1) {
+      const [outrosAdmins] = await conexao.query(
+        'SELECT COUNT(*) AS total FROM usuarios WHERE eh_admin = 1 AND bloqueado = 0 AND id <> ? FOR UPDATE',
+        [usuarioId]
+      );
+      if (Number(outrosAdmins[0].total) === 0) {
+        await conexao.rollback();
+        return res.status(409).json({
+          mensagem: 'Você é o único administrador ativo do sistema. Promova outro administrador antes de excluir sua conta.'
+        });
+      }
     }
 
     // Conta com senha: exige a senha atual. Conta só Google: exige o e-mail.

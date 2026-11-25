@@ -19,7 +19,7 @@
   <main>
     <section class="adm-topo">
       <h1>Painel Administrativo</h1>
-      <p>Gerencie os pontos do Guia Assis</p>
+      <p>Gerencie pontos, categorias, usuários, avaliações e auditoria do Guia Assis</p>
     </section>
 
     <p id="admVerificando" class="adm-status" role="status">Verificando permissões…</p>
@@ -28,7 +28,10 @@
       <nav class="adm-nav" aria-label="Seções do painel">
         <button type="button" data-secao="geral" class="ativo" aria-current="page">Visão geral</button>
         <button type="button" data-secao="pontos">Pontos</button>
-        <button type="button" data-secao="imagens">Imagens</button>
+        <button type="button" data-secao="categorias">Categorias</button>
+        <button type="button" data-secao="usuarios">Usuários</button>
+        <button type="button" data-secao="avaliacoes">Avaliações</button>
+        <button type="button" data-secao="auditoria">Auditoria</button>
       </nav>
 
       <div class="adm-conteudo">
@@ -50,11 +53,109 @@
           </div>
           <p id="admContagem" class="adm-suave" role="status"></p>
           <div id="admTabela"></div>
+          <div id="admPaginacaoPontos"></div>
         </section>
 
-        <section id="sec-imagens" class="adm-secao" hidden>
-          <h2>Imagens</h2>
-          <div id="admImagens" class="adm-galeria"></div>
+        <section id="sec-categorias" class="adm-secao" hidden>
+          <div class="adm-cabecalho">
+            <h2>Categorias</h2>
+            <button type="button" id="admNovaCategoria" class="adm-btn adm-btn-principal">+ Nova categoria</button>
+          </div>
+          <div class="adm-filtros adm-filtros-1">
+            <label class="adm-so-leitor" for="admBuscaCategorias">Buscar categorias</label>
+            <input type="search" id="admBuscaCategorias" placeholder="Buscar por nome da categoria…">
+          </div>
+          <p id="admContagemCategorias" class="adm-suave" role="status"></p>
+          <div id="admTabelaCategorias"></div>
+          <div id="admPaginacaoCategorias"></div>
+        </section>
+
+        <section id="sec-usuarios" class="adm-secao" hidden>
+          <div class="adm-cabecalho">
+            <h2>Usuários</h2>
+          </div>
+          <div class="adm-filtros adm-filtros-3">
+            <label class="adm-so-leitor" for="admBuscaUsuarios">Buscar usuários</label>
+            <input type="search" id="admBuscaUsuarios" placeholder="Buscar por nome ou e-mail…">
+            <label class="adm-so-leitor" for="admFiltroCargo">Filtrar por cargo</label>
+            <select id="admFiltroCargo">
+              <option value="todos">Todos os cargos</option>
+              <option value="admin">Administradores</option>
+              <option value="comum">Usuários comuns</option>
+            </select>
+            <label class="adm-so-leitor" for="admFiltroStatus">Filtrar por status</label>
+            <select id="admFiltroStatus">
+              <option value="todos">Todos os status</option>
+              <option value="ativo">Ativos</option>
+              <option value="bloqueado">Bloqueados</option>
+              <option value="pendente">E-mail pendente</option>
+            </select>
+          </div>
+          <p id="admContagemUsuarios" class="adm-suave" role="status"></p>
+          <div id="admTabelaUsuarios"></div>
+          <div id="admPaginacaoUsuarios"></div>
+        </section>
+
+        <section id="sec-avaliacoes" class="adm-secao" hidden>
+          <div class="adm-cabecalho">
+            <h2>Avaliações</h2>
+          </div>
+          <div class="adm-filtros adm-filtros-3">
+            <label class="adm-so-leitor" for="admBuscaAvaliacoes">Buscar avaliações</label>
+            <input type="search" id="admBuscaAvaliacoes" placeholder="Buscar por ponto, autor, e-mail ou tag…">
+            <label class="adm-so-leitor" for="admFiltroNota">Filtrar por nota</label>
+            <select id="admFiltroNota">
+              <option value="">Todas as notas</option>
+              <option value="5">5 estrelas</option>
+              <option value="4">4 estrelas</option>
+              <option value="3">3 estrelas</option>
+              <option value="2">2 estrelas</option>
+              <option value="1">1 estrela</option>
+            </select>
+            <label class="adm-so-leitor" for="admFiltroCategoriaAv">Filtrar por categoria</label>
+            <select id="admFiltroCategoriaAv"><option value="">Todas as categorias</option></select>
+          </div>
+          <p id="admContagemAvaliacoes" class="adm-suave" role="status"></p>
+          <div id="admTabelaAvaliacoes"></div>
+          <div id="admPaginacaoAvaliacoes"></div>
+        </section>
+
+        <section id="sec-auditoria" class="adm-secao" hidden>
+          <div class="adm-cabecalho">
+            <h2>Auditoria</h2>
+          </div>
+          <p class="adm-aviso">Registro somente leitura das ações administrativas realizadas no painel.</p>
+          <div class="adm-filtros adm-filtros-3">
+            <label class="adm-so-leitor" for="admBuscaAuditoria">Buscar nos logs</label>
+            <input type="search" id="admBuscaAuditoria" placeholder="Buscar por admin ou detalhes…">
+            <label class="adm-so-leitor" for="admFiltroAcao">Filtrar por ação</label>
+            <select id="admFiltroAcao">
+              <option value="">Todas as ações</option>
+              <option value="PROMOVER_ADMIN">Promover admin</option>
+              <option value="REBAIXAR_ADMIN">Rebaixar admin</option>
+              <option value="BLOQUEAR_USUARIO">Bloquear usuário</option>
+              <option value="DESBLOQUEAR_USUARIO">Desbloquear usuário</option>
+              <option value="EXCLUIR_USUARIO">Excluir usuário</option>
+              <option value="CRIAR_PONTO">Criar ponto</option>
+              <option value="EDITAR_PONTO">Editar ponto</option>
+              <option value="EXCLUIR_PONTO">Excluir ponto</option>
+              <option value="CRIAR_CATEGORIA">Criar categoria</option>
+              <option value="EDITAR_CATEGORIA">Editar categoria</option>
+              <option value="EXCLUIR_CATEGORIA">Excluir categoria</option>
+              <option value="EXCLUIR_AVALIACAO">Excluir avaliação</option>
+            </select>
+            <label class="adm-so-leitor" for="admFiltroAlvo">Filtrar por alvo</label>
+            <select id="admFiltroAlvo">
+              <option value="">Todos os alvos</option>
+              <option value="usuario">Usuário</option>
+              <option value="ponto">Ponto</option>
+              <option value="categoria">Categoria</option>
+              <option value="avaliacao">Avaliação</option>
+            </select>
+          </div>
+          <p id="admContagemAuditoria" class="adm-suave" role="status"></p>
+          <div id="admTabelaAuditoria"></div>
+          <div id="admPaginacaoAuditoria"></div>
         </section>
       </div>
     </div>
@@ -114,6 +215,96 @@
       <div class="adm-acoes">
         <button type="button" id="admCancelarExcluir" class="adm-btn">Cancelar</button>
         <button type="button" id="admConfirmarExcluir" class="adm-btn adm-btn-perigo">Excluir</button>
+      </div>
+    </dialog>
+
+    <dialog id="admDialogoCategoria" class="adm-dialogo" aria-labelledby="admTituloCategoria">
+      <form id="admFormCategoria" novalidate>
+        <h2 id="admTituloCategoria">Nova categoria</h2>
+        <input type="hidden" id="admCategoriaId">
+        <p id="admAvisoCategoria" class="adm-aviso" hidden>
+          Atenção: as categorias padrão estão ligadas aos filtros fixos do Mapa e da página de Serviços. Renomeá-las pode afetar esses filtros.
+        </p>
+        <div class="adm-campo">
+          <label for="admCategoriaNome">Nome da categoria</label>
+          <input type="text" id="admCategoriaNome" maxlength="50" required>
+          <small>Entre 2 e 50 caracteres.</small>
+        </div>
+        <p id="admErroCategoria" class="adm-erro" role="alert" hidden></p>
+        <div class="adm-acoes">
+          <button type="button" id="admCancelarCategoria" class="adm-btn">Cancelar</button>
+          <button type="submit" id="admSalvarCategoria" class="adm-btn adm-btn-principal">Salvar</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="admDialogoExcluirCategoria" class="adm-dialogo" aria-labelledby="admTituloExcluirCategoria">
+      <h2 id="admTituloExcluirCategoria">Excluir categoria?</h2>
+      <p>Você vai excluir a categoria <strong id="admNomeExcluirCategoria"></strong>. Esta ação não pode ser desfeita.</p>
+      <div class="adm-acoes">
+        <button type="button" id="admCancelarExcluirCategoria" class="adm-btn">Cancelar</button>
+        <button type="button" id="admConfirmarExcluirCategoria" class="adm-btn adm-btn-perigo">Excluir</button>
+      </div>
+    </dialog>
+
+    <dialog id="admDialogoAdminUsuario" class="adm-dialogo" aria-labelledby="admTituloAdminUsuario">
+      <form id="admFormAdminUsuario" novalidate>
+        <h2 id="admTituloAdminUsuario">Alterar permissão</h2>
+        <p id="admDescAdminUsuario" class="adm-dialogo-texto"></p>
+        <div class="adm-campo">
+          <label id="admLabelReauthAdmin" for="admInputReauthAdmin">Sua senha de administrador</label>
+          <input type="password" id="admInputReauthAdmin" autocomplete="current-password" required>
+        </div>
+        <p id="admErroAdminUsuario" class="adm-erro" role="alert" hidden></p>
+        <div class="adm-acoes">
+          <button type="button" id="admCancelarAdminUsuario" class="adm-btn">Cancelar</button>
+          <button type="submit" id="admConfirmarAdminUsuario" class="adm-btn adm-btn-principal">Confirmar</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="admDialogoBloqueioUsuario" class="adm-dialogo" aria-labelledby="admTituloBloqueioUsuario">
+      <form id="admFormBloqueioUsuario" novalidate>
+        <h2 id="admTituloBloqueioUsuario">Bloquear usuário</h2>
+        <p id="admDescBloqueioUsuario" class="adm-dialogo-texto"></p>
+        <div id="admCampoMotivoBloqueio" class="adm-campo">
+          <label for="admInputMotivoBloqueio">Motivo do bloqueio (opcional)</label>
+          <input type="text" id="admInputMotivoBloqueio" maxlength="255" placeholder="Ex.: Avaliações abusivas ou spam">
+        </div>
+        <p id="admErroBloqueioUsuario" class="adm-erro" role="alert" hidden></p>
+        <div class="adm-acoes">
+          <button type="button" id="admCancelarBloqueioUsuario" class="adm-btn">Cancelar</button>
+          <button type="submit" id="admConfirmarBloqueioUsuario" class="adm-btn adm-btn-aviso">Confirmar</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="admDialogoExcluirUsuario" class="adm-dialogo" aria-labelledby="admTituloExcluirUsuario">
+      <form id="admFormExcluirUsuario" novalidate>
+        <h2 id="admTituloExcluirUsuario">Excluir usuário permanentemente?</h2>
+        <p id="admDescExcluirUsuario" class="adm-dialogo-texto"></p>
+        <div class="adm-campo">
+          <label for="admConfirmacaoTextoUsuario">Digite <strong>EXCLUIR</strong> para confirmar</label>
+          <input type="text" id="admConfirmacaoTextoUsuario" autocomplete="off" required>
+        </div>
+        <div class="adm-campo">
+          <label id="admLabelReauthExcluir" for="admInputReauthExcluir">Sua senha de administrador</label>
+          <input type="password" id="admInputReauthExcluir" autocomplete="current-password" required>
+        </div>
+        <p id="admErroExcluirUsuario" class="adm-erro" role="alert" hidden></p>
+        <div class="adm-acoes">
+          <button type="button" id="admCancelarExcluirUsuario" class="adm-btn">Cancelar</button>
+          <button type="submit" id="admConfirmarExcluirUsuario" class="adm-btn adm-btn-perigo">Excluir definitivamente</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="admDialogoExcluirAvaliacao" class="adm-dialogo" aria-labelledby="admTituloExcluirAvaliacao">
+      <h2 id="admTituloExcluirAvaliacao">Excluir avaliação?</h2>
+      <p id="admDescExcluirAvaliacao">Esta avaliação será removida permanentemente do Guia Assis.</p>
+      <div class="adm-acoes">
+        <button type="button" id="admCancelarExcluirAvaliacao" class="adm-btn">Cancelar</button>
+        <button type="button" id="admConfirmarExcluirAvaliacao" class="adm-btn adm-btn-perigo">Excluir</button>
       </div>
     </dialog>
   </main>

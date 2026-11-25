@@ -54,6 +54,22 @@ async function carregarFotoHeader(token) {
     const resposta = await fetch(`${API_URL}/usuario`, {
       headers: { "Authorization": `Bearer ${token}` }
     });
+    if (resposta.status === 401) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('usuario');
+      return;
+    }
+    if (resposta.status === 403) {
+      const dadosErro = await resposta.json().catch(() => ({}));
+      if (dadosErro.codigo === 'CONTA_BLOQUEADA') {
+        localStorage.removeItem('token');
+        localStorage.removeItem('usuario');
+        if (typeof criarAlerta === 'function') {
+          criarAlerta(dadosErro.mensagem || 'Sua conta está bloqueada pelo administrador.', 'alertRuim', 5000);
+        }
+      }
+      return;
+    }
     if (!resposta.ok) return;
 
     const dados = await resposta.json();

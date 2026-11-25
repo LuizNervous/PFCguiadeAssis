@@ -1,4 +1,5 @@
 const rateLimit = require('express-rate-limit');
+const { ipKeyGenerator } = rateLimit;
 
 const limitadorGeral = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -65,6 +66,24 @@ const limitadorAvaliacoes = rateLimit({
   legacyHeaders: false,
 });
 
+const limitadorAdmin = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 60,
+  keyGenerator: (req) => (req.usuario?.id ? String(req.usuario.id) : ipKeyGenerator(req.ip)),
+  message: { mensagem: 'Muitas operações administrativas em pouco tempo. Aguarde alguns minutos.' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+const limitadorAcaoCriticaAdmin = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 10,
+  keyGenerator: (req) => (req.usuario?.id ? String(req.usuario.id) : ipKeyGenerator(req.ip)),
+  message: { mensagem: 'Muitas tentativas em ações críticas. Aguarde 15 minutos.' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
 module.exports = {
   limitadorGeral,
   limitadorRigoroso,
@@ -73,5 +92,7 @@ module.exports = {
   limitadorGoogle,
   limitadorFavoritos,
   limitadorExclusaoConta,
-  limitadorAvaliacoes
+  limitadorAvaliacoes,
+  limitadorAdmin,
+  limitadorAcaoCriticaAdmin
 };

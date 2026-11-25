@@ -47,6 +47,7 @@ header a,
 
 .topicos {
   display: flex;
+  flex-wrap: wrap;
   gap: 25px;
   list-style: none;
   font-size: 105%;
