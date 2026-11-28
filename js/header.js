@@ -23,6 +23,8 @@ function inicializarHeader() {
     linkAlternador.href = '/login/login.html';
   }
 
+  marcarLinkAtivoHeader();
+
   document.querySelectorAll("#botoesCores button[data-tema]").forEach((botao) => {
     botao.addEventListener("click", () => { mudarTema(botao.dataset.tema); });
   });
@@ -99,6 +101,21 @@ function mudarTema(tema) {
     case "monocromacia": body.classList.add("tema-monocromacia"); break;
   }
   localStorage.setItem("tema", tema);
+}
+
+function marcarLinkAtivoHeader() {
+  const atual = window.location.pathname.replace(/\/index\.html$/, '/');
+  document.querySelectorAll('.topicos a').forEach((link) => {
+    try {
+      const destino = new URL(link.getAttribute('href'), window.location.href).pathname.replace(/\/index\.html$/, '/');
+      const ativo = destino === atual;
+      link.classList.toggle('ativo', ativo);
+      if (ativo) link.setAttribute('aria-current', 'page');
+      else link.removeAttribute('aria-current');
+    } catch {
+      // ignora href inválido
+    }
+  });
 }
 
 function carregarTema() {

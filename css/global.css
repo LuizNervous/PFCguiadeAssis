@@ -796,14 +796,7 @@ body {
 }
 
 /* Efeito ao passar o mouse */
-#botoesCores button:hover {
-  transform: translateY(-2px);
 
-  border-color: #2563eb;
-
-  box-shadow:
-    0 5px 15px rgba(0, 0, 0, 0.12);
-}
 
 /* Clique */
 #botoesCores button:active {
@@ -829,11 +822,7 @@ body {
   color: #64748b;
 }
 
-
-/* ==========================================
-   BOTÃO DE FAVORITOS (LOCAIS SALVOS)
-   Gerado por js/favoritos.js em todas as páginas
-   ========================================== */
+  
 .btn-fav {
   display: inline-flex;
   align-items: center;
