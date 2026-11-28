@@ -2,9 +2,6 @@
   display: none !important;
 }
 
-/* ==========================================
-   TOKENS DE TEMA (LINEAR / GITHUB / VERCEL)
-   ========================================== */
 :root {
   --perfil-bg: #ffffff;
   --perfil-bg-suave: #f8fafc;
